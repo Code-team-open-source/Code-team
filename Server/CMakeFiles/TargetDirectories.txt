@@ -1,0 +1,3 @@
+C:/Users/Oleg/Code-team/game/CMakeFiles/code-team.dir
+C:/Users/Oleg/Code-team/game/CMakeFiles/edit_cache.dir
+C:/Users/Oleg/Code-team/game/CMakeFiles/rebuild_cache.dir

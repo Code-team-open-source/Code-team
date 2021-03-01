@@ -1,0 +1,1 @@
+/usr/bin/g++  -g  -rdynamic CMakeFiles/code-team.dir/src/main.cpp.o  -o code-team  -Wl,-rpath,/mnt/c/Qt/5.15.2/msvc2015_64/bin /mnt/c/Qt/5.15.2/msvc2015_64/bin/Qt5Widgetsd.dll /mnt/c/Qt/5.15.2/msvc2015_64/bin/Qt5Guid.dll /mnt/c/Qt/5.15.2/msvc2015_64/bin/Qt5Cored.dll -Wl,-rpath-link,/mnt/c/Qt/5.15.2/msvc2015_64/bin 
