@@ -1,8 +1,4 @@
 /game/cmake-build-debug/
 .idea
 .gitignore
-/game/Code-team.cbp
-/game/Makefile
-/game/CMakeCache.txt
-/game/cmake_install.cmake
-/game/CMakeFiles/
+/Server/CMakeFiles/
