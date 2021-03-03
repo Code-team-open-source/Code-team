@@ -1,4 +1,5 @@
 #pragma once
+#include "InitialData.h"
 #include <string>
 
 struct Position {
@@ -35,3 +36,5 @@ enum ButtonState {
 class Button : Tool {
     ButtonState state;
 };
+
+
