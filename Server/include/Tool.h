@@ -29,6 +29,7 @@ class Tool {
 
 public:
     Tool(std::string text, int size);
+    int get_size();
     Position get_position();
     std::string get_text();
 };

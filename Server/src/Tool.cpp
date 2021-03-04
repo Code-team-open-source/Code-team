@@ -11,6 +11,10 @@ std::string Tool::get_text() {
     return tool_text;
 }
 
+int Tool::get_size() {
+    return size_on_screen;
+}
+
 Button::Button(std::string text) : Tool(text, 1){};
 
 ButtonState Button::get_state() {

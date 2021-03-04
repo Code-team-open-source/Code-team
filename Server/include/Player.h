@@ -9,4 +9,5 @@ class Player {
 
 public:
     Player(std::string name);
+    void add_tool(Tool tool);
 };
