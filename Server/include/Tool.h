@@ -38,11 +38,19 @@ enum ButtonState {
 };
 
 class Button : Tool {
-    ButtonState state;
+    ButtonState current_state;
 
 public:
     ButtonState get_state();
     void change_state();
 };
 
+class Slider : Tool {
+    int available_positions = InitialData::slider_positions;
+    int current_state = 1;
+
+public:
+    int get_state();
+    void set_new_position(int new_position);
+};
 
