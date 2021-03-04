@@ -26,6 +26,10 @@ class Tool {
             *****************
      */
     Position position;
+
+public:
+    Position get_position();
+    std::string get_text();
 };
 
 enum ButtonState {
@@ -35,6 +39,10 @@ enum ButtonState {
 
 class Button : Tool {
     ButtonState state;
+
+public:
+    ButtonState get_state();
+    void change_state();
 };
 
 
