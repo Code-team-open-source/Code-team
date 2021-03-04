@@ -1,3 +1,4 @@
 /game/cmake-build-debug/
 .idea
-
+*.exe
+*.o

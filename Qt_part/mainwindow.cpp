@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "buttons.h"
 #include "QHBoxLayout"
+#include "task_button.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,16 +10,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     //QWidget * wdg = new QWidget(this);
-    Buttons *r1 = new Buttons();
-    Buttons *r2 = new Buttons();
-    Buttons *r3 = new Buttons();
-    Buttons *r4 = new Buttons();
+
     QHBoxLayout *l1 = new QHBoxLayout();
     QHBoxLayout *l2 = new QHBoxLayout();
-    l1->addLayout(r1->lh);
-    l1->addLayout(r2->lh);
-    l2->addLayout(r3->lh);
-    l2->addLayout(r4->lh);
+    Task_button *f1 = new Task_button();
+    Task_button *f2 = new Task_button("New task");
+    l1->addWidget(f1->gr);
+    l2->addWidget(f2->gr);
     ui->v1->addLayout(l1);
     ui->v1->addLayout(l2);
 }

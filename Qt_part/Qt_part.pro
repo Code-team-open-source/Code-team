@@ -12,11 +12,15 @@ SOURCES += \
     buttons.cpp \
     main.cpp \
     mainwindow.cpp \
+    task.cpp \
+    task_button.cpp \
     tool.cpp
 
 HEADERS += \
     buttons.h \
     mainwindow.h \
+    task.h \
+    task_button.h \
     tool.h
 
 FORMS += \
