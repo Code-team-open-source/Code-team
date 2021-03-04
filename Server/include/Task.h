@@ -2,6 +2,7 @@
 #include "Player.h"
 
 class Task {
+    Player task_owner;
     std::string task_text;
     std::vector<Tool> tools;
     // vector we need in case we need to change several tools to do this task
