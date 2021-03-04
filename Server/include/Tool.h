@@ -9,7 +9,7 @@ struct Position {
 
 class Tool {
     std::string tool_text;
-    int size_on_screen;
+    const int size_on_screen = 1;
     /* size_on_screen is measured in blocks (1-6):
             *****************
             *       *       *
@@ -28,6 +28,7 @@ class Tool {
     Position position;
 
 public:
+    Tool(std::string text, int size);
     Position get_position();
     std::string get_text();
 };
@@ -41,6 +42,7 @@ class Button : Tool {
     ButtonState current_state;
 
 public:
+    Button(std::string text);
     ButtonState get_state();
     void change_state();
 };
@@ -50,6 +52,7 @@ class Slider : Tool {
     int current_state = 1;
 
 public:
+    Slider(std::string text);
     int get_state();
     void set_new_position(int new_position);
 };
