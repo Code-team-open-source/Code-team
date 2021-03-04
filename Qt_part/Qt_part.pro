@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     buttons.cpp \
     main.cpp \
+    main_indicators.cpp \
     mainwindow.cpp \
     task.cpp \
     task_button.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     buttons.h \
+    main_indicators.h \
     mainwindow.h \
     task.h \
     task_button.h \

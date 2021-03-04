@@ -25,6 +25,8 @@ public:
     QWidget *centralwidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *v1;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *v2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -37,10 +39,16 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(20, 30, 751, 521));
+        verticalLayoutWidget->setGeometry(QRect(20, 170, 581, 381));
         v1 = new QVBoxLayout(verticalLayoutWidget);
         v1->setObjectName(QString::fromUtf8("v1"));
         v1->setContentsMargins(0, 0, 0, 0);
+        verticalLayoutWidget_2 = new QWidget(centralwidget);
+        verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
+        verticalLayoutWidget_2->setGeometry(QRect(19, 19, 751, 131));
+        v2 = new QVBoxLayout(verticalLayoutWidget_2);
+        v2->setObjectName(QString::fromUtf8("v2"));
+        v2->setContentsMargins(0, 0, 0, 0);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));

@@ -1,0 +1,11 @@
+release/buttons.o
+release/main.o
+release/main_indicators.o
+release/mainwindow.o
+release/task.o
+release/task_button.o
+release/tool.o
+release/moc_buttons.o
+release/moc_main_indicators.o
+release/moc_mainwindow.o
+release/moc_tool.o
