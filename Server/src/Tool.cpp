@@ -4,6 +4,10 @@
 Tool::Tool(std::string text, int size)
     : tool_text(std::move(text)), size_on_screen(size){};
 
+void Tool::set_position(Position position_) {
+    position = position_;
+}
+
 Position Tool::get_position() {
     return position;
 }
@@ -24,12 +28,13 @@ void Button::change_state() {
     current_state = (current_state == PUSHED ? NOT_PUSHED : PUSHED);
 }
 
-Slider::Slider(std::string text) : Tool(text, 2) {};
+Slider::Slider(std::string text, Orientation orientation_ = HORIZONTAL)
+    : Tool(text, 2), orientation(orientation_){};
 
 int Slider::get_state() {
     return current_state;
 }
 void Slider::set_new_position(int new_position) {
-    assert(new_position > 0 && new_position < available_positions);
+    assert(new_position > 0 && new_position <= available_positions);
     current_state = new_position;
 }

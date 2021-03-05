@@ -1,6 +1,6 @@
 #include "Player.h"
 
-void Player::add_tool(Tool tool) {
+void Player::add_tool(std::shared_ptr<Tool> tool) {
     tools.push_back(tool);
 }
 

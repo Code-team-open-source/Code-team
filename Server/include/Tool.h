@@ -30,6 +30,7 @@ class Tool {
 public:
     Tool(std::string text, int size);
     int get_size();
+    void set_position(Position position_);
     Position get_position();
     std::string get_text();
 };
@@ -39,7 +40,7 @@ enum ButtonState {
     NOT_PUSHED,
 };
 
-class Button : Tool {
+class Button : public Tool {
     ButtonState current_state;
 
 public:
@@ -48,12 +49,18 @@ public:
     void change_state();
 };
 
-class Slider : Tool {
+enum Orientation {
+    VERTICAL,
+    HORIZONTAL,
+};
+
+class Slider : public Tool {
     int available_positions = InitialData::slider_positions;
     int current_state = 1;
+    Orientation orientation;
 
 public:
-    Slider(std::string text);
+    Slider(std::string text, Orientation orientation_);
     int get_state();
     void set_new_position(int new_position);
 };
