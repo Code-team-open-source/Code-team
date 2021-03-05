@@ -16,8 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *l1 = new QHBoxLayout();
     QHBoxLayout *l2 = new QHBoxLayout();
     Task_button *f1 = new Task_button();
+    Buttons *b1 = new Buttons();
+    Buttons *b2 = new Buttons();
     Task_button *f2 = new Task_button("New task");
     mm->box->show();
+    l1->addLayout(b1->lh);
+    l2->addLayout(b2->lh);
     l1->addWidget(f1->gr);
     l2->addWidget(f2->gr);
     ui->v2->addWidget(mm->box);
