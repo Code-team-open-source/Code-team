@@ -7,7 +7,7 @@ private:
     std::string tool_text;
 
 public:
-    Tool(std::string text, int size);
+    Tool(std::string text);
     std::string get_text();
     virtual ~Tool() = default;
 };

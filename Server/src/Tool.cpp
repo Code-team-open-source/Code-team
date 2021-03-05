@@ -1,25 +1,14 @@
 #include "Tool.h"
 #include <cassert>
 
-Tool::Tool(std::string text, int size)
-    : tool_text(std::move(text)), size_on_screen(size){};
+Tool::Tool(std::string text)
+    : tool_text(std::move(text)){};
 
-void Tool::set_position(Position position_) {
-    position = position_;
-}
-
-Position Tool::get_position() {
-    return position;
-}
 std::string Tool::get_text() {
     return tool_text;
 }
 
-int Tool::get_size() {
-    return size_on_screen;
-}
-
-Button::Button(std::string text) : Tool(text, 1){};
+Button::Button(std::string text) : Tool(text){};
 
 ButtonState Button::get_state() {
     return current_state;
@@ -28,10 +17,10 @@ void Button::change_state() {
     current_state = (current_state == PUSHED ? NOT_PUSHED : PUSHED);
 }
 
-Slider::Slider(std::string text) : Tool(text, 2){};
+Slider::Slider(std::string text) : Tool(text){};
 
 Slider::Slider(std::string text, Orientation orientation_)
-    : Tool(text, 2), orientation(orientation_){};
+    : Tool(text), orientation(orientation_){};
 
 int Slider::get_state() {
     return current_state;
