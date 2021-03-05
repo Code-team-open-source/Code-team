@@ -12,6 +12,7 @@ enum GameStatus {
     END_OF_GAME,
 };
 
+
 class Game {
     GameStatus game_status = WAITING_IN_LOBBY;
     int round = 1;
@@ -23,6 +24,8 @@ class Game {
     std::vector<std::shared_ptr<Tool>> tools_pool;
 
 public:
-    void connect_player(std::string name);
+    void connect_player(const std::string &name);
     void assign_tools();
+    void add_tool_to_pool(std::shared_ptr<Tool>);
+    void info();
 };

@@ -28,7 +28,9 @@ void Button::change_state() {
     current_state = (current_state == PUSHED ? NOT_PUSHED : PUSHED);
 }
 
-Slider::Slider(std::string text, Orientation orientation_ = HORIZONTAL)
+Slider::Slider(std::string text) : Tool(text, 2){};
+
+Slider::Slider(std::string text, Orientation orientation_)
     : Tool(text, 2), orientation(orientation_){};
 
 int Slider::get_state() {

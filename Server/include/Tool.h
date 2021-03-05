@@ -61,9 +61,10 @@ class Slider : public Tool {
 private:
     int available_positions = InitialData::slider_positions;
     int current_state = 1;
-    Orientation orientation;
+    Orientation orientation = HORIZONTAL;
 
 public:
+    Slider(std::string text);
     Slider(std::string text, Orientation orientation_);
     int get_state();
     void set_new_position(int new_position);
