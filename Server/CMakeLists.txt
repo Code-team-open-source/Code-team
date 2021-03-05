@@ -10,9 +10,13 @@ include_directories(include)
 if (MSVC)
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Wextra -Werror -O2)
+    add_compile_options(-Wall -Wextra -Werror -O0)
 endif (MSVC)
 
 
-add_executable(code-team src/main.cpp)
+add_executable(code-team src/main.cpp
+                         src/Game.cpp
+                         src/Tool.cpp
+                         src/Player.cpp
+                         )
 

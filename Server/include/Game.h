@@ -2,6 +2,7 @@
 #include "InitialData.h"
 #include "Player.h"
 #include <unordered_map>
+#include <vector>
 #include <memory>
 
 enum GameStatus {
@@ -11,6 +12,7 @@ enum GameStatus {
     END_OF_GAME,
 };
 
+
 class Game {
     GameStatus game_status = WAITING_IN_LOBBY;
     int round = 1;
@@ -19,7 +21,11 @@ class Game {
 
     int players_amount = 0;
     std::unordered_map<int, std::unique_ptr<Player>> pool_connection;
+    std::vector<std::shared_ptr<Tool>> tools_pool;
 
 public:
-    void connect_player(std::string name);
+    void connect_player(const std::string &name);
+    void assign_tools();
+    void add_tool_to_pool(std::shared_ptr<Tool>);
+    void info();
 };
