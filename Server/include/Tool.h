@@ -8,6 +8,7 @@ struct Position {
 };
 
 class Tool {
+private:
     std::string tool_text;
     const int size_on_screen = 1;
     /* size_on_screen is measured in blocks (1-6):
@@ -33,6 +34,7 @@ public:
     void set_position(Position position_);
     Position get_position();
     std::string get_text();
+    virtual ~Tool() = default;
 };
 
 enum ButtonState {
@@ -41,6 +43,7 @@ enum ButtonState {
 };
 
 class Button : public Tool {
+private:
     ButtonState current_state;
 
 public:
@@ -55,6 +58,7 @@ enum Orientation {
 };
 
 class Slider : public Tool {
+private:
     int available_positions = InitialData::slider_positions;
     int current_state = 1;
     Orientation orientation;
@@ -63,5 +67,6 @@ public:
     Slider(std::string text, Orientation orientation_);
     int get_state();
     void set_new_position(int new_position);
+    Orientation get_orientation() const ;
 };
 

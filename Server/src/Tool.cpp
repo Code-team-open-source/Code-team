@@ -38,3 +38,7 @@ void Slider::set_new_position(int new_position) {
     assert(new_position > 0 && new_position <= available_positions);
     current_state = new_position;
 }
+
+Orientation Slider::get_orientation() const {
+    return orientation;
+}

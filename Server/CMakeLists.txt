@@ -14,5 +14,9 @@ else()
 endif (MSVC)
 
 
-add_executable(code-team src/main.cpp)
+add_executable(code-team src/main.cpp
+                         src/Game.cpp
+                         src/Tool.cpp
+                         src/Player.cpp
+                         )
 
