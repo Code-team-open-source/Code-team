@@ -3,12 +3,20 @@
 #include <iostream>  // for tests
 #include <cassert>
 
+int Game::get_players_amount() const {
+    return players_amount;
+}
+
 void Game::connect_player(const std::string &name) {
     pool_connection[++players_amount] = std::make_unique<Player>(name);
 }
 
 void Game::add_tool_to_pool(std::shared_ptr<Tool> tool) {
     tools_pool.push_back(tool);
+}
+
+GameStatus Game::get_game_status() const {
+    return game_status;
 }
 
 

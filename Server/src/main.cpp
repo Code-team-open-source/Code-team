@@ -1,10 +1,16 @@
-#include "Game.h"
+#include <algorithm>
+#include <chrono>  // std::chrono::system_clock
 #include <iostream>
+#include <random>  // std::default_random_engine
+#include <utility>
+#include "Game.h"
 
 int main() {
     std::unique_ptr<Game> game = std::make_unique<Game>();
+#if 0
     game->connect_player("Oleg");
     game->connect_player("Fedor");
+
     game->info();
     std::shared_ptr<Button> button1 = std::make_shared<Button>("button1");
     std::shared_ptr<Button> button2 = std::make_shared<Button>("button2");
@@ -32,5 +38,18 @@ int main() {
     game->add_tool_to_pool(button8);
     game->assign_tools();
     game->info();
-    return 0;
+#endif
+
+    std::vector<
+        std::pair<std::shared_ptr<Tool>, std::vector<std::shared_ptr<Task>>>>
+        task_storage;
+    while (game->get_game_status() != END_OF_GAME) {
+        if (game->get_game_status() == PLAYERS_ARE_READY) {
+            unsigned seed =
+                std::chrono::system_clock::now().time_since_epoch().count();
+            std::shuffle(task_storage.begin(), task_storage.end(),
+                         std::default_random_engine(seed));
+
+        }
+    }
 }
