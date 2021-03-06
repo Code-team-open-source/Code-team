@@ -25,13 +25,13 @@ class Game {
     std::vector<std::shared_ptr<Task>> all_tasks;  // without active tasks
 
 public:
-    int get_players_amount() const;
+    int get_players_amount() const ;
     void connect_player(const std::string &name);
     void assign_tools();
     void add_tool_to_pool(
         const std::pair<std::shared_ptr<Tool>,
                         std::vector<std::shared_ptr<Task>>> &tool);
-    GameStatus get_game_status() const;
+    GameStatus &get_game_status();
     void send_tools_to_player(int player_num) const;
     void info();
 };

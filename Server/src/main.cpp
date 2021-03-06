@@ -62,6 +62,8 @@ int main() {
             for (int player = 0; player < game->get_players_amount(); ++player) {
                 game->send_tools_to_player(player);
             }
+            game->get_game_status() = GameStatus::PLAYING;
         }
+
     }
 }

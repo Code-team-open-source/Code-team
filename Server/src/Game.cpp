@@ -22,7 +22,7 @@ void Game::add_tool_to_pool(
     }
 }
 
-GameStatus Game::get_game_status() const {
+GameStatus &Game::get_game_status() {
     return game_status;
 }
 
