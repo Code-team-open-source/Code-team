@@ -2,6 +2,7 @@
 
 Buttons::Buttons() {
     b = new QPushButton("OFF");
+    b->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     b->show();
     lh = new QVBoxLayout;
     lh->addWidget(b);
