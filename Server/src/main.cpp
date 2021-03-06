@@ -46,24 +46,30 @@ int main() {
     std::vector<
         std::pair<std::shared_ptr<Tool>, std::vector<std::shared_ptr<Task>>>>
         task_storage;
-    while (game->get_game_status() != END_OF_GAME) {
-        if (game->get_game_status() == PLAYERS_ARE_READY) {
-            unsigned seed =
-                std::chrono::system_clock::now().time_since_epoch().count();
-            std::shuffle(task_storage.begin(), task_storage.end(),
-                         std::default_random_engine(seed));
-            for (int tool_num = 0; tool_num < InitialData::blocks_per_user *
-                                                  game->get_players_amount();
-                 ++tool_num) {
-                assert(tool_num < static_cast<int>(task_storage.size()));
-                game->add_tool_to_pool(task_storage[tool_num]);
-            }
-            game->assign_tools();
-            for (int player = 0; player < game->get_players_amount(); ++player) {
-                game->send_tools_to_player(player);
-            }
-            game->get_game_status() = GameStatus::PLAYING;
+    /* connecting players */
+    if (game->get_game_status() == PLAYERS_ARE_READY) {
+        unsigned seed =
+            std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(task_storage.begin(), task_storage.end(),
+                     std::default_random_engine(seed));
+        for (int tool_num = 0; tool_num < InitialData::blocks_per_user *
+                                              game->get_players_amount();
+             ++tool_num) {
+            assert(tool_num < static_cast<int>(task_storage.size()));
+            game->add_tool_to_pool(task_storage[tool_num]);
         }
-
+        game->assign_tools();
+        for (int player = 0; player < game->get_players_amount(); ++player) {
+            game->send_tools_to_player(player);
+        }
+        game->get_game_status() = GameStatus::PLAYING;
+    }
+    while (game->get_game_status() != END_OF_GAME) {
+        for (int player = 0; player < game->get_players_amount(); ++player) {
+            if (get_message() == "Task expired") {
+                game->task_expired();
+                game-
+            }
+        }
     }
 }

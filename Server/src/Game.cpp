@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <algorithm>
+#include <ctime>
 #include <cassert>
 #include <iostream>  // for tests
 #include <utility>
@@ -18,7 +19,7 @@ void Game::add_tool_to_pool(
         &tool) {
     tools_pool.push_back(tool.first);
     for (const auto &task : tool.second) {
-        all_tasks.push_back(task);
+        tasks_pool.push_back(task);
     }
 }
 
@@ -28,6 +29,27 @@ GameStatus &Game::get_game_status() {
 
 void Game::send_tools_to_player(int player_num) const {
     // send_tools(pool_connection[player_num]->get_tools());
+}
+
+void Game::change_task(int task_owner_id) {
+    for (auto &task : tasks_pool) {
+        if (task->active() && task->get_owner() == task_owner_id) {
+            task->change_status();
+            break;
+        }
+    }
+    std::srand(std::time(nullptr));
+    int task_num = rand() % (tasks_pool.size());
+    while (tasks_pool[task_num]->active()) {
+        task_num = rand() % (tasks_pool.size());
+    }
+    tasks_pool[task_num]->change_status();
+    tasks_pool[task_num]->get_owner() = task_owner_id;
+    send_task(task_owner_id);
+}
+
+void Game::task_expired() {
+    tasks_left--;
 }
 
 // for tests

@@ -21,8 +21,7 @@ class Game {
     int players_amount = 0;
     std::vector<std::unique_ptr<Player>> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
-    std::vector<std::shared_ptr<Task>> active_tasks;
-    std::vector<std::shared_ptr<Task>> all_tasks;  // without active tasks
+    std::vector<std::shared_ptr<Task>> tasks_pool;
 
 public:
     int get_players_amount() const ;
@@ -33,5 +32,7 @@ public:
                         std::vector<std::shared_ptr<Task>>> &tool);
     GameStatus &get_game_status();
     void send_tools_to_player(int player_num) const;
+    void task_expired();
+    void change_task(int task_owner_id);
     void info();
 };
