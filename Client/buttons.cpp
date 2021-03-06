@@ -16,10 +16,14 @@ void Buttons::but_clicked() {
         working = true;
     }
     if (working) {
-        b->setStyleSheet("background: green;");
-        b->setText("ON");
+        b->setStyleSheet("background: green; border: 2px solid black;");
+        if (b->text() == "OFF") {
+            b->setText("ON");
+        }
     } else {
-        b->setStyleSheet("background: red;");
-        b->setText("OFF");
+        b->setStyleSheet("background: red; border: 2px solid black;");
+        if (b->text() == "ON") {
+            b->setText("OFF");
+        }
     }
 }

@@ -20,6 +20,8 @@ public:
     QProgressBar *bar;
     QGroupBox *box;
     Main_indicators(QString s = "User Name");
+public slots:
+    void for_timer();
 };
 
 #endif // MAIN_INDICATORS_H
