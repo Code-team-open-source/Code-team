@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <random>  // std::default_random_engine
@@ -51,7 +52,16 @@ int main() {
                 std::chrono::system_clock::now().time_since_epoch().count();
             std::shuffle(task_storage.begin(), task_storage.end(),
                          std::default_random_engine(seed));
-
+            for (int tool_num = 0; tool_num < InitialData::blocks_per_user *
+                                                  game->get_players_amount();
+                 ++tool_num) {
+                assert(tool_num < static_cast<int>(task_storage.size()));
+                game->add_tool_to_pool(task_storage[tool_num]);
+            }
+            game->assign_tools();
+            for (int player = 0; player < game->get_players_amount(); ++player) {
+                game->send_tools_to_player(player);
+            }
         }
     }
 }

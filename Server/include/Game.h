@@ -1,9 +1,8 @@
 #pragma once
-#include "InitialData.h"
-#include "Player.h"
-#include <unordered_map>
-#include <vector>
 #include <memory>
+#include <vector>
+#include "InitialData.h"
+#include "Task.h"
 
 enum GameStatus {
     WAITING_IN_LOBBY,
@@ -13,7 +12,6 @@ enum GameStatus {
     END_OF_GAME,
 };
 
-
 class Game {
     GameStatus game_status = WAITING_IN_LOBBY;
     int round = 1;
@@ -21,16 +19,19 @@ class Game {
     int fails_left = InitialData::amount_of_fails_allowed;
 
     int players_amount = 0;
-    std::unordered_map<int, std::unique_ptr<Player>> pool_connection;
+    std::vector<std::unique_ptr<Player>> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
-    std::vector<Task> active_tasks;
-    std::vector<Task> all_tasks; // without active tasks
+    std::vector<std::shared_ptr<Task>> active_tasks;
+    std::vector<std::shared_ptr<Task>> all_tasks;  // without active tasks
 
 public:
     int get_players_amount() const;
     void connect_player(const std::string &name);
     void assign_tools();
-    void add_tool_to_pool(std::shared_ptr<Tool>);
-    GameStatus get_game_status() const ;
+    void add_tool_to_pool(
+        const std::pair<std::shared_ptr<Tool>,
+                        std::vector<std::shared_ptr<Task>>> &tool);
+    GameStatus get_game_status() const;
+    void send_tools_to_player(int player_num) const;
     void info();
 };
