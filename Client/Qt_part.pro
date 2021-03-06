@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     task.cpp \
     task_button.cpp \
+    task_buttons_6.cpp \
     tool.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     mainwindow.h \
     task.h \
     task_button.h \
+    task_buttons_6.h \
     tool.h
 
 FORMS += \

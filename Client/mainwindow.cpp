@@ -4,6 +4,7 @@
 #include "QHBoxLayout"
 #include "task_button.h"
 #include "main_indicators.h"
+#include "task_buttons_6.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,11 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *l1 = new QHBoxLayout();
     QHBoxLayout *l2 = new QHBoxLayout();
     Task_button *f1 = new Task_button();
-    Buttons *b1 = new Buttons();
     Buttons *b2 = new Buttons();
+    Task_buttons_6 * b6 = new Task_buttons_6();
     Task_button *f2 = new Task_button("New task");
     mm->box->show();
-    l1->addLayout(b1->lh);
+    l1->addWidget(b6->gr);
     l2->addLayout(b2->lh);
     l1->addWidget(f1->gr);
     l2->addWidget(f2->gr);
