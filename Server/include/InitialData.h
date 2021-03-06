@@ -7,4 +7,3 @@ struct InitialData {
     static const int amount_of_fails_allowed = 5;
     static int tool_count;
 };
-
