@@ -22,7 +22,7 @@ void Game::info() {
         std::cout << player.first << ' ' << player.second->get_name() << '\n';
         auto vec = player.second->get_tools();
         for (auto tool : vec) {
-            std::cout << tool->get_text() << '\n';
+            std::cout << tool->get_text() <<  "  tool id = " << tool->id() << '\n';
         }
     }
 }

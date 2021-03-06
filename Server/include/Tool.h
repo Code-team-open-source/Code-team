@@ -5,10 +5,11 @@
 class Tool {
 private:
     std::string tool_text;
-
+    int tool_id;
 public:
     Tool(std::string text);
     std::string get_text();
+    int id() const ;
     virtual ~Tool() = default;
 };
 

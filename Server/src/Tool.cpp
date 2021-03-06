@@ -2,10 +2,16 @@
 #include <cassert>
 
 Tool::Tool(std::string text)
-    : tool_text(std::move(text)){};
+    : tool_text(std::move(text)), tool_id(InitialData::tool_count) {
+    InitialData::tool_count++;
+};
 
 std::string Tool::get_text() {
     return tool_text;
+}
+
+int Tool::id() const {
+    return tool_id;
 }
 
 Button::Button(std::string text) : Tool(text){};

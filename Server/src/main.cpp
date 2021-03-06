@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 
+int InitialData::tool_count = 1;
+
 int main() {
     std::unique_ptr<Game> game = std::make_unique<Game>();
     game->connect_player("Oleg");

@@ -4,7 +4,9 @@
 class Task {
     Player task_owner;
     std::string task_text;
-    std::vector<Tool> tools;
-    // vector we need in case we need to change several tools to do this task
+    std::unique_ptr<Tool> tool;
     int time = InitialData::time_for_one_task; // in seconds
+
+private:
+
 };

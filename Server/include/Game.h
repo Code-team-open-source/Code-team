@@ -1,6 +1,6 @@
 #pragma once
 #include "InitialData.h"
-#include "Player.h"
+#include "Task.h"
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -22,6 +22,7 @@ class Game {
     int players_amount = 0;
     std::unordered_map<int, std::unique_ptr<Player>> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
+    std::vector<Task> active_tasks;
 
 public:
     void connect_player(const std::string &name);
