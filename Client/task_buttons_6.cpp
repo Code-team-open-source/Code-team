@@ -3,6 +3,7 @@
 Task_buttons_6::Task_buttons_6(QString s)
 {
     gr = new QGroupBox(s);
+    gr->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; }");
     bt11 = new Buttons();
     bt12 = new Buttons();
     bt13 = new Buttons();

@@ -19,7 +19,7 @@ public:
     QVBoxLayout *lh;
     QProgressBar *bar;
     QGroupBox *box;
-    Main_indicators(QString s = "User Name");
+    Main_indicators(QString s = "Игрок");
 public slots:
     void for_timer();
 };
