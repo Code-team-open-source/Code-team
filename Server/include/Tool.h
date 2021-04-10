@@ -10,6 +10,7 @@ public:
     Tool(std::string text);
     std::string get_text();
     int id() const ;
+    virtual bool operator==(Tool *other) const = 0;
     virtual ~Tool() = default;
 };
 
@@ -26,6 +27,7 @@ public:
     Button(std::string text);
     ButtonState get_state();
     void change_state();
+    bool operator==(Tool *other) const override;
 };
 
 enum Orientation {
@@ -45,5 +47,6 @@ public:
     int get_state();
     void set_new_position(int new_position);
     Orientation get_orientation() const ;
+    bool operator==(Tool *other) const override;
 };
 

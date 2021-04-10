@@ -23,6 +23,12 @@ void Button::change_state() {
     current_state = (current_state == PUSHED ? NOT_PUSHED : PUSHED);
 }
 
+bool Button::operator==(Tool *other) const {
+    const auto *button = dynamic_cast<const Button *>(other);
+    assert(button);
+    return current_state == button->current_state;
+}
+
 Slider::Slider(std::string text) : Tool(text){};
 
 Slider::Slider(std::string text, Orientation orientation_)
@@ -38,4 +44,10 @@ void Slider::set_new_position(int new_position) {
 
 Orientation Slider::get_orientation() const {
     return orientation;
+}
+
+bool Slider::operator==(Tool *other) const {
+    const auto *slider = dynamic_cast<const Slider *>(other);
+    assert(slider);
+    return current_state == slider->current_state;
 }

@@ -1,6 +1,6 @@
 #include "Player.h"
 
-void Player::add_tool(std::shared_ptr<Tool> tool) {
+void Player::add_tool(std::shared_ptr<Tool> &tool) {
     tools.push_back(tool);
 }
 
@@ -13,6 +13,6 @@ std::string Player::get_name() const {
     return name;
 }
 
-std::vector<std::shared_ptr<Tool>> Player::get_tools() {
+std::vector<std::shared_ptr<Tool>> &Player::get_tools() {
     return tools;
 }
