@@ -14,7 +14,11 @@ void Task::change_status() {
     is_active ^= 1;
 }
 
-bool Task::active() {
+std::string Task::get_text() const {
+    return task_text;
+}
+
+bool Task::active() const {
     return is_active;
 }
 
