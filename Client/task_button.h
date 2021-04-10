@@ -7,7 +7,6 @@
 class Task_button: public Task
 {
 public:
-    QGroupBox *gr;
     Buttons *bt;
     Task_button(QString s = "Task");
 };

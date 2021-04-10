@@ -10,7 +10,6 @@ public:
     QVBoxLayout *l;
     QHBoxLayout *ld;
     QHBoxLayout *lu;
-    QGroupBox *gr;
     Buttons *bt11;
     Buttons *bt12;
     Buttons *bt13;
