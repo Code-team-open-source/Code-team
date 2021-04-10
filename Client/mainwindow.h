@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "field.h"
+#include "game_field.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +21,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Field *fWindow;
+    Game_field *fWindow;
 };
 #endif // MAINWINDOW_H

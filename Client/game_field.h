@@ -1,6 +1,7 @@
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef GAME_FIELD_H
+#define GAME_FIELD_H
 
+#include <QMainWindow>
 #include <QDialog>
 #include "task_button.h"
 #include "task_buttons_6.h"
@@ -9,27 +10,29 @@
 #include "main_indicators.h"
 
 namespace Ui {
-class Field;
+class Game_field;
 }
 
-class Field : public QDialog
+class Game_field : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Field(QWidget *parent = nullptr);
-    ~Field();
+    explicit Game_field(QWidget *parent = nullptr);
+    ~Game_field();
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Main_indicators *ind;
     QVector<Task *> task;
     QHBoxLayout * h1;
     QHBoxLayout * h2;
-    Ui::Field *ui;
-    Field *fWindow;
+    Ui::Game_field *ui;
+    Game_field *fWindow;
 };
 
-#endif // FIELD_H
+#endif // GAME_FIELD_H

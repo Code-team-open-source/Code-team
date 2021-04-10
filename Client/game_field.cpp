@@ -1,13 +1,13 @@
-#include "field.h"
-#include "ui_field.h"
+#include "game_field.h"
+#include "ui_game_field.h"
 
-Field::Field(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::Field)
+Game_field::Game_field(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::Game_field)
 {
     ui->setupUi(this);
     ind = new Main_indicators();
-    ui->horizontalLayout_2->addWidget(ind->box);
+    ui->verticalLayout_2->addWidget(ind->box);
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
     task.resize(10);
@@ -32,14 +32,19 @@ Field::Field(QWidget *parent) :
     ui->v4->addLayout(h2);
 }
 
-Field::~Field()
+Game_field::~Game_field()
 {
     delete ui;
 }
 
-void Field::on_pushButton_clicked()
+void Game_field::on_pushButton_clicked()
 {
-    fWindow = new Field();
-    fWindow->show();
+    fWindow = new Game_field();
+    fWindow->showFullScreen();
+    this->close();
+}
+
+void Game_field::on_pushButton_2_clicked()
+{
     this->close();
 }

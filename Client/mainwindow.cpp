@@ -16,7 +16,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    fWindow = new Field();
-    fWindow->show();
+    fWindow = new Game_field();
+    fWindow->showFullScreen();
        this->close();
 }

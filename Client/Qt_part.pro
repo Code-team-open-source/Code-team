@@ -10,7 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     buttons.cpp \
-    field.cpp \
+    game_field.cpp \
     main.cpp \
     main_indicators.cpp \
     mainwindow.cpp \
@@ -23,7 +23,7 @@ SOURCES += \
 
 HEADERS += \
     buttons.h \
-    field.h \
+    game_field.h \
     main_indicators.h \
     mainwindow.h \
     sliders.h \
@@ -34,7 +34,7 @@ HEADERS += \
     tool.h
 
 FORMS += \
-    field.ui \
+    game_field.ui \
     mainwindow.ui
 
 # Default rules for deployment.
