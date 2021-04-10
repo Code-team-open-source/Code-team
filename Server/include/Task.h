@@ -13,7 +13,8 @@ public:
     Task(std::string text, const Slider &tool);
 
     int &get_owner();
-    bool active();
+    bool active() const;
+    std::string get_text() const;
     void change_status();
     std::shared_ptr<Tool> get_tool() const;
 

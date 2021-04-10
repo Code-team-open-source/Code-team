@@ -28,13 +28,16 @@ public:
     void connect_player(const std::string &name);
     void assign_tools();
     void add_tool_to_pool(
-        const std::pair<std::shared_ptr<Tool>,
+        const std::pair<const Tool &,
                         std::vector<Task>> &tool);
     GameStatus &get_game_status();
     void send_tools_to_player(int player_num) const;
     void task_expired(int task_owner_id);
     void change_task(int task_owner_id);
-    void info();
+    void info(); // for tests
     void assign_initial_tasks();
     bool task_is_completed(int task_num) const ;
+    void show_active_tasks() const; // for tests
+    void change_completed_tasks();
+    void complete_active_task(); // for tests
 };

@@ -1,5 +1,7 @@
 #include "Tool.h"
 #include <cassert>
+#include <iostream> // for tests
+
 
 Tool::Tool(std::string text)
     : tool_text(std::move(text)), tool_id(InitialData::tool_count) {
@@ -16,7 +18,7 @@ int Tool::id() const {
 
 Button::Button(std::string text) : Tool(text){};
 
-ButtonState Button::get_state() {
+ButtonState Button::get_state() const {
     return current_state;
 }
 void Button::change_state() {

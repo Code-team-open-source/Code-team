@@ -21,11 +21,11 @@ enum ButtonState {
 
 class Button : public Tool {
 private:
-    ButtonState current_state;
+    ButtonState current_state = NOT_PUSHED;
 
 public:
     Button(std::string text);
-    ButtonState get_state();
+    ButtonState get_state() const;
     void change_state();
     bool operator==(Tool *other) const override;
 };
