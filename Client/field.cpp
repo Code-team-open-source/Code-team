@@ -41,5 +41,5 @@ void Field::on_pushButton_clicked()
 {
     fWindow = new Field();
     fWindow->show();
-       this->close();
+    this->close();
 }
