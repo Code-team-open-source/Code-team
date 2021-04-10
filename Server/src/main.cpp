@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <random>  // std::default_random_engine
@@ -9,7 +10,7 @@ int InitialData::tool_count = 1;
 
 int main() {
     std::unique_ptr<Game> game = std::make_unique<Game>();
-#if 0
+
     game->connect_player("Oleg");
     game->connect_player("Fedor");
 
@@ -26,32 +27,52 @@ int main() {
     std::shared_ptr<Slider> slider2_hor = std::make_shared<Slider>("slider2_hor");
     std::shared_ptr<Slider> slider1_ver = std::make_shared<Slider>("slider1_ver", VERTICAL);
     std::shared_ptr<Slider> slider2_ver = std::make_shared<Slider>("slider2_ver", VERTICAL);
-    game->add_tool_to_pool(button1);
-    game->add_tool_to_pool(button2);
-    game->add_tool_to_pool(button3);
-    game->add_tool_to_pool(button4);
-    game->add_tool_to_pool(slider1_hor);
-    game->add_tool_to_pool(slider2_hor);
-    game->add_tool_to_pool(slider1_ver);
-    game->add_tool_to_pool(slider2_ver);
-    game->add_tool_to_pool(button5);
-    game->add_tool_to_pool(button6);
-    game->add_tool_to_pool(button7);
-    game->add_tool_to_pool(button8);
+    Task task("task_text", *button1);
+    Task task2("task_text2", *slider1_hor);
+    game->add_tool_to_pool({button1, {task}});
+    game->add_tool_to_pool({button2, {task}});
+    game->add_tool_to_pool({button3, {task}});
+    game->add_tool_to_pool({button4, {task}});
+    game->add_tool_to_pool({slider1_hor, {task2}});
+    game->add_tool_to_pool({slider2_hor, {task2}});
+    game->add_tool_to_pool({slider1_ver, {task2}});
+    game->add_tool_to_pool({slider2_ver, {task2}});
+    game->add_tool_to_pool({button5, {task}});
+    game->add_tool_to_pool({button6, {task}});
+    game->add_tool_to_pool({button7, {task}});
+    game->add_tool_to_pool({button8, {task}});
     game->assign_tools();
     game->info();
-#endif
 
+#if 0
     std::vector<
-        std::pair<std::shared_ptr<Tool>, std::vector<std::shared_ptr<Task>>>>
+        std::pair<Tool, std::vector<Task>>>
         task_storage;
+    /* connecting players */
+    if (game->get_game_status() == PLAYERS_ARE_READY) {
+        unsigned seed =
+            std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(task_storage.begin(), task_storage.end(),
+                     std::default_random_engine(seed));
+        for (int tool_num = 0; tool_num < InitialData::blocks_per_user *
+                                              game->get_players_amount();
+             ++tool_num) {
+            assert(tool_num < static_cast<int>(task_storage.size()));
+            game->add_tool_to_pool(task_storage[tool_num]);
+        }
+        game->assign_tools();
+        for (int player = 0; player < game->get_players_amount(); ++player) {
+            game->send_tools_to_player(player);
+        }
+        game->get_game_status() = GameStatus::PLAYING;
+    }
     while (game->get_game_status() != END_OF_GAME) {
-        if (game->get_game_status() == PLAYERS_ARE_READY) {
-            unsigned seed =
-                std::chrono::system_clock::now().time_since_epoch().count();
-            std::shuffle(task_storage.begin(), task_storage.end(),
-                         std::default_random_engine(seed));
-
+        for (int player = 0; player < game->get_players_amount(); ++player) {
+            if (get_message() == "Task expired") {
+                game->task_expired();
+                game-
+            }
         }
     }
+#endif
 }

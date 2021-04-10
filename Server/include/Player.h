@@ -10,7 +10,7 @@ class Player {
 
 public:
     Player(std::string name);
-    void add_tool(std::shared_ptr<Tool> tool);
+    void add_tool(std::shared_ptr<Tool> &tool);
     std::string get_name() const;
-    std::vector<std::shared_ptr<Tool>> get_tools();
+    std::vector<std::shared_ptr<Tool>> &get_tools();
 };
