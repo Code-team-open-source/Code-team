@@ -1,6 +1,6 @@
 #include "task.h"
 
-Task::Task()
+Task::Task(QString s)
 {
-
+    gr = new QGroupBox(s);
 }

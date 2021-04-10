@@ -1,8 +1,7 @@
 #include "task_buttons_6.h"
 
-Task_buttons_6::Task_buttons_6(QString s)
+Task_buttons_6::Task_buttons_6(QString s) : Task(s)
 {
-    gr = new QGroupBox(s);
     gr->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; }");
     bt11 = new Buttons();
     bt12 = new Buttons();

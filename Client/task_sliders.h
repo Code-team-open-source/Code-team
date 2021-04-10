@@ -3,10 +3,9 @@
 #include "task_button.h"
 #include "sliders.h"
 
-class Task_sliders
+class Task_sliders : public Task
 {
 public:
-    QGroupBox *gr;
     Sliders *sl;
     Task_sliders(QString s = "Task");
 };
