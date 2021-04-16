@@ -18,6 +18,7 @@ public:
     QTextBrowser *tx;
     QVBoxLayout *lh;
     QProgressBar *bar;
+    QProgressBar *progress;
     QGroupBox *box;
     Main_indicators(QString s = "Игрок");
 public slots:
