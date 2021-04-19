@@ -19,5 +19,9 @@ add_executable(code-team src/main.cpp
                          src/Tool.cpp
                          src/Player.cpp
                          src/Task.cpp
-                         )
+                         src/ServerConnection.cpp
+        src/protocols.cpp src/protocols.h)
+if(WIN32)
+    target_link_libraries(code-team ws2_32)
+endif()
 
