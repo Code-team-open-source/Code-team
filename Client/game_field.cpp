@@ -12,18 +12,21 @@ Game_field::Game_field(QWidget *parent) :
     h2 = new QHBoxLayout;
     task.resize(10);
     for (int i = 0; i < 10 ; ++i ) {
-        int k = rand() % 4;
+        int k = rand() % 5;
+        if (k == 0) {
+            task[i] = new Task_sliders();
+        }
         if (k == 1) {
             task[i] = new Task_button();
         }
         if (k == 2) {
             task[i] = new Task_buttons_6();
         }
-        if (k == 0) {
-            task[i] = new Task_sliders();
-        }
         if (k == 3) {
             task[i] = new Task_dial();
+        }
+        if (k == 4) {
+            task[i] = new Task_git_tool();
         }
     }
 

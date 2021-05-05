@@ -5,6 +5,7 @@
 #include <QDialog>
 #include "task_button.h"
 #include "task_dial.h"
+#include "task_git_tool.h"
 #include "task_buttons_6.h"
 #include "task_sliders.h"
 #include <QVector>
