@@ -9,8 +9,8 @@ int Game::get_players_amount() const {
     return players_amount;
 }
 
-void Game::connect_player(const std::string &name) {
-    pool_connection.push_back(Player(name));
+void Game::connect_player(const protocol &connection, const std::string &name) {
+    pool_connection.push_back(Player(connection, name));
     ++players_amount;
 }
 

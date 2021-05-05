@@ -5,15 +5,30 @@
 #include <random>  // std::default_random_engine
 #include <utility>
 #include "Game.h"
+#include "protocols.h"
 
 int InitialData::tool_count = 0;
 
 int main() {
+    protocol protocol1;
+    protocol1.send_string("5 1234\n");
+
+    int out = protocol1.get_int();
+    std::cout << out << '\n';
+
+//    std::string str = protocol1.get_string();
+//    std::cout << str << '\n';
+
+#if 0
+
+    protocol protocol2;
+    protocol2.send_string("Second Connection\n");
+
+
     std::unique_ptr<Game> game = std::make_unique<Game>();
 
-    game->connect_player("Oleg");
+    game->connect_player(protocol1, );
     game->connect_player("Fedor");
-
     game->info();
     for (int i = 0; i < 12; ++i) {
         std::string t = "Button" + std::to_string(i);
@@ -34,7 +49,6 @@ int main() {
     game->change_completed_tasks();
     game->show_active_tasks();
 
-#if 0
     std::vector<
         std::pair<Tool, std::vector<Task>>>
         task_storage;
