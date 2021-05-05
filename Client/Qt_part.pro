@@ -11,25 +11,33 @@ CONFIG += c++11
 SOURCES += \
     buttons.cpp \
     game_field.cpp \
+    git_tool.cpp \
     main.cpp \
     main_indicators.cpp \
     mainwindow.cpp \
+    my_dial.cpp \
     sliders.cpp \
     task.cpp \
     task_button.cpp \
     task_buttons_6.cpp \
+    task_dial.cpp \
+    task_git_tool.cpp \
     task_sliders.cpp \
     tool.cpp
 
 HEADERS += \
     buttons.h \
     game_field.h \
+    git_tool.h \
     main_indicators.h \
     mainwindow.h \
+    my_dial.h \
     sliders.h \
     task.h \
     task_button.h \
     task_buttons_6.h \
+    task_dial.h \
+    task_git_tool.h \
     task_sliders.h \
     tool.h
 
