@@ -14,10 +14,12 @@ SOURCES += \
     main.cpp \
     main_indicators.cpp \
     mainwindow.cpp \
+    my_dial.cpp \
     sliders.cpp \
     task.cpp \
     task_button.cpp \
     task_buttons_6.cpp \
+    task_dial.cpp \
     task_sliders.cpp \
     tool.cpp
 
@@ -26,10 +28,12 @@ HEADERS += \
     game_field.h \
     main_indicators.h \
     mainwindow.h \
+    my_dial.h \
     sliders.h \
     task.h \
     task_button.h \
     task_buttons_6.h \
+    task_dial.h \
     task_sliders.h \
     tool.h
 

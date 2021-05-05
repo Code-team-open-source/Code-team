@@ -3,7 +3,6 @@
 Buttons::Buttons() {
     b = new QPushButton("OFF");
     b->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    b->show();
     lh = new QVBoxLayout;
     lh->addWidget(b);
     b->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"

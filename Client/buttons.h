@@ -9,9 +9,6 @@ class Buttons : public Tool
 {
     Q_OBJECT
 public:
-    void show() const {
-        b->show();
-    }
     Buttons();
 public:
     bool working = false;
