@@ -21,7 +21,9 @@ SOURCES += \
     task_buttons_6.cpp \
     task_dial.cpp \
     task_sliders.cpp \
-    tool.cpp
+    tool.cpp \
+    ServerConnection.cpp \
+    protocols.cpp
 
 HEADERS += \
     buttons.h \
@@ -35,7 +37,9 @@ HEADERS += \
     task_buttons_6.h \
     task_dial.h \
     task_sliders.h \
-    tool.h
+    tool.h \
+    ServerConnection.h \
+    protocols.h
 
 FORMS += \
     game_field.ui \
@@ -45,3 +49,4 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+LIBS += -lWs2_32
