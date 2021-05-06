@@ -9,8 +9,8 @@ int Game::get_players_amount() const {
     return players_amount;
 }
 
-void Game::connect_player(const std::string &name) {
-    pool_connection.push_back(Player(name));
+void Game::connect_player(const protocol &connection, const std::string &name) {
+    pool_connection.push_back(Player(connection, name));
     ++players_amount;
 }
 
@@ -137,6 +137,10 @@ void Game::change_completed_tasks() {
     for (unsigned int task_num = 0; task_num < tasks_pool.size(); ++task_num) {
         if (tasks_pool[task_num].active() && task_is_completed(task_num)) {
             tasks_left--;
+            if (tasks_left == 0) {
+                game_status = END_OF_ROUND;
+                return;
+            }
             change_task(tasks_pool[task_num].get_owner());
         }
     }

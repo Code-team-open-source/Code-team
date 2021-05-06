@@ -25,7 +25,7 @@ class Game {
 
 public:
     int get_players_amount() const ;
-    void connect_player(const std::string &name);
+    void connect_player(const protocol &connection, const std::string &name);
     void assign_tools();
     void add_tool_to_pool(
         const std::pair<const Tool &,

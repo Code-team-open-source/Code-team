@@ -24,5 +24,14 @@ public:
         assert(t.tool_name() == str);
         t.deserialize(s);
     }
+    void send_string(const std::string &str) {
+        s.SendString(str);
+    }
+    std::string get_string() {
+        return s.GetString();
+    }
+    int get_int() {
+        return s.GetInt();
+    }
 };
 #endif  // CODE_TEAM_PROTOCOLS_H
