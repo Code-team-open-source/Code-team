@@ -7,7 +7,6 @@ using json = nlohmann::json;
 tasklib::tasklib(std::string file) : source(std::move(file)) {};
 
 void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
-    std::cout << "In add_tool\n";
     json j;
     j["tool_type"] = tool.tool_type();
     j["tool_text"] = tool.get_text();
@@ -28,7 +27,6 @@ void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
  */
     }
 
-    std::cout << "Parsed tasks\n";
     std::ifstream fin(source);
     if (!fin) {
         assert(1);
@@ -43,4 +41,16 @@ void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
         assert(1);
     }
     fout << lib;
+}
+
+void tasklib::showlib() const {
+    std::cout << "Parsed tasks\n";
+    std::ifstream fin(source);
+    if (!fin) {
+        assert(1);
+    }
+    json lib;
+    fin >> lib;
+    std::cout << lib.dump(4);
+    fin.close();
 }

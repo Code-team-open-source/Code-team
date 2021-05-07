@@ -39,7 +39,10 @@ bool Button::operator==(Tool *other) const {
     return current_state == button->current_state;
 }
 
-Slider::Slider(std::string text) : Tool(text){};
+Slider::Slider(std::string text) : Tool(std::move(text)){};
+Slider::Slider(std::string text, int pos)
+    : Tool(std::move(text)), current_state(pos) {
+}
 
 int Slider::get_state() const {
     return current_state;
@@ -85,7 +88,7 @@ void Slider::serialize(ServerConnection s) {
     Tool::serialize(s);
     s.SendInt(available_positions);
     s.SendInt(current_state);
-//    s.SendInt(orientation);
+    //    s.SendInt(orientation);
 }
 
 void Slider::deserialize(ServerConnection s) {
@@ -94,7 +97,7 @@ void Slider::deserialize(ServerConnection s) {
     Tool::deserialize(s);
     available_positions = s.GetInt();  // working?
     current_state = s.GetInt();
-//    orientation = static_cast<Orientation>(s.GetInt());
+    //    orientation = static_cast<Orientation>(s.GetInt());
 }
 std::string Slider::tool_name() {
     return std::__cxx11::string("Slider");

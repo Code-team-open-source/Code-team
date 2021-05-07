@@ -47,6 +47,7 @@ private:
 
 public:
     Slider(std::string text);
+    Slider(std::string, int pos);
     int get_state() const;
     void set_state(int pos);
     void set_new_position(int new_position);
