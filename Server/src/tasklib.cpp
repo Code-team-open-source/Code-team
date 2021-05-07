@@ -1,8 +1,6 @@
 #include "tasklib.h"
-#include "nlohmann/json.hpp"
 #include <fstream>
 
-using json = nlohmann::json;
 
 tasklib::tasklib(std::string file) : source(std::move(file)) {};
 
@@ -43,8 +41,16 @@ void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
     fout << lib;
 }
 
+json tasklib::get_tool() {
+    std::ifstream fin(source);
+    json j;
+    fin >> j;
+    json tool = j[task_number];
+    task_number = (task_number + 1) % j.size();
+    return tool;
+}
+
 void tasklib::showlib() const {
-    std::cout << "Parsed tasks\n";
     std::ifstream fin(source);
     if (!fin) {
         assert(1);

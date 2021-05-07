@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <algorithm>
-#include <ctime>
 #include <cassert>
+#include <ctime>
 #include <iostream>  // for tests
 #include <utility>
 
@@ -14,31 +14,40 @@ void Game::connect_player(const protocol &connection, const std::string &name) {
     ++players_amount;
 }
 
-void Game::add_tool_to_pool(
-    const std::pair<const Tool &, std::vector<Task>>
-        &tool) {
-    const auto *b = dynamic_cast<const Button *>(&tool.first);
-    if (b != nullptr) {
-        tools_pool.push_back(std::make_shared<Button>(*b));
-    }
-    const auto *s = dynamic_cast<const Slider *>(&tool.first);
-    if (s != nullptr) {
-        tools_pool.push_back(std::make_shared<Slider>(*s));
+void Game::add_tool_to_pool(const json &tool_json) {
+    if (tool_json["tool_type"] == "Button") {
+        std::string tool_text = tool_json["tool_text"];
+        std::shared_ptr<Button> button_ptr = std::make_shared<Button>(tool_text);
+        tools_pool.push_back(button_ptr);
+        for (const json &task : tool_json["tasks"]) {
+            tasks_pool.push_back(Task(
+                task["task_text"],
+                Button(tool_text, task["tool_position"])));
+        }
+    } else if (tool_json["tool_type"] == "Slider") {
+        std::string tool_text = tool_json["tool_text"];
+        std::shared_ptr<Slider> slider_ptr = std::make_shared<Slider>(tool_text);
+        tools_pool.push_back(slider_ptr);
+        for (const json &task : tool_json["tasks"]) {
+            int pos = task["tool_position"];
+            std::string task_text = task["task_text"];
+            tasks_pool.push_back(Task(
+                task_text,
+                Slider(tool_text, pos)));
+        }
+    } else {
+        //  OTHER TOOLS
+        assert(1);
     }
 
-//    FOR OTHER TOOLS
-
-    for (const auto &task : tool.second) {
-        tasks_pool.push_back(task);
-    }
 }
 
 GameStatus &Game::get_game_status() {
     return game_status;
 }
 
-//void Game::send_tools_to_player(int player_num) const {
-    // send_tools(pool_connection[player_num]->get_tools());
+// void Game::send_tools_to_player(int player_num) const {
+// send_tools(pool_connection[player_num]->get_tools());
 //}
 
 void Game::change_task(int task_owner_id) {
@@ -55,7 +64,7 @@ void Game::change_task(int task_owner_id) {
     }
     tasks_pool[task_num].change_status();
     tasks_pool[task_num].get_owner() = task_owner_id;
-//    send_task(task_owner_id);
+    //    send_task(task_owner_id);
 }
 
 void Game::task_expired(int task_owner_id) {
@@ -89,19 +98,19 @@ void Game::show_active_tasks() const {
         if (task.active()) {
             std::cout << task.get_text() << '\n';
             std::cout << "Button state: \n";
-            const Button *button = dynamic_cast<const Button *>(task.get_tool().get());
+            const Button *button =
+                dynamic_cast<const Button *>(task.get_tool().get());
             if (button->get_state() == PUSHED) {
                 std::cout << "PUSHED\n";
             } else {
                 std::cout << "NOT PUSHED\n";
             }
-
         }
     }
 }
 
-void Game::complete_active_task() { // for tests
-    for (const auto &task :tasks_pool) {
+void Game::complete_active_task() {  // for tests
+    for (const auto &task : tasks_pool) {
         if (task.active()) {
             int id = task.get_tool()->id();
             dynamic_cast<Button *>(tools_pool[id].get())->change_state();
@@ -109,7 +118,6 @@ void Game::complete_active_task() { // for tests
         }
     }
 }
-
 
 bool Game::task_is_completed(int task_num) const {
     Tool *correct_tool = tasks_pool[task_num].get_tool().get();
