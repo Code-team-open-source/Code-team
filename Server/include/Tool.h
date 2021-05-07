@@ -9,8 +9,9 @@ private:
     int tool_id;
 public:
     Tool(std::string text);
-    std::string get_text();
+    std::string get_text() const;
     int id() const ;
+    virtual std::string tool_type() const = 0;
     virtual bool operator==(Tool *other) const = 0;
     virtual void serialize(ServerConnection);
     virtual void deserialize(ServerConnection);
@@ -19,8 +20,8 @@ public:
 };
 
 enum ButtonState {
-    PUSHED,
     NOT_PUSHED,
+    PUSHED,
 };
 
 class Button : public Tool {
@@ -29,31 +30,27 @@ private:
 
 public:
     Button(std::string text);
+    Button(std::string text, ButtonState bs);
     ButtonState get_state() const;
     void change_state();
     bool operator==(Tool *other) const override;
+    std::string tool_type() const override;
     void serialize(ServerConnection) override;
     void deserialize(ServerConnection) override;
     std::string tool_name() override;
-};
-
-enum Orientation {
-    VERTICAL,
-    HORIZONTAL,
 };
 
 class Slider : public Tool {
 private:
     int available_positions = InitialData::slider_positions;
     int current_state = 1;
-    Orientation orientation = HORIZONTAL;
 
 public:
     Slider(std::string text);
-    Slider(std::string text, Orientation orientation_);
-    int get_state();
+    int get_state() const;
+    void set_state(int pos);
     void set_new_position(int new_position);
-    Orientation get_orientation() const ;
+    std::string tool_type() const override;
     bool operator==(Tool *other) const override;
     void serialize(ServerConnection) override;
     void deserialize(ServerConnection) override;
