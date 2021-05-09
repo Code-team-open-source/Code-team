@@ -5,29 +5,43 @@
 #include <random>  // std::default_random_engine
 #include <utility>
 #include "Game.h"
+#include "tasklib.h"
 #include "protocols.h"
 
 int InitialData::tool_count = 0;
 
 int main() {
-    protocol protocol1;
-    protocol1.send_string("5 1234\n");
+    tasklib tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json");
+//    now point here your local file
+//    when project is ready we can put here a relative path
 
-    int out = protocol1.get_int();
-    std::cout << out << '\n';
+    tl.showlib();
+
+    std::unique_ptr<Game> game = std::make_unique<Game>();
+    game->info();
+    game->add_tool_to_pool(tl.get_tool());
+    game->add_tool_to_pool(tl.get_tool());
+
+    game->info();
+
+#if 0
+
+    //    protocol protocol1;
+//    protocol1.send_string("5 1234\n");
+
+//    int out = protocol1.get_int();
+//    std::cout << out << '\n';
 
 //    std::string str = protocol1.get_string();
 //    std::cout << str << '\n';
 
-#if 0
 
-    protocol protocol2;
-    protocol2.send_string("Second Connection\n");
+//    protocol protocol2;
+//    protocol2.send_string("Second Connection\n");
 
 
     std::unique_ptr<Game> game = std::make_unique<Game>();
-
-    game->connect_player(protocol1, );
+//    game->connect_player(protocol1, );
     game->connect_player("Fedor");
     game->info();
     for (int i = 0; i < 12; ++i) {
