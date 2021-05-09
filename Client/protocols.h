@@ -7,15 +7,15 @@
 #include "task.h"
 #include "task_button.h"
 #include "task_sliders.h"
-#include "ServerConnection.h"
+#include "ClientConnection.h"
 #include <cassert>
 
 struct protocol {
 private:
-    ServerConnection s;
+    ClientConnection s;
 public:
     protocol() {
-        s.connect();
+        s.Connect();
     }
 
     void SendTool(Task &t) {

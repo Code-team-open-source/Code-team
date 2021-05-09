@@ -2,7 +2,7 @@
 #define TASK_SLIDERS_H
 #include "task_button.h"
 #include "sliders.h"
-#include "ServerConnection.h"
+#include "ClientConnection.h"
 
 class Task_sliders : public Task
 {
@@ -14,8 +14,8 @@ public:
     std::string GetName() override{
         return "Slider";
     }
-    void serialize(ServerConnection) override;
-    void deserialize(ServerConnection) override;
+    void serialize(ClientConnection) override;
+    void deserialize(ClientConnection) override;
     Task_sliders(QString s = "Task");
 };
 

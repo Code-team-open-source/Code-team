@@ -3,7 +3,7 @@
 #include "task.h"
 #include <QGroupBox>
 #include "buttons.h"
-#include "ServerConnection.h"
+#include "ClientConnection.h"
 
 class Task_button: public Task
 {
@@ -14,8 +14,8 @@ public:
         return "Button";
     }
     Buttons* bt;
-    void serialize(ServerConnection) override;
-    void deserialize(ServerConnection) override;
+    void serialize(ClientConnection) override;
+    void deserialize(ClientConnection) override;
     Task_button(QString s = "Task");
 };
 

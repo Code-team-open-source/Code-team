@@ -2,12 +2,9 @@
 // Created by Fedya on 19.04.2021.
 //
 
-#ifndef SERVER_SERVERCONNECTION_H
-#define SERVER_SERVERCONNECTION_H
-#undef UNICODE
-
+#ifndef CLIENT_CLIENTCONNECTION_H
+#define CLIENT_CLIENTCONNECTION_H
 #define WIN32_LEAN_AND_MEAN
-
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,18 +15,19 @@
 // if one day everything crashed this may be a good thing to look at
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
-struct ServerConnection {
+
+struct ClientConnection {
     int iResult = 0;
-    int iSendResult = 0;
-    SOCKET &ClientSocket() {
-        static SOCKET ClientSocket;
-        return ClientSocket;
+    SOCKET &ConnectSocket() {
+        static SOCKET Connect_socket;
+        return Connect_socket;
     }
-    int connect();
-    std::string GetString();
-    int GetInt();
+    int Connect();
     int SendString(const std::string &str);
-    int SendInt(int);
-    int shut_down();
+    std::string GetString();
+    int SendInt(const int &a);
+    int GetInt();
+    int CloseSocket();
 };
-#endif//SERVER_SERVERCONNECTION_H
+
+#endif//CLIENT_CLIENTCONNECTION_H

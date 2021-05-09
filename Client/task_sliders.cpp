@@ -6,7 +6,7 @@ Task_sliders::Task_sliders(QString s) : Task(s)
     gr->setLayout(sl->lv);
 }
 
-void Task_sliders::serialize(ServerConnection s) {
+void Task_sliders::serialize(ClientConnection s) {
     s.SendString("Slider");
     Task::serialize(s);
     s.SendInt(available_positions);
@@ -14,7 +14,7 @@ void Task_sliders::serialize(ServerConnection s) {
     s.SendInt(orientation);
 }
 
-void Task_sliders::deserialize(ServerConnection s) {
+void Task_sliders::deserialize(ClientConnection s) {
     std::string check = s.GetString();
     assert(check == "Slider");
     Task::deserialize(s);
