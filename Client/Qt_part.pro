@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     buttons.cpp \
+    creator_of_tasks.cpp \
     game_field.cpp \
     git_tool.cpp \
     main.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
 
 HEADERS += \
     buttons.h \
+    creator_of_tasks.h \
     game_field.h \
     git_tool.h \
     main_indicators.h \
@@ -46,6 +48,7 @@ HEADERS += \
     protocols.h
 
 FORMS += \
+    creator_of_tasks.ui \
     game_field.ui \
     mainwindow.ui
 
