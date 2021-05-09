@@ -20,7 +20,8 @@ add_executable(code-team src/main.cpp
         src/Player.cpp
         src/Task.cpp
         src/ServerConnection.cpp
-        src/protocols.cpp)
+        src/protocols.cpp
+        src/tasklib.cpp)
 
 add_executable(add_tool src/add_tool_to_storage.cpp
         src/tasklib.cpp

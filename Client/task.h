@@ -4,7 +4,7 @@
 #include <QString>
 #include <QGroupBox>
 #include <string>
-#include "ServerConnection.h"
+#include "ClientConnection.h"
 
 class Task
 {
@@ -16,8 +16,8 @@ public:
     virtual std::string GetName() {
         return "Task";
     }
-    virtual void serialize(ServerConnection);
-    virtual void deserialize(ServerConnection);
+    virtual void serialize(ClientConnection);
+    virtual void deserialize(ClientConnection);
 };
 
 #endif // TASK_H

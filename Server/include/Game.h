@@ -3,6 +3,9 @@
 #include <vector>
 #include "InitialData.h"
 #include "Task.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 enum GameStatus {
     WAITING_IN_LOBBY,
@@ -24,20 +27,18 @@ class Game {
     std::vector<Task> tasks_pool;
 
 public:
-    int get_players_amount() const ;
+    int get_players_amount() const;
     void connect_player(const protocol &connection, const std::string &name);
     void assign_tools();
-    void add_tool_to_pool(
-        const std::pair<const Tool &,
-                        std::vector<Task>> &tool);
+    void add_tool_to_pool(const json &tool);
     GameStatus &get_game_status();
     void send_tools_to_player(int player_num) const;
     void task_expired(int task_owner_id);
     void change_task(int task_owner_id);
-    void info(); // for tests
+    void info();  // for tests
     void assign_initial_tasks();
-    bool task_is_completed(int task_num) const ;
-    void show_active_tasks() const; // for tests
+    bool task_is_completed(int task_num) const;
+    void show_active_tasks() const;  // for tests
     void change_completed_tasks();
-    void complete_active_task(); // for tests
+    void complete_active_task();  // for tests
 };

@@ -2,13 +2,17 @@
 
 #include <string>
 #include "Task.h"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 class tasklib {
     std::string source;
+    int task_number = 0;
 
 public:
     void add_tool(const Tool &, const std::vector<Task> &);
-//    std::pair<const Tool &, const std::vector<Task> &> get_tool();
+    json get_tool();
 
     void showlib() const;
 

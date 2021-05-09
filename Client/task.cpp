@@ -1,5 +1,5 @@
 #include "task.h"
-#include "ServerConnection.h"
+#include "ClientConnection.h"
 
 Task::Task(QString s)
 {
@@ -8,13 +8,13 @@ Task::Task(QString s)
                       "QGroupBox::title {subcontrol-position: top middle;} ");
 }
 
-void Task::serialize(ServerConnection s) {
+void Task::serialize(ClientConnection s) {
     s.SendString("Tool");
     s.SendString(task_text);
     s.SendInt(task_id);
 }
 
-void Task::deserialize(ServerConnection s) {
+void Task::deserialize(ClientConnection s) {
     std::string check = s.GetString();
     assert(check == "Tool");
     task_text = s.GetString();

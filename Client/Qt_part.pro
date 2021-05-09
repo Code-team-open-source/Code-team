@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ClientConnection.cpp \
     buttons.cpp \
     creator_of_tasks.cpp \
     game_field.cpp \
@@ -25,10 +26,10 @@ SOURCES += \
     task_git_tool.cpp \
     task_sliders.cpp \
     tool.cpp \
-    ServerConnection.cpp \
     protocols.cpp
 
 HEADERS += \
+    ClientConnection.h \
     buttons.h \
     creator_of_tasks.h \
     game_field.h \
@@ -44,7 +45,6 @@ HEADERS += \
     task_git_tool.h \
     task_sliders.h \
     tool.h \
-    ServerConnection.h \
     protocols.h
 
 FORMS += \
