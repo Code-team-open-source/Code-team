@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Buttons : public Tool
 {
@@ -11,11 +13,14 @@ class Buttons : public Tool
 public:
     Buttons();
 public:
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
     bool working = false;
     QPushButton *b;
     QVBoxLayout *lh;
 public slots:
     void but_clicked();
+
 
 };
 

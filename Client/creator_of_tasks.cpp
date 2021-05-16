@@ -19,6 +19,13 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->cm2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->ln2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/but1.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 }
 
 Creator_of_tasks::~Creator_of_tasks()
@@ -28,6 +35,7 @@ Creator_of_tasks::~Creator_of_tasks()
 
 void Creator_of_tasks::on_pushButton_clicked()
 {
+    n_player->play();
     m->showFullScreen();
     this->hide();
 }
@@ -61,5 +69,5 @@ void Creator_of_tasks::on_comboBox_activated(const QString &arg1)
 
 void Creator_of_tasks::on_create_clicked()
 {
-
+    n_player->play();
 }

@@ -2,6 +2,8 @@
 #define CREATOR_OF_TASKS_H
 
 #include <QMainWindow>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 namespace Ui {
 class Creator_of_tasks;
@@ -26,6 +28,8 @@ private:
     Ui::Creator_of_tasks *ui;
 public:
     QMainWindow *m;
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
 };
 
 #endif // CREATOR_OF_TASKS_H

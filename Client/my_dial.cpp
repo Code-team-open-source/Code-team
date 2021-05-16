@@ -25,8 +25,18 @@ My_dial::My_dial(QWidget *parent) : QWidget(parent)
             "stop: 0.827 #040404,"
             "stop: 0.966 #292929,"
             "stop: 0.983 #2e2e2e);}");
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/coin1.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 }
 
 void My_dial::num_change(int value) {
+    int v = num->value();
     num->display(value / 10 + 1);
+    if (v != num->value()) {
+        n_player->play();
+    }
 }

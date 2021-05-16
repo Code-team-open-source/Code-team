@@ -11,6 +11,9 @@
 #include "task_vertical_slider.h"
 #include <QVector>
 #include "main_indicators.h"
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+
 
 namespace Ui {
 class Game_field;
@@ -36,6 +39,8 @@ private:
     QHBoxLayout * h2;
     Ui::Game_field *ui;
     Game_field *fWindow;
+    QMediaPlayer *m_player;
+    QMediaPlaylist *m_playlist;
 };
 
 #endif // GAME_FIELD_H

@@ -1,6 +1,12 @@
 #include "buttons.h"
 
 Buttons::Buttons() {
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/but2.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
     b = new QPushButton("OFF");
     b->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     lh = new QVBoxLayout;
@@ -11,6 +17,7 @@ Buttons::Buttons() {
 }
 
 void Buttons::but_clicked() {
+    n_player->play();
     if (working) {
         working = false;
     } else {

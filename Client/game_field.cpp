@@ -39,6 +39,14 @@ Game_field::Game_field(QWidget *parent) :
     }
     ui->v4->addLayout(h1);
     ui->v4->addLayout(h2);
+
+    m_player = new QMediaPlayer();
+    m_playlist = new QMediaPlaylist(m_player);
+
+    m_player->setPlaylist(m_playlist);
+    m_playlist->addMedia(QUrl("qrc:/sound/s3.wav"));
+    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    m_player->play();
 }
 
 Game_field::~Game_field()
@@ -55,5 +63,6 @@ void Game_field::on_pushButton_clicked()
 
 void Game_field::on_pushButton_2_clicked()
 {
+    m_player->stop();
     this->close();
 }

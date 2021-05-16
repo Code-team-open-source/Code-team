@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "game_field.h"
 #include "creator_of_tasks.h"
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,5 +30,10 @@ private:
     Ui::MainWindow *ui;
     Game_field *fWindow;
     Creator_of_tasks *creator = nullptr;
+public:
+    QMediaPlayer *m_player;
+    QMediaPlaylist *m_playlist;
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
 };
 #endif // MAINWINDOW_H

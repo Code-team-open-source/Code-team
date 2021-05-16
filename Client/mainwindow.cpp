@@ -10,6 +10,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->settings->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->pushButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->pushButton_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/but1.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
+
+
+
+    m_player = new QMediaPlayer();
+    m_playlist = new QMediaPlaylist(m_player);
+
+    m_player->setPlaylist(m_playlist);
+    m_playlist->addMedia(QUrl("qrc:/sound/s2.wav"));
+    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    m_player->play();
 }
 
 MainWindow::~MainWindow()
@@ -20,6 +37,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    n_player->play();
+    m_player->stop();
     fWindow = new Game_field();
     fWindow->showFullScreen();
        this->close();
@@ -27,6 +46,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    n_player->play();
     if(creator == nullptr) {
         creator = new Creator_of_tasks();
         creator->m = this;
@@ -37,5 +57,6 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_quit_clicked()
 {
+    n_player->play();
     this->close();
 }

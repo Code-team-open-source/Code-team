@@ -5,11 +5,15 @@
 #include <QHBoxLayout>
 #include <QLCDNumber>
 #include <QLabel>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class My_dial : QWidget
 {
     Q_OBJECT
 public:
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
     QLabel *empty = new QLabel("");
     QLCDNumber *num;
     QDial *qd;
