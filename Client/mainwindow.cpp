@@ -6,6 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->quit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->settings->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->pushButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->pushButton_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 MainWindow::~MainWindow()
@@ -29,4 +33,9 @@ void MainWindow::on_pushButton_2_clicked()
     }
     creator->showFullScreen();
     this->hide();
+}
+
+void MainWindow::on_quit_clicked()
+{
+    this->close();
 }

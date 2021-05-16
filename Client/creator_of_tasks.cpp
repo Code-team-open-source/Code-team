@@ -10,6 +10,15 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->ln2->hide();
     ui->label_2->hide();
     ui->task_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->pushButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->create->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label_3->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->comboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->cm2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->ln2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 Creator_of_tasks::~Creator_of_tasks()
