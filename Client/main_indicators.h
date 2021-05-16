@@ -7,6 +7,8 @@
 #include <QVBoxLayout>
 #include <QTextBrowser>
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Main_indicators: QWidget
 {
@@ -14,6 +16,8 @@ public:
     Q_OBJECT
 
 public:
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
     QTimer *timer;
     QTextBrowser *tx;
     QVBoxLayout *lh;

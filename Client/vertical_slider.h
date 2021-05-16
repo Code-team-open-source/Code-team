@@ -1,6 +1,7 @@
 #ifndef VERTICAL_SLIDER_H
 #define VERTICAL_SLIDER_H
 #include "sliders.h"
+#include "tool.h"
 #include <QHBoxLayout>
 
 class vertical_slider : Tool

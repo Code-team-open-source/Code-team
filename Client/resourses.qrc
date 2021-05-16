@@ -7,5 +7,6 @@
         <file>sound/s2.wav</file>
         <file>sound/s3.wav</file>
         <file>sound/coin1.wav</file>
+        <file>sound/hit1.wav</file>
     </qresource>
 </RCC>

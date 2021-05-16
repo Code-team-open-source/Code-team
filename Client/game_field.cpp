@@ -56,6 +56,7 @@ Game_field::~Game_field()
 
 void Game_field::on_pushButton_clicked()
 {
+    m_player->stop();
     fWindow = new Game_field();
     fWindow->showFullScreen();
     this->close();

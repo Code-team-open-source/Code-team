@@ -22,9 +22,17 @@ Git_tool::Git_tool(QWidget * parent) : QWidget(parent)
     vl->addWidget(push);
     line->setText("$ ");
     QObject::connect(push, SIGNAL(clicked()), this, SLOT(but_clicked()));
+
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/but2.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 }
 
 void Git_tool::but_clicked() {
+    n_player->play();
     line->clear();
     line->setText("$ ");
 }

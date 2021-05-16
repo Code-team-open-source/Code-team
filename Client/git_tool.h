@@ -6,11 +6,15 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Git_tool : QWidget
 {
     Q_OBJECT
 public:
+    QMediaPlayer *n_player;
+    QMediaPlaylist *n_playlist;
     Git_tool(QWidget *parent = nullptr);
     QVBoxLayout * vl;
     QPushButton * push;

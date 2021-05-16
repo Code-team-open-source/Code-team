@@ -24,6 +24,13 @@ Main_indicators::Main_indicators(QString s)
     timer->setInterval(100);
     timer->start();
     connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
+
+    n_player = new QMediaPlayer();
+    n_playlist = new QMediaPlaylist(n_player);
+
+    n_player->setPlaylist(n_playlist);
+    n_playlist->addMedia(QUrl("qrc:/sound/hit1.wav"));
+    n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 }
 
 void Main_indicators::for_timer() {
@@ -35,6 +42,7 @@ void Main_indicators::for_timer() {
         bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 darkRed, stop:1 red); margin: 0.5px;}");
     }
     if (bar->value() == 0) {
+        n_player->play();
         bar->setValue(100);
         bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
         timer->setInterval(100);
