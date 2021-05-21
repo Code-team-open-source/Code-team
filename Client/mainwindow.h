@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "game_field.h"
 #include "creator_of_tasks.h"
+#include "settings.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
@@ -26,8 +27,11 @@ private slots:
 
     void on_quit_clicked();
 
+    void on_settings_clicked();
+
 private:
     Ui::MainWindow *ui;
+    settings *settting;
     Game_field *fWindow;
     Creator_of_tasks *creator = nullptr;
 public:

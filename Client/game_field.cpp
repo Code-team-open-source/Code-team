@@ -12,7 +12,7 @@ Game_field::Game_field(QWidget *parent) :
     h2 = new QHBoxLayout;
     task.resize(10);
     for (int i = 0; i < 10 ; ++i ) {
-        int k = rand() % 6;
+        int k = rand() % 5;
         if (k == 0) {
             task[i] = new Task_sliders();
         }
@@ -27,9 +27,6 @@ Game_field::Game_field(QWidget *parent) :
         }
         if (k == 4) {
             task[i] = new Task_git_tool();
-        }
-        if (k == 5) {
-            task[i] = new task_vertical_slider();
         }
     }
 

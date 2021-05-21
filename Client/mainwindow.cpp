@@ -60,3 +60,16 @@ void MainWindow::on_quit_clicked()
     n_player->play();
     this->close();
 }
+
+void MainWindow::on_settings_clicked()
+{
+    n_player->play();
+    if(settting == nullptr) {
+        settting = new settings();
+        settting->m = this;
+        settting->m1_player = m_player;
+        settting->n1_player = n_player;
+    }
+    settting->showFullScreen();
+    this->hide();
+}

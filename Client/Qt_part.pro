@@ -19,6 +19,7 @@ SOURCES += \
     main_indicators.cpp \
     mainwindow.cpp \
     my_dial.cpp \
+    settings.cpp \
     sliders.cpp \
     task.cpp \
     task_button.cpp \
@@ -26,10 +27,8 @@ SOURCES += \
     task_dial.cpp \
     task_git_tool.cpp \
     task_sliders.cpp \
-    task_vertical_slider.cpp \
     tool.cpp \
-    protocols.cpp \
-    vertical_slider.cpp
+    protocols.cpp
 
 HEADERS += \
     ClientConnection.h \
@@ -40,6 +39,7 @@ HEADERS += \
     main_indicators.h \
     mainwindow.h \
     my_dial.h \
+    settings.h \
     sliders.h \
     task.h \
     task_button.h \
@@ -47,15 +47,14 @@ HEADERS += \
     task_dial.h \
     task_git_tool.h \
     task_sliders.h \
-    task_vertical_slider.h \
     tool.h \
-    protocols.h \
-    vertical_slider.h
+    protocols.h
 
 FORMS += \
     creator_of_tasks.ui \
     game_field.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    settings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

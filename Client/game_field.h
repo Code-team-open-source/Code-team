@@ -8,7 +8,6 @@
 #include "task_git_tool.h"
 #include "task_buttons_6.h"
 #include "task_sliders.h"
-#include "task_vertical_slider.h"
 #include <QVector>
 #include "main_indicators.h"
 #include <QMediaPlayer>
