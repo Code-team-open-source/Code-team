@@ -1,8 +1,9 @@
 #include "task.h"
 #include "ClientConnection.h"
 
-Task::Task(QString s)
+Task::Task(QString s, int id)
 {
+    task_id = id;
     gr = new QGroupBox(s);
     gr->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; }"
                       "QGroupBox::title {subcontrol-position: top middle;} ");

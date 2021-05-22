@@ -6,15 +6,23 @@
 #include <utility>
 #include "Game.h"
 #include "tasklib.h"
+#include <unistd.h>
 #include "protocols.h"
 
 int InitialData::tool_count = 0;
 
 int main() {
+    protocol protocol1;
+    std::string str = protocol1.get_string();
+    for (int i = 1; i < 11; ++i) {
+//        Button button("test button");
+        protocol1.send_int(i);
+    }
+
+#if 0
     tasklib tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json");
 //    now point here your local file
 //    when project is ready we can put here a relative path
-
     tl.showlib();
 
     std::unique_ptr<Game> game = std::make_unique<Game>();
@@ -24,7 +32,7 @@ int main() {
 
     game->info();
 
-#if 0
+
 
     //    protocol protocol1;
 //    protocol1.send_string("5 1234\n");

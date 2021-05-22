@@ -119,7 +119,7 @@ std::string ClientConnection::GetString() {
         printf("%s\n", recvbuf);
         // Echo the buffer back to the send
     }
-    return std::string(recvbuf[0], size);
+    return static_cast<std::string>(recvbuf);
 }
 
 int ClientConnection::CloseSocket() {

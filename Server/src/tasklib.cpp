@@ -38,7 +38,7 @@ void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
     if (!fout) {
         assert(1);
     }
-    fout << lib;
+    fout << lib.dump(4);
 }
 
 json tasklib::get_tool() {

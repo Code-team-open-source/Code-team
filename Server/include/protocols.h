@@ -16,7 +16,7 @@ public:
         s.connect();
     }
     void SendTool(Tool &t) {
-        s.SendString(t.tool_name());
+        s.SendString(t.tool_type());
         t.serialize(s);
     }
     void GetTool(Tool &t) {
@@ -32,6 +32,9 @@ public:
     }
     int get_int() {
         return s.GetInt();
+    }
+    void send_int(int x) {
+        s.SendInt(x);
     }
 };
 #endif  // CODE_TEAM_PROTOCOLS_H

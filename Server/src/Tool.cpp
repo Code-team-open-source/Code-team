@@ -72,9 +72,10 @@ bool Slider::operator==(Tool *other) const {
 // Oleg
 // TODO
 void Tool::serialize(ServerConnection s) {
-    s.SendString("Tool");
     s.SendString(tool_text);
+    std::cout << "tool_text=" << tool_text << std::endl;
     s.SendInt(tool_id);
+    std::cout << "tool_id=" << tool_id << std::endl;
 }
 void Tool::deserialize(ServerConnection s) {
     std::string check = s.GetString();
@@ -104,9 +105,7 @@ std::string Slider::tool_name() {
 }
 
 void Button::serialize(ServerConnection s) {
-    s.SendString("Button");
     Tool::serialize(s);
-    s.SendInt(current_state);
 }
 void Button::deserialize(ServerConnection s) {
     std::string check = s.GetString();
