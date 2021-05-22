@@ -4,38 +4,26 @@
 #include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <random>  // std::default_random_engine
-#include <thread>
 #include <utility>
 #include "Game.h"
 #include "protocols.h"
-#include "tasklib.h"
 
 int InitialData::tool_count = 0;
 
 int main() {
-    tasklib tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json");
-    //    now point here your local file
-    //    when project is ready we can put here a relative path
-    std::unique_ptr<Game> game = std::make_unique<Game>();
-    game->info();
-    std::vector<std::thread> threads;
-    for (int i = 0; i < 2; ++i) {
-        std::thread t([&]() {
-            std::unique_lock lock(game->m);
-            protocol client;
-            std::string player_name = client.get_string();
-            game->connect_player(client, player_name);
-            for (int _ = 0; _ < 6; ++_) {
-                game->add_tool_to_pool(tl.get_tool());
-            }
-        });
-        threads.push_back(std::move(t));
-    }
-    for (auto &t : threads) {
-        t.join();
-    }
 
+    std::unique_ptr<Game> game = std::make_unique<Game>();
+    game->connect_players();
     game->info();
+    std::cout << "====================\n";
+    game->assign_tools();
+    game->info();
+    game->show_active_tasks();
+    game->assign_initial_tasks();
+    game->show_active_tasks();
+    game->complete_active_task();
+    game->change_completed_tasks();
+    game->show_active_tasks();
 
 #if 0
     //    protocol protocol1;

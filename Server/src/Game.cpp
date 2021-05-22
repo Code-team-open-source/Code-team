@@ -4,6 +4,12 @@
 #include <ctime>
 #include <iostream>  // for tests
 #include <utility>
+#include <thread>
+
+Game::Game() : tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json"){};
+//    now point here your local file
+//    when project is ready we can put here a relative path
+
 
 int Game::get_players_amount() const {
     return players_amount;
@@ -17,29 +23,28 @@ void Game::connect_player(const protocol &connection, const std::string &name) {
 void Game::add_tool_to_pool(const json &tool_json) {
     if (tool_json["tool_type"] == "Button") {
         std::string tool_text = tool_json["tool_text"];
-        std::shared_ptr<Button> button_ptr = std::make_shared<Button>(tool_text);
+        std::shared_ptr<Button> button_ptr =
+            std::make_shared<Button>(tool_text);
         tools_pool.push_back(button_ptr);
         for (const json &task : tool_json["tasks"]) {
             tasks_pool.push_back(Task(
-                task["task_text"],
-                Button(tool_text, task["tool_position"])));
+                task["task_text"], Button(tool_text, task["tool_position"])));
         }
     } else if (tool_json["tool_type"] == "Slider") {
         std::string tool_text = tool_json["tool_text"];
-        std::shared_ptr<Slider> slider_ptr = std::make_shared<Slider>(tool_text);
+        std::shared_ptr<Slider> slider_ptr =
+            std::make_shared<Slider>(tool_text);
         tools_pool.push_back(slider_ptr);
         for (const json &task : tool_json["tasks"]) {
             int pos = task["tool_position"];
             std::string task_text = task["task_text"];
-            tasks_pool.push_back(Task(
-                task_text,
-                Slider(tool_text, pos)));
+            tasks_pool.push_back(Task(task_text, Slider(tool_text, pos)));
         }
     } else {
         //  OTHER TOOLS
         assert(1);
     }
-
+    InitialData::tool_count++;
 }
 
 GameStatus &Game::get_game_status() {
@@ -49,6 +54,26 @@ GameStatus &Game::get_game_status() {
 // void Game::send_tools_to_player(int player_num) const {
 // send_tools(pool_connection[player_num]->get_tools());
 //}
+
+void Game::connect_players() {
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < 2; ++i) {
+        std::thread t([&]() {
+          std::unique_lock<std::mutex> lock(m);
+          protocol client;
+          std::string player_name = client.get_string();
+          connect_player(client, player_name);
+          for (int _ = 0; _ < 6; ++_) {
+              add_tool_to_pool(tl.get_tool());
+          }
+        });
+        threads.push_back(std::move(t));
+    }
+    for (auto &t : threads) {
+        t.join();
+    }
+}
 
 void Game::change_task(int task_owner_id) {
     for (auto &task : tasks_pool) {
@@ -97,13 +122,20 @@ void Game::show_active_tasks() const {
     for (const Task &task : tasks_pool) {
         if (task.active()) {
             std::cout << task.get_text() << '\n';
-            std::cout << "Button state: \n";
-            const Button *button =
-                dynamic_cast<const Button *>(task.get_tool().get());
-            if (button->get_state() == PUSHED) {
-                std::cout << "PUSHED\n";
-            } else {
-                std::cout << "NOT PUSHED\n";
+            if (task.get_tool()->tool_type() == "Button") {
+                std::cout << "Button state: \n";
+                const Button *button =
+                    dynamic_cast<const Button *>(task.get_tool().get());
+                if (button->get_state() == PUSHED) {
+                    std::cout << "PUSHED\n";
+                } else {
+                    std::cout << "NOT PUSHED\n";
+                }
+            } else if (task.get_tool()->tool_type() == "Slider") {
+                std::cout << "Slider state: \n";
+                const Slider *slider =
+                    dynamic_cast<const Slider *>(task.get_tool().get());
+                std::cout << slider->get_state() << '\n';
             }
         }
     }
@@ -112,9 +144,18 @@ void Game::show_active_tasks() const {
 void Game::complete_active_task() {  // for tests
     for (const auto &task : tasks_pool) {
         if (task.active()) {
-            int id = task.get_tool()->id();
-            dynamic_cast<Button *>(tools_pool[id].get())->change_state();
-            break;
+            if (task.get_tool()->tool_type() == "Button") {
+                int id = task.get_tool()->id();
+                dynamic_cast<Button *>(tools_pool[id].get())->change_state();
+                break;
+            }
+            if (task.get_tool()->tool_type() == "Slider") {
+                int id = task.get_tool()->id();
+                dynamic_cast<Slider *>(tools_pool[id].get())
+                    ->set_state(dynamic_cast<const Slider &>(*task.get_tool())
+                                    .get_state());
+                break;
+            }
         }
     }
 }

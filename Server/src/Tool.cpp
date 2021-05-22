@@ -5,7 +5,6 @@
 
 Tool::Tool(std::string text)
     : tool_text(std::move(text)), tool_id(InitialData::tool_count) {
-    InitialData::tool_count++;
 };
 
 std::string Tool::get_text() const {

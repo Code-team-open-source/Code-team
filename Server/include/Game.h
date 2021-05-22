@@ -5,6 +5,8 @@
 #include "InitialData.h"
 #include "Task.h"
 #include "nlohmann/json.hpp"
+#include "tasklib.h"
+
 
 using json = nlohmann::json;
 
@@ -26,12 +28,16 @@ class Game {
     std::vector<Player> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
     std::vector<Task> tasks_pool;
+    mutable std::mutex m;
+    tasklib tl;
+
+    void connect_player(const protocol &connection, const std::string &name);
 
 public:
-    mutable std::mutex m;
 
     int get_players_amount() const;
-    void connect_player(const protocol &connection, const std::string &name);
+
+    void connect_players();
     void assign_tools();
     void add_tool_to_pool(const json &tool);
     GameStatus &get_game_status();
@@ -44,4 +50,6 @@ public:
     void show_active_tasks() const;  // for tests
     void change_completed_tasks();
     void complete_active_task();  // for tests
+
+    Game();
 };
