@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <mutex>
 #include <vector>
 #include "InitialData.h"
 #include "Task.h"
@@ -27,6 +28,8 @@ class Game {
     std::vector<Task> tasks_pool;
 
 public:
+    mutable std::mutex m;
+
     int get_players_amount() const;
     void connect_player(const protocol &connection, const std::string &name);
     void assign_tools();

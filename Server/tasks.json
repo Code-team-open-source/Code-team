@@ -1,1 +1,200 @@
-[{"tasks":[{"task_text":" Set volume to 2","tool_position":2},{"task_text":" Set volume to 4","tool_position":4},{"task_text":" Set volume to 3","tool_position":3}],"tool_text":"Volume","tool_type":"Slider"},{"tasks":[{"task_text":"Turn off valgrind","tool_position":0},{"task_text":"Check for memory leaks","tool_position":1}],"tool_text":"Launch valgrind","tool_type":"Button"},{"tasks":[{"task_text":" sizeof char","tool_position":1},{"task_text":" sizeof int16_t","tool_position":2},{"task_text":" sizeof int32_t","tool_position":4}],"tool_text":"Amount of bytes","tool_type":"Slider"},{"tasks":[{"task_text":" Set indent width to 2","tool_position":2},{"task_text":" Set indent width to 4","tool_position":4}],"tool_text":"Indent width for ClangFormat","tool_type":"Slider"}]
+[
+    {
+        "tasks": [
+            {
+                "task_text": " Set volume to 2",
+                "tool_position": 2
+            },
+            {
+                "task_text": " Set volume to 4",
+                "tool_position": 4
+            },
+            {
+                "task_text": " Set volume to 3",
+                "tool_position": 3
+            }
+        ],
+        "tool_text": "Volume",
+        "tool_type": "Slider"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "Turn off valgrind",
+                "tool_position": 0
+            },
+            {
+                "task_text": "Check for memory leaks",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Launch valgrind",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": " sizeof char",
+                "tool_position": 1
+            },
+            {
+                "task_text": " sizeof int16_t",
+                "tool_position": 2
+            },
+            {
+                "task_text": " sizeof int32_t",
+                "tool_position": 4
+            }
+        ],
+        "tool_text": "Amount of bytes",
+        "tool_type": "Slider"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": " Set indent width to 2",
+                "tool_position": 2
+            },
+            {
+                "task_text": " Set indent width to 4",
+                "tool_position": 4
+            }
+        ],
+        "tool_text": "Indent width for ClangFormat",
+        "tool_type": "Slider"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "Find any path",
+                "tool_position": 0
+            },
+            {
+                "task_text": "Find the shortest path",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Launch bfs",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "Disconnect from server",
+                "tool_position": 0
+            },
+            {
+                "task_text": "Connect to server",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Connect to server",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": " Assign one coder for project",
+                "tool_position": 1
+            },
+            {
+                "task_text": " Assign two coders for project",
+                "tool_position": 2
+            },
+            {
+                "task_text": " Assign three coders for project",
+                "tool_position": 3
+            },
+            {
+                "task_text": " Assign fout coders for project",
+                "tool_position": 4
+            }
+        ],
+        "tool_text": "Coders amount",
+        "tool_type": "Slider"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "Make class implicitly constructible",
+                "tool_position": 0
+            },
+            {
+                "task_text": "Make class explicitly constructible",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Class is explicit",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "not pushed",
+                "tool_position": 0
+            },
+            {
+                "task_text": "pushed",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Tool 9",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "not pushed",
+                "tool_position": 0
+            },
+            {
+                "task_text": "pushed",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Tool 10",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "not pushed",
+                "tool_position": 0
+            },
+            {
+                "task_text": "pushed",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Tool 11",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "not pushed",
+                "tool_position": 0
+            },
+            {
+                "task_text": "pushed",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Tool 12",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "not pushed",
+                "tool_position": 0
+            },
+            {
+                "task_text": "pushed",
+                "tool_position": 1
+            }
+        ],
+        "tool_text": "Tool 13",
+        "tool_type": "Button"
+    }
+]

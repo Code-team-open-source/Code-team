@@ -101,7 +101,7 @@ void Slider::deserialize(ServerConnection s) {
     //    orientation = static_cast<Orientation>(s.GetInt());
 }
 std::string Slider::tool_name() {
-    return std::__cxx11::string("Slider");
+    return std::string("Slider");
 }
 
 void Button::serialize(ServerConnection s) {
@@ -115,5 +115,5 @@ void Button::deserialize(ServerConnection s) {
 }
 
 std::string Button::tool_name() {
-    return std::__cxx11::string("Button");
+    return std::string("Button");
 }

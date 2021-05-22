@@ -23,15 +23,15 @@ add_executable(code-team src/main.cpp
         src/protocols.cpp
         src/tasklib.cpp)
 
-add_executable(add_tool src/add_tool_to_storage.cpp
-        src/tasklib.cpp
-        src/Tool.cpp
-        src/Task.cpp
-        src/ServerConnection.cpp
-        src/protocols.cpp)
+#add_executable(add_tool src/add_tool_to_storage.cpp
+#        src/tasklib.cpp
+#        src/Tool.cpp
+#        src/Task.cpp
+#        src/ServerConnection.cpp
+#        src/protocols.cpp)
 
 if (WIN32)
     target_link_libraries(code-team ws2_32)
-    target_link_libraries(add_tool ws2_32)
+#    target_link_libraries(add_tool ws2_32)
 endif ()
 

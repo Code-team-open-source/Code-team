@@ -1,39 +1,43 @@
+#include <unistd.h>
 #include <algorithm>
 #include <cassert>
 #include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <random>  // std::default_random_engine
+#include <thread>
 #include <utility>
 #include "Game.h"
-#include "tasklib.h"
-#include <unistd.h>
 #include "protocols.h"
+#include "tasklib.h"
 
 int InitialData::tool_count = 0;
 
 int main() {
-    protocol protocol1;
-    std::string str = protocol1.get_string();
-    for (int i = 1; i < 11; ++i) {
-//        Button button("test button");
-        protocol1.send_int(i);
-    }
-
-#if 0
     tasklib tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json");
-//    now point here your local file
-//    when project is ready we can put here a relative path
-    tl.showlib();
-
+    //    now point here your local file
+    //    when project is ready we can put here a relative path
     std::unique_ptr<Game> game = std::make_unique<Game>();
     game->info();
-    game->add_tool_to_pool(tl.get_tool());
-    game->add_tool_to_pool(tl.get_tool());
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 2; ++i) {
+        std::thread t([&]() {
+            std::unique_lock lock(game->m);
+            protocol client;
+            std::string player_name = client.get_string();
+            game->connect_player(client, player_name);
+            for (int _ = 0; _ < 6; ++_) {
+                game->add_tool_to_pool(tl.get_tool());
+            }
+        });
+        threads.push_back(std::move(t));
+    }
+    for (auto &t : threads) {
+        t.join();
+    }
 
     game->info();
 
-
-
+#if 0
     //    protocol protocol1;
 //    protocol1.send_string("5 1234\n");
 
