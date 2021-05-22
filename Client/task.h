@@ -13,6 +13,7 @@ public:
     std::string task_text = "Task text";
     int task_id  = 0;
     Task(QString s = "Task", int id = 0);
+    virtual ~Task();
     virtual std::string GetName() {
         return "Task";
     }

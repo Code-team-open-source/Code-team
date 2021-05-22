@@ -40,3 +40,12 @@ void My_dial::num_change(int value) {
         n_player->play();
     }
 }
+
+My_dial::~My_dial() {
+    delete n_playlist;
+    delete n_player;
+    delete num;
+    delete qd;
+    delete vh1;
+    delete vl;
+}

@@ -45,3 +45,11 @@ void Sliders::num_change(int value) {
     sl->setValue(value); // костыль для красоты
     n_player->play();
 }
+
+Sliders::~Sliders() {
+    delete n_playlist;
+    delete n_player;
+    delete sl;
+    delete l;
+    delete lv;
+}

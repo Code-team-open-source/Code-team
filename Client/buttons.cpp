@@ -37,3 +37,10 @@ void Buttons::but_clicked() {
         }
     }
 }
+
+Buttons::~Buttons() {
+    delete n_playlist;
+    delete n_player;
+    delete b;
+    delete lh;
+}

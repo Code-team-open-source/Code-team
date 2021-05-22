@@ -20,6 +20,7 @@ public:
     QHBoxLayout *vl;
     QVBoxLayout *vh1;
     My_dial(QWidget *parent = nullptr);
+    ~My_dial();
 public slots:
     void num_change(int value);
 };

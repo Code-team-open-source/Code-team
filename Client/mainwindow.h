@@ -7,6 +7,7 @@
 #include "settings.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <process.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,5 +40,6 @@ public:
     QMediaPlaylist *m_playlist;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
+    protocol *client;
 };
 #endif // MAINWINDOW_H

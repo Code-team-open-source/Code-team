@@ -19,3 +19,7 @@ void Task_button::deserialize(ClientConnection s) {
     Task::deserialize(s);
     bt->working = static_cast<bool>(s.GetInt());
 }
+
+Task_button::~Task_button() {
+    delete bt;
+}

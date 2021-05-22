@@ -36,3 +36,11 @@ void Git_tool::but_clicked() {
     line->clear();
     line->setText("$ ");
 }
+
+Git_tool::~Git_tool() {
+    delete n_playlist;
+    delete n_player;
+    delete vl;
+    delete push;
+    delete line;
+}

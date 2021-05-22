@@ -17,6 +17,7 @@ public:
     Buttons *bt22;
     Buttons *bt23;
     Task_buttons_6(QString s = "Task_6");
+    ~Task_buttons_6() override;
 };
 
 #endif // TASK_BUTTONS_6_H

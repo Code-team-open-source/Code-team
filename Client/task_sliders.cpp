@@ -22,3 +22,7 @@ void Task_sliders::deserialize(ClientConnection s) {
     current_state = s.GetInt();
     orientation = (s.GetInt());
 }
+
+Task_sliders::~Task_sliders() {
+    delete sl;
+}
