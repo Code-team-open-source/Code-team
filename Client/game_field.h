@@ -12,6 +12,7 @@
 #include "main_indicators.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include "protocols.h"
 
 
 namespace Ui {
@@ -37,9 +38,12 @@ private:
     QHBoxLayout * h1;
     QHBoxLayout * h2;
     Ui::Game_field *ui;
-    Game_field *fWindow;
     QMediaPlayer *m_player;
     QMediaPlaylist *m_playlist;
+public:
+    QMainWindow *m;
+    protocol *client;
+
 };
 
 #endif // GAME_FIELD_H

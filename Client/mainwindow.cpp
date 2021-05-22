@@ -45,6 +45,11 @@ void MainWindow::on_pushButton_clicked()
     n_player->play();
     m_player->stop();
     fWindow = new Game_field();
+    if (client == nullptr) {
+        client = new protocol();
+    }
+    fWindow->client = client;
+    fWindow->m = this;
     fWindow->showFullScreen();
        this->close();
 }

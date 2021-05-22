@@ -21,3 +21,7 @@ void Task::deserialize(ClientConnection s) {
     task_text = s.GetString();
     task_id = s.GetInt();
 }
+
+Task::~Task() {
+    delete gr;
+}

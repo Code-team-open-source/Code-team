@@ -27,3 +27,15 @@ Task_buttons_6::Task_buttons_6(QString s) : Task(s)
     l->addLayout(ld);
     gr->setLayout(l);
 }
+
+Task_buttons_6::~Task_buttons_6() {
+    delete bt11;
+    delete bt12;
+    delete bt13;
+    delete bt21;
+    delete bt22;
+    delete bt23;
+    delete ld;
+    delete lu;
+    delete l;
+}
