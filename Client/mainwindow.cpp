@@ -44,6 +44,9 @@ void MainWindow::on_pushButton_clicked()
 {
     n_player->play();
     m_player->stop();
+    if (fWindow != nullptr) {
+        delete fWindow;
+    }
     fWindow = new Game_field();
     if (client == nullptr) {
         client = new protocol();

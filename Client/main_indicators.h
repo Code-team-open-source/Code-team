@@ -25,6 +25,7 @@ public:
     QProgressBar *progress;
     QGroupBox *box;
     Main_indicators(QString s = "Игрок");
+    ~Main_indicators();
 public slots:
     void for_timer();
 };
