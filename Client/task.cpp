@@ -1,7 +1,7 @@
 #include "task.h"
 #include "ClientConnection.h"
 
-Task::Task(QString s, int id)
+Task::Task(QString s, int id) : task_text(s.toStdString())
 {
     task_id = id;
     gr = new QGroupBox(s);

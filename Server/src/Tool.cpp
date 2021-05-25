@@ -101,6 +101,7 @@ void Button::serialize(ServerConnection& s) {
     s.SendString("Button");
     Tool::serialize(s);
 }
+
 void Button::deserialize(ServerConnection& s) {
     Tool::deserialize(s);
     current_state = static_cast<ButtonState>(s.GetInt());
