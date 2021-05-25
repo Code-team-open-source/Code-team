@@ -39,7 +39,7 @@ void settings::on_horizontalSlider_valueChanged(int value)
 {
     music = value;
     emit m1_player->setVolume(value);
-    assert(m1_player->volume() == value);
+//    assert(m1_player->volume() == value);
 }
 
 void settings::on_horizontalSlider_2_valueChanged(int value)

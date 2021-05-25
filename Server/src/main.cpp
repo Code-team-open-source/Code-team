@@ -13,12 +13,14 @@ int InitialData::tool_count = 0;
 
 int main() {
     protocol protocol1;
-    std::string str = protocol1.get_string();
-    for (int i = 1; i < 11; ++i) {
-//        Button button("test button");
-        protocol1.send_int(i);
+//    protocol1.send_string("ABOBA");
+    for (int i = 0; i < 10; ++i) {
+        Button b("gepa" + std::to_string(i));
+        b.serialize(protocol1.s);
     }
-
+protocol1.get_int();
+//std::cout << protocol1.get_string() << "\n";
+//    std::cout << protocol1.get_int();
 #if 0
     tasklib tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json");
 //    now point here your local file

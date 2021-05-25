@@ -2,6 +2,7 @@
 // Created by Fedya on 19.04.2021.
 //
 #include "ServerConnection.h"
+#include <cassert>
 #include <vector>
 
 int ServerConnection::connect() {
@@ -111,10 +112,10 @@ std::string ServerConnection::GetString() {
     buf.resize(size + 1);
     iResult = recv(ClientSocket(), &(buf[0]), size, 0);
     std::string ans(&buf[0], size);
-    if (iResult > 0) {
+   /* if (iResult > 0) {
         std::cout << "Bytes received: " << iResult << "\n";
         std::cout << ans << "\n";
-    }
+    }*/
     if (iResult < 0) {
         throw 1;
     }
@@ -123,7 +124,14 @@ std::string ServerConnection::GetString() {
 
 int ServerConnection::GetInt() {
     int num;
-    recv(ClientSocket(), reinterpret_cast<char *>(&num), sizeof(int), 0);
+    int result = 0;
+    while (result == 0) {
+        result = recv(ClientSocket(), reinterpret_cast<char *>(&num),
+                      sizeof(int), 0);
+    }
+    if (result == -1) {
+        std::cout << "end of talking!\n";
+    }
     num = ntohs(num);
     return num;
 }
@@ -133,8 +141,7 @@ int ServerConnection::SendString(const std::string &str) {
     // Send an initial buffer
     int size = str.size();
     size = htons(size);
-    iResult = ::send(ClientSocket(), reinterpret_cast<const char *>(&size),
-                     (int)sizeof(int), 0);
+    iResult = ::send(ClientSocket(), reinterpret_cast<const char *>(&size), (int) sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
     iResult = ::send(ClientSocket(), str.c_str(), str.size(), 0);
@@ -144,13 +151,16 @@ int ServerConnection::SendString(const std::string &str) {
         WSACleanup();
         return 1;
     }
-    printf("Bytes Sent: %d\n", iResult);
+
+
+    //printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
 
 int ServerConnection::SendInt(const int number) {
     iResult = 0;
     int temnumber = number;
+    std::cout << " SendInt: " << number << "\n";
     temnumber = htons(temnumber);
     send(ClientSocket(), reinterpret_cast<const char *>(&temnumber),
          sizeof(int), 0);

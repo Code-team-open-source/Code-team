@@ -71,49 +71,41 @@ bool Slider::operator==(Tool *other) const {
 // may be should be moved
 // Oleg
 // TODO
-void Tool::serialize(ServerConnection s) {
+void Tool::serialize(ServerConnection& s) {
+    s.SendString("Tool");
     s.SendString(tool_text);
-    std::cout << "tool_text=" << tool_text << std::endl;
     s.SendInt(tool_id);
-    std::cout << "tool_id=" << tool_id << std::endl;
 }
-void Tool::deserialize(ServerConnection s) {
+void Tool::deserialize(ServerConnection& s) {
     std::string check = s.GetString();
     assert(check == "Tool");
     tool_text = s.GetString();
     tool_id = s.GetInt();
 }
 
-void Slider::serialize(ServerConnection s) {
+void Slider::serialize(ServerConnection& s) {
     s.SendString("Slider");
     Tool::serialize(s);
-    s.SendInt(available_positions);
-    s.SendInt(current_state);
-    //    s.SendInt(orientation);
 }
 
-void Slider::deserialize(ServerConnection s) {
-    std::string check = s.GetString();
-    assert(check == "Slider");
+void Slider::deserialize(ServerConnection& s) {
     Tool::deserialize(s);
-    available_positions = s.GetInt();  // working?
     current_state = s.GetInt();
-    //    orientation = static_cast<Orientation>(s.GetInt());
 }
 std::string Slider::tool_name() {
-    return std::__cxx11::string("Slider");
+    return std::string("Slider");
 }
 
-void Button::serialize(ServerConnection s) {
+void Button::serialize(ServerConnection& s) {
+    std::cout << " pizda\n";
+    s.SendString("Button");
     Tool::serialize(s);
 }
-void Button::deserialize(ServerConnection s) {
-    std::string check = s.GetString();
-    assert(check == "Button");
+void Button::deserialize(ServerConnection& s) {
     Tool::deserialize(s);
-    current_state = static_cast<ButtonState>(s.GetInt());  // working?
+    current_state = static_cast<ButtonState>(s.GetInt());
 }
 
 std::string Button::tool_name() {
-    return std::__cxx11::string("Button");
+    return std::string("Button");
 }
