@@ -12,6 +12,7 @@ class Buttons : public Tool
     Q_OBJECT
 public:
     Buttons();
+    ~Buttons();
 public:
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;

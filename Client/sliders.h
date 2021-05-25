@@ -17,6 +17,7 @@ public:
     QLabel *empty = new QLabel("");
     QVBoxLayout *lv;
     Sliders();
+    ~Sliders();
 public slots:
     void num_change(int value);
 };

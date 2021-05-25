@@ -15,3 +15,7 @@ void Task_sliders::serialize(ClientConnection s) {
 void Task_sliders::deserialize(ClientConnection s) {
     Task::deserialize(s);
 }
+
+Task_sliders::~Task_sliders() {
+    delete sl;
+}

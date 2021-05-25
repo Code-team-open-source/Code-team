@@ -16,6 +16,7 @@ public:
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     Git_tool(QWidget *parent = nullptr);
+    ~Git_tool();
     QVBoxLayout * vl;
     QPushButton * push;
     QLineEdit *line;

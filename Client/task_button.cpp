@@ -17,3 +17,7 @@ void Task_button::deserialize(ClientConnection s) {
     Task::deserialize(s);
     gr->setTitle(QString::fromStdString(task_text));
 }
+
+Task_button::~Task_button() {
+    delete bt;
+}

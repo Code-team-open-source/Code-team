@@ -110,9 +110,7 @@ int ClientConnection::GetInt() {
     }
     a = ntohs(a);
     //assert(a != 0);
-//    std:: string str = "check";
-//    m->setText(QString::fromStdString(str + std::to_string(iResult)));
-    m->show();
+
     return a;
 }
 

@@ -12,6 +12,7 @@ Game_field::Game_field(QWidget *parent) :
 {
 
     protocol client;
+
     ui->setupUi(this);
     ind = new Main_indicators();
     ui->verticalLayout_2->addWidget(ind->box);
@@ -21,14 +22,9 @@ Game_field::Game_field(QWidget *parent) :
     for (int i = 0; i < 10 ; ++i ) {
         printf("got hera %d\n", i);
       task[i] = client.GetTool(i);
+
     }
-    printf("got here 1");
-//     client.s.m->setText(QString::fromStdString(client.GetString()));
-//    client.SendString("gepa");
-    //assert(0);
-//    client.SendInt(10);
-//    client.GetInt();
-//        h1->addWidget(task[0]->gr);
+
     for (int i = 0; i < 3 ; ++i ) {
         h1->addWidget(task[i]->gr);
         h2->addWidget(task[i + 3]->gr);
@@ -48,18 +44,51 @@ Game_field::Game_field(QWidget *parent) :
 Game_field::~Game_field()
 {
     delete ui;
+    for (int i = 0; i < 10 ; ++i) {
+        delete task[i];
+    }
+    delete ind;
+    delete h1;
+    delete h2;
+    delete m_playlist;
+    delete m_player;
 }
 
 void Game_field::on_pushButton_clicked()
 {
-    m_player->stop();
-    fWindow = new Game_field();
-    fWindow->showFullScreen();
-    this->close();
+    for (int i = 0; i < 10 ; ++i) {
+        delete task[i];
+    }
+    for (int i = 0; i < 10 ; ++i ) {
+        int k = rand() % 5;
+        if (k == 0) {
+            task[i] = new Task_sliders();
+        }
+        if (k == 1) {
+            task[i] = new Task_button();
+        }
+        if (k == 2) {
+            task[i] = new Task_buttons_6();
+        }
+        if (k == 3) {
+            task[i] = new Task_dial();
+        }
+        if (k == 4) {
+            task[i] = new Task_git_tool();
+        }
+    }
+
+    for (int i = 0; i < 3 ; ++i ) {
+        h1->addWidget(task[i]->gr);
+        h2->addWidget(task[i + 3]->gr);
+    }
+    ui->v4->addLayout(h1);
+    ui->v4->addLayout(h2);
 }
 
 void Game_field::on_pushButton_2_clicked()
 {
     m_player->stop();
-    this->close();
+    this->hide();
+    m->showFullScreen();
 }

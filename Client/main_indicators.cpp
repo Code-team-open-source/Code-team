@@ -48,3 +48,14 @@ void Main_indicators::for_timer() {
         timer->setInterval(100);
     }
 }
+
+Main_indicators::~Main_indicators() {
+    delete n_playlist;
+    delete n_player;
+    delete timer;
+    delete tx;
+    delete lh;
+    delete bar;
+    delete progress;
+    delete box;
+}

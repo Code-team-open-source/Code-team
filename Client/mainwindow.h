@@ -7,6 +7,7 @@
 #include "settings.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <process.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,13 +32,14 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    settings *settting;
-    Game_field *fWindow;
+    settings *settting = nullptr;
+    Game_field *fWindow = nullptr;
     Creator_of_tasks *creator = nullptr;
 public:
     QMediaPlayer *m_player;
     QMediaPlaylist *m_playlist;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
+    protocol *client;
 };
 #endif // MAINWINDOW_H

@@ -10,6 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->settings->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->pushButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->pushButton_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label->setFont(QFont("Times", 20));
+    ui->lineEdit->setFont(QFont("Times", 20));
+
 
     n_player = new QMediaPlayer();
     n_playlist = new QMediaPlaylist(n_player);
@@ -39,7 +44,15 @@ void MainWindow::on_pushButton_clicked()
 {
     n_player->play();
     m_player->stop();
+    if (fWindow != nullptr) {
+        delete fWindow;
+    }
     fWindow = new Game_field();
+    if (client == nullptr) {
+        client = new protocol();
+    }
+    fWindow->client = client;
+    fWindow->m = this;
     fWindow->showFullScreen();
        this->close();
 }

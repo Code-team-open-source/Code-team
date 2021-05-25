@@ -8,6 +8,7 @@ class Task_dial : public Task
 public:
     My_dial *d;
     Task_dial(QString s = "Task");
+    ~Task_dial() override;
 };
 
 #endif // TASK_DIAL_H

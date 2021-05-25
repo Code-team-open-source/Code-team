@@ -20,11 +20,6 @@
 #define DEFAULT_PORT "27015"
 
 struct ClientConnection {
-    QLabel* m = new QLabel;
-    ClientConnection() {
-        m->show();
-        m->setFont(QFont("Times", 20));
-    }
 //    ClientConnection(ClientConnection& other) {
 //        m = other.m;
 //        ConnectSocket() = other.ConnectSocket();
