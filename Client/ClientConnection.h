@@ -11,12 +11,25 @@
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <QLabel>
+//#include "mainwindow.h"
+
 //#pragma comment(lib, "Ws2_32.lib") i dont know why it`s not working with that
 // if one day everything crashed this may be a good thing to look at
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 
 struct ClientConnection {
+    QLabel* m = new QLabel;
+    ClientConnection() {
+        m->show();
+        m->setFont(QFont("Times", 20));
+    }
+//    ClientConnection(ClientConnection& other) {
+//        m = other.m;
+//        ConnectSocket() = other.ConnectSocket();
+//        m->show();
+//    }
     int iResult = 0;
     SOCKET &ConnectSocket() {
         static SOCKET Connect_socket;

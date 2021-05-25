@@ -4,25 +4,29 @@
 
 #ifndef CODE_TEAM_PROTOCOLS_H
 #define CODE_TEAM_PROTOCOLS_H
-#include "Tool.h"
-#include "ServerConnection.h"
 #include <cassert>
+#include "ServerConnection.h"
+#include "Tool.h"
 
 struct protocol {
-private:
     ServerConnection s;
-public:
     protocol() {
         s.connect();
     }
     void SendTool(Tool &t) {
-        s.SendString(t.tool_type());
         t.serialize(s);
     }
-    void GetTool(Tool &t) {
+    Tool *GetTool() {
         std::string str = s.GetString();
-        assert(t.tool_name() == str);
-        t.deserialize(s);
+        Tool *t;
+        if (str == "Button") {
+            t = new Button("");
+        }
+        if (str == "Slider") {
+            t = new Slider("");
+        }
+        t->deserialize(s);
+        return t;
     }
     void send_string(const std::string &str) {
         s.SendString(str);
