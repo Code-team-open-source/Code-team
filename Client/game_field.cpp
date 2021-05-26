@@ -4,7 +4,6 @@
 #include "protocols.h"
 #include <thread>
 #include <chrono>
-#include <cassert>
 
 Game_field::Game_field(QWidget *parent) :
     QMainWindow(parent),

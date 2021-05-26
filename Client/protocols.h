@@ -53,7 +53,6 @@ public:
         else {
             printf("not button :(");
 //            s.m->setText(QString::fromStdString(str + std::to_string(i)));
-//            assert(0);
         }
         t->deserialize(s);
         return t;

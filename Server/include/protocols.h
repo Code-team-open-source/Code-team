@@ -10,8 +10,8 @@
 
 struct protocol {
     ServerConnection s;
-    protocol(std::vector<SOCKET>& v): s(&v) {
-        s.connect();
+    protocol(std::vector<SOCKET>& v, SOCKET& listensock): s(&v) {
+        s.connect(listensock);
     }
     static void SendTool(Tool &t, SOCKET& sock) {
         t.serialize(sock);

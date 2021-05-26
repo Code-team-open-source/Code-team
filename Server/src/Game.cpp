@@ -7,7 +7,7 @@
 #include <thread>
 #include <utility>
 
-Game::Game() : tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json"){};
+Game::Game() : tl("C:\\project\\Code-team\\Server\\tasks.json"){};
 //    now point here your local file
 //    when project is ready we can put here a relative path
 
@@ -59,8 +59,8 @@ GameStatus &Game::get_game_status() {
 void Game::connect_players() {
 
     std::vector<SOCKET> vec;
-
-    protocol client(vec);
+    SOCKET ListenSocket;
+    protocol client(vec, ListenSocket);
     std::cout << "out \n";
     for (auto& i : vec) {
         std::string name = ServerConnection::GetString(i);

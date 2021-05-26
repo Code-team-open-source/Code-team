@@ -17,7 +17,9 @@ void Task::serialize(ClientConnection& s) {
 
 void Task::deserialize(ClientConnection& s) {
     std::string check = s.GetString();
-    assert(check == "Tool");
+//    assert(check == "Tool");
+    if (check != "Tool")
+        std::cerr << "Tool is not tool, task deserialise error\n";
     task_text = s.GetString();
     task_id = s.GetInt();
     gr->setTitle(QString::fromStdString(task_text));
