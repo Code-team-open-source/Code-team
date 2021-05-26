@@ -20,6 +20,8 @@ void Task::deserialize(ClientConnection s) {
     assert(check == "Tool");
     task_text = s.GetString();
     task_id = s.GetInt();
+    gr->setTitle(QString::fromStdString(task_text));
+
 }
 
 Task::~Task() {

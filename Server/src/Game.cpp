@@ -60,53 +60,58 @@ void Game::connect_players() {
 
     //    std::condition_variable cv;
     for (int i = 0; i < 2; ++i) {
-        std::thread t([&]() {
-            std::unique_lock<std::mutex> lock(m);
-            //            cv.wait(lock, [&]() { return players_amount == i; });
-            protocol client;
-            //            cv.notify_all();
-            std::string player_name = client.get_string();
-            connect_player(client, player_name);
-            //            int tasks_amount = client.get_int();
-            //            Tool *tool = nullptr;
-            //            if (tasks_amount != 0) {
-            //                tool = client.GetTool();
-            //            }
-            //            std::vector<Task> tasks_from_player;
-            //            for (; tasks_amount > 0; --tasks_amount) {
-            //                Tool *position = client.GetTool();
-            //                std::string task_text = client.get_string();
-            //                Task task(task_text, *position);
-            //                tasks_from_player.push_back(task);
-            //            }
-            //            if (tool != nullptr) {
-            //                tl.add_tool(*tool, tasks_from_player);
-            //            }
-        });
-        threads.push_back(std::move(t));
-    }
+        protocol client;
+        std::string player_name = client.get_string();
+        connect_player(client, player_name);
 
-    for (auto &t : threads) {
-        t.join();
+        //        std::thread t([&]() {
+        //            //            cv.wait(lock, [&]() { return players_amount
+        //            == i; }); protocol client; std::unique_lock<std::mutex>
+        //            lock(m);
+        //            //            cv.notify_all();
+        //            std::string player_name = client.get_string();
+        //            connect_player(client, player_name);
+        //            //            int tasks_amount = client.get_int();
+        //            //            Tool *tool = nullptr;
+        //            //            if (tasks_amount != 0) {
+        //            //                tool = client.GetTool();
+        //            //            }
+        //            //            std::vector<Task> tasks_from_player;
+        //            //            for (; tasks_amount > 0; --tasks_amount) {
+        //            //                Tool *position = client.GetTool();
+        //            //                std::string task_text =
+        //            client.get_string();
+        //            //                Task task(task_text, *position);
+        //            //                tasks_from_player.push_back(task);
+        //            //            }
+        //            //            if (tool != nullptr) {
+        //            //                tl.add_tool(*tool, tasks_from_player);
+        //            //            }
+        //        });
+        //        threads.push_back(std::move(t));
     }
-    threads.clear();
+    //    std::unique_lock<std::mutex> lock(m);
+    //    if (game_status == GameStatus::PLAYERS_ARE_READY) {
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
+    //    }
     assign_tools();
-    game_status = GameStatus::PLAYERS_ARE_READY;
     for (int i = 0; i < players_amount; ++i) {
-        std::thread t([=]() {
-            std::unique_lock<std::mutex> lock(m);
-            pool_connection[i].send_tools();
-        });
-        threads.push_back(std::move(t));
+        pool_connection[i].send_tools();
     }
-    for (auto &t : threads) {
-        t.join();
-    }
-    threads.clear();
-    [[maybe_unused]] int a = pool_connection[0].connection.get_int();
+    //    for (int i = 0; i < players_amount; ++i) {
+    //        std::thread t([=]() {
+    //            std::unique_lock<std::mutex> lock(m);
+    //            pool_connection[i].send_tools();
+    //        });
+    //        threads.push_back(std::move(t));
+    //    }
+    //    for (auto &t : threads) {
+    //        t.join();
+    //    }
+    //    threads.clear();
+        [[maybe_unused]] int a = pool_connection[0].connection.get_int();
     //    for (auto &t : threads) {
     //        t.join();
     //    }
