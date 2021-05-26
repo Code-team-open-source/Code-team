@@ -33,7 +33,7 @@ void tasklib::add_tool(const Tool &tool, const std::vector<Task> &tasks) {
     fin >> lib;
     fin.close();
 
-    lib.push_back(j);
+    lib.insert(lib.begin(), j);
     std::ofstream fout(source);
     if (!fout) {
         assert(1);
