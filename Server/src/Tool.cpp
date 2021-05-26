@@ -1,6 +1,7 @@
 #include "Tool.h"
 #include <cassert>
 #include <iostream>  // for tests
+#include <utility>
 #include "ServerConnection.h"
 
 Tool::Tool(std::string text)
@@ -91,20 +92,65 @@ void Slider::deserialize(ServerConnection& s) {
     Tool::deserialize(s);
     current_state = s.GetInt();
 }
-std::string Slider::tool_name() {
-    return std::string("Slider");
-}
 
 void Button::serialize(ServerConnection& s) {
-    std::cout << " pizda\n";
     s.SendString("Button");
     Tool::serialize(s);
 }
+
 void Button::deserialize(ServerConnection& s) {
     Tool::deserialize(s);
     current_state = static_cast<ButtonState>(s.GetInt());
 }
 
-std::string Button::tool_name() {
-    return std::string("Button");
+CMD::CMD(std::string text, std::string cmd_text_) : Tool(std::move(text)), cmd_text(std::move(cmd_text_)) {}
+
+std::string CMD::get_cmd_text() const {
+    return cmd_text;
+}
+void CMD::set_new_cmd_text(std::string new_text) {
+    cmd_text = new_text;
+}
+std::string CMD::tool_type() const {
+    return std::string("CMD");
+}
+bool CMD::operator==(Tool *other) const {
+    const auto *cmd = dynamic_cast<const CMD *>(other);
+    assert(cmd);
+    return  cmd_text == cmd->cmd_text;
+}
+void CMD::serialize(ServerConnection &s) {
+    s.SendString("CMD");
+    Tool::serialize(s);
+    s.SendString(cmd_text);
+}
+
+void CMD::deserialize(ServerConnection &s) {
+    Tool::deserialize(s);
+    cmd_text = s.GetString();
+}
+Dial::Dial(std::string text, int pos) : Tool(std::move(text)), current_state(pos) {}
+int Dial::get_state() const {
+    return current_state;
+}
+void Dial::set_state(int pos) {
+    current_state = pos;
+}
+std::string Dial::tool_type() const {
+    return std::string("Dial");
+}
+bool Dial::operator==(Tool *other) const {
+    const auto *dial = dynamic_cast<const Dial *>(other);
+    assert(dial);
+    return current_state == dial->get_state();
+}
+
+void Dial::serialize(ServerConnection &s) {
+    s.SendString("Dial");
+    Tool::serialize(s);
+    s.SendInt(current_state);
+}
+void Dial::deserialize(ServerConnection &s) {
+    Tool::deserialize(s);
+    current_state = s.GetInt();
 }

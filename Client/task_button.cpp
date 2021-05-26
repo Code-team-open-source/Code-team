@@ -7,13 +7,13 @@ Task_button::Task_button(QString s, int id) : Task(s, id)
     gr->setLayout(bt->lh);
 }
 
-void Task_button::serialize(ClientConnection s) {
+void Task_button::serialize(ClientConnection& s) {
     s.SendString("Button");
     Task::serialize(s);
     s.SendInt(static_cast<int>(bt->working));
 }
 
-void Task_button::deserialize(ClientConnection s) {
+void Task_button::deserialize(ClientConnection& s) {
     Task::deserialize(s);
 }
 

@@ -14,6 +14,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->label->setFont(QFont("Times", 20));
     ui->lineEdit->setFont(QFont("Times", 20));
+    ui->box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 2px solid grey}");
+    ui->pushButton->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->pushButton_2->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->settings->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->quit->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+
 
 
     n_player = new QMediaPlayer();
@@ -42,16 +52,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    if (ui->lineEdit->text() == NULL) {
+        ui->lineEdit->setStyleSheet("QLineEdit{border: 2px solid red;}");
+        return;
+    }
+
     n_player->play();
     m_player->stop();
     if (fWindow != nullptr) {
         delete fWindow;
     }
     fWindow = new Game_field();
-    if (client == nullptr) {
-        client = new protocol();
-    }
-    fWindow->client = client;
     fWindow->m = this;
     fWindow->showFullScreen();
        this->close();

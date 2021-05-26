@@ -11,7 +11,7 @@ Game_field::Game_field(QWidget *parent) :
     ui(new Ui::Game_field)
 {
 
-    protocol client;
+    client = new protocol;
 
     ui->setupUi(this);
     ind = new Main_indicators();
@@ -21,7 +21,7 @@ Game_field::Game_field(QWidget *parent) :
     task.resize(11);
     for (int i = 0; i < 10 ; ++i ) {
         printf("got hera %d\n", i);
-      task[i] = client.GetTool(i);
+      task[i] = client->GetTool(i);
 
     }
 

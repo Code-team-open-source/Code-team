@@ -25,6 +25,15 @@ struct protocol {
         if (str == "Slider") {
             t = new Slider("");
         }
+        if (str == "Dial") {
+            t = new Dial("");
+        }
+        if (str == "CMD") {
+            t = new CMD("");
+        }
+
+        if (!t)
+            throw 6;
         t->deserialize(s);
         return t;
     }

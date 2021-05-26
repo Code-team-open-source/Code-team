@@ -15,7 +15,6 @@ public:
     virtual bool operator==(Tool *other) const = 0;
     virtual void serialize(ServerConnection&);
     virtual void deserialize(ServerConnection&);
-    virtual std::string tool_name() = 0;
     virtual ~Tool() = default;
 };
 
@@ -37,7 +36,6 @@ public:
     std::string tool_type() const override;
     void serialize(ServerConnection&) override;
     void deserialize(ServerConnection&) override;
-    std::string tool_name() override;
 };
 
 class Slider : public Tool {
@@ -55,6 +53,32 @@ public:
     bool operator==(Tool *other) const override;
     void serialize(ServerConnection&) override;
     void deserialize(ServerConnection&) override;
-    std::string tool_name() override;
 };
 
+class CMD : public Tool {
+private:
+    std::string cmd_text;
+public:
+    CMD (std::string text, std::string cmd_text_ = "");
+    std::string  get_cmd_text() const;
+    void set_new_cmd_text(std::string new_text);
+    std::string tool_type() const override;
+    bool operator==(Tool *other) const override;
+    void serialize(ServerConnection&) override;
+    void deserialize(ServerConnection&) override;
+};
+
+class Dial : public Tool {
+private:
+    int available_positions = InitialData::dial_positions;
+    int current_state = 1;
+
+public:
+    Dial(std::string text, int pos = 1);
+    int get_state() const;
+    void set_state(int pos);
+    std::string tool_type() const override;
+    bool operator==(Tool *other) const override;
+    void serialize(ServerConnection&) override;
+    void deserialize(ServerConnection&) override;
+};

@@ -40,6 +40,5 @@ public:
     QMediaPlaylist *m_playlist;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
-    protocol *client;
 };
 #endif // MAINWINDOW_H
