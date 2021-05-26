@@ -59,12 +59,13 @@ void Game::connect_players() {
     std::vector<std::thread> threads;
 
     for (int i = 0; i < 2; ++i) {
+        int k = i;
         std::thread t([&]() {
             std::unique_lock<std::mutex> lock(m);
             protocol client;
-            std::cout << "Player " << i << " connected\n";
-            std::string player_name = client.get_string();
-            connect_player(client, player_name);
+            std::cout << "Player " << k << " connected\n";
+//            std::string player_name = client.get_string();
+            connect_player(client, "Player" + std::to_string(k));
             //            int tasks_amount = client.get_int();
             //            Tool *tool = nullptr;
             //            if (tasks_amount != 0) {
