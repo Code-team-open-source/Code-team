@@ -64,6 +64,7 @@ void Game::connect_players() {
     std::cout << "out \n";
     for (auto& i : vec) {
         std::string name = ServerConnection::GetString(i);
+        std::cout << name << std::endl;
         Player p(vec[i], name);
         pool_connection.push_back(p);
         std::cout << "passed one time\n";
