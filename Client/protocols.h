@@ -7,6 +7,9 @@
 #include "task.h"
 #include "task_button.h"
 #include "task_sliders.h"
+#include "task_dial.h"
+#include "task_git_tool.h"
+#include "task_buttons_6.h"
 #include "ClientConnection.h"
 #include <cassert>
 #include <QString>
@@ -40,6 +43,12 @@ public:
         }
         else if (str == "Slider") {
             t = new Task_sliders();
+        }
+        else if (str == "Dial") {
+            t = new Task_dial();
+        }
+        else if (str == "CMD") {
+            t = new Task_git_tool();
         }
         else {
             printf("not button :(");

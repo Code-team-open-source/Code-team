@@ -18,8 +18,8 @@ public:
         return "Task";
     }
 
-    virtual void serialize(ClientConnection);
-    virtual void deserialize(ClientConnection);
+    virtual void serialize(ClientConnection&);
+    virtual void deserialize(ClientConnection&);
 };
 
 #endif // TASK_H

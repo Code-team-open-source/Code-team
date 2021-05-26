@@ -14,8 +14,8 @@ public:
         return "Button";
     }
     Buttons* bt;
-    void serialize(ClientConnection) override;
-    void deserialize(ClientConnection) override;
+    void serialize(ClientConnection&) override;
+    void deserialize(ClientConnection&) override;
     Task_button(QString s = "Task", int id = 0);
     ~Task_button() override;
 };

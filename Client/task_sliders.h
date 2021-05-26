@@ -14,8 +14,8 @@ public:
     std::string GetName() override{
         return "Slider";
     }
-    void serialize(ClientConnection) override;
-    void deserialize(ClientConnection) override;
+    void serialize(ClientConnection&) override;
+    void deserialize(ClientConnection&) override;
     Task_sliders(QString s = "Task");
     ~Task_sliders() override;
 };

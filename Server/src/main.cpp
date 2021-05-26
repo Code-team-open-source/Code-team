@@ -14,10 +14,15 @@ int InitialData::tool_count = 0;
 int main() {
     protocol protocol1;
 //    protocol1.send_string("ABOBA");
-    for (int i = 0; i < 10; ++i) {
-        Button b("gepa" + std::to_string(i));
+    for (int i = 0; i < 5; ++i) {
+        CMD b("task" + std::to_string(i), "aaaaaaaaaaaaaaaaaaa");
         b.serialize(protocol1.s);
     }
+    for (int i = 0; i < 5; ++i) {
+        Dial b("task" + std::to_string(i), 5);
+        b.serialize(protocol1.s);
+    }
+
 protocol1.get_int();
 //std::cout << protocol1.get_string() << "\n";
 //    std::cout << protocol1.get_int();
