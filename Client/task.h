@@ -17,6 +17,7 @@ public:
     virtual std::string GetName() {
         return "Task";
     }
+
     virtual void serialize(ClientConnection);
     virtual void deserialize(ClientConnection);
 };

@@ -32,8 +32,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    settings *settting;
-    Game_field *fWindow;
+    settings *settting = nullptr;
+    Game_field *fWindow = nullptr;
     Creator_of_tasks *creator = nullptr;
 public:
     QMediaPlayer *m_player;

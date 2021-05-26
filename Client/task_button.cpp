@@ -10,14 +10,12 @@ Task_button::Task_button(QString s, int id) : Task(s, id)
 void Task_button::serialize(ClientConnection s) {
     s.SendString("Button");
     Task::serialize(s);
-    s.SendInt(current_state);
+    s.SendInt(static_cast<int>(bt->working));
 }
 
 void Task_button::deserialize(ClientConnection s) {
-    std::string check = s.GetString();
-    assert(check == "Button");
     Task::deserialize(s);
-    bt->working = static_cast<bool>(s.GetInt());
+    gr->setTitle(QString::fromStdString(task_text));
 }
 
 Task_button::~Task_button() {

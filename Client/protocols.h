@@ -12,11 +12,15 @@
 #include <QString>
 
 struct protocol {
-private:
+//private:
     ClientConnection s;
 public:
     protocol() {
-        s.Connect();
+       int res = 1;
+        while (res != 0) {
+        Sleep(50);
+        res = s.Connect();
+    }
     }
 
     void SendTool(Task &t) {
@@ -24,18 +28,33 @@ public:
         t.serialize(s);
     }
 
-    Task *GetTool() {
+    Task *GetTool(int i) {
+        printf("In GetTool\n");
         std::string str = s.GetString();
-//        assert(t.GetName() == str);
-        //if (str == "Button") {
-            std::string text = s.GetString();
-            int id = s.GetInt();
-            return new Task_button(QString::fromStdString(text), id);
-        //}
+        printf("str = %s\n", str.c_str());
+        Task *t;
+        if (str == "Button") {
+            t = new Task_button();
+            printf("button holelua");
+//            system.pause(0);
+        }
+        else if (str == "Slider") {
+            t = new Task_sliders();
+        }
+        else {
+            printf("not button :(");
+//            s.m->setText(QString::fromStdString(str + std::to_string(i)));
+//            assert(0);
+        }
+        t->deserialize(s);
+        return t;
     }
 
     void SendString(const std::string &str) {
         s.SendString(str);
+    }
+    void SendInt(const int a) {
+        s.SendInt(a);
     }
 
     std::string GetString() {

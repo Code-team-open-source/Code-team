@@ -13,8 +13,8 @@ public:
     int id() const ;
     virtual std::string tool_type() const = 0;
     virtual bool operator==(Tool *other) const = 0;
-    virtual void serialize(ServerConnection);
-    virtual void deserialize(ServerConnection);
+    virtual void serialize(ServerConnection&);
+    virtual void deserialize(ServerConnection&);
     virtual std::string tool_name() = 0;
     virtual ~Tool() = default;
 };
@@ -35,8 +35,8 @@ public:
     void change_state();
     bool operator==(Tool *other) const override;
     std::string tool_type() const override;
-    void serialize(ServerConnection) override;
-    void deserialize(ServerConnection) override;
+    void serialize(ServerConnection&) override;
+    void deserialize(ServerConnection&) override;
     std::string tool_name() override;
 };
 
@@ -53,8 +53,8 @@ public:
     void set_new_position(int new_position);
     std::string tool_type() const override;
     bool operator==(Tool *other) const override;
-    void serialize(ServerConnection) override;
-    void deserialize(ServerConnection) override;
+    void serialize(ServerConnection&) override;
+    void deserialize(ServerConnection&) override;
     std::string tool_name() override;
 };
 

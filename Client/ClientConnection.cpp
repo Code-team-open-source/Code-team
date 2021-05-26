@@ -2,6 +2,8 @@
 // Created by Fedya on 19.04.2021.
 //
 #include "ClientConnection.h"
+
+#include <string>
 int ClientConnection::Connect() {
     WSADATA wsaData;
     ConnectSocket() = INVALID_SOCKET;
@@ -77,6 +79,8 @@ int ClientConnection::SendString(const std::string &str) {
         WSACleanup();
         return 1;
     }
+
+
     //printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
@@ -97,29 +101,42 @@ int ClientConnection::SendInt(const int & a) {
 int ClientConnection::GetInt() {
     int a = 0;
     iResult = 0;
+//    assert(ConnectSocket());
+    while (iResult == 0)  {
+        if (iResult == -1)
+            return -1;
+        Sleep(100);
     iResult = recv(ConnectSocket(), reinterpret_cast<char *>(&a), sizeof(int), 0);
+    }
     a = ntohs(a);
+    //assert(a != 0);
+
     return a;
 }
 
 std::string ClientConnection::GetString() {
     int size = 0;
-    char recvbuf[500]{};
     iResult = 0;
     while (iResult == 0) {
         Sleep(100);
-        iResult = recv(ConnectSocket(), reinterpret_cast<char *>(&size), sizeof(int), 0);
+        iResult = recv(ConnectSocket(), reinterpret_cast<char *>(&size),
+                       sizeof(int), 0);
     }
+    printf("HEREEEEE\n");
     size = ntohs(size);
-    //std::cout << size << "\n";
-    iResult = recv(ConnectSocket(), recvbuf, size, 0);
-    //std::cout << " result " << iResult << "\n";
+    std::vector<char> buf;
+    buf.resize(size + 1);
+    iResult = recv(ConnectSocket(), &(buf[0]), size, 0);
+    std::string ans(&buf[0], size);
     if (iResult > 0) {
-        printf("Bytes received: %d\n", iResult);
-        printf("%s\n", recvbuf);
-        // Echo the buffer back to the send
+        std::cout << "Bytes received: " << iResult << "\n";
+        std::cout << ans << "\n";
     }
-    return static_cast<std::string>(recvbuf);
+    if (iResult < 0) {
+        throw 1;
+    }
+    printf("%s\n", ans.c_str());
+    return ans;
 }
 
 int ClientConnection::CloseSocket() {
