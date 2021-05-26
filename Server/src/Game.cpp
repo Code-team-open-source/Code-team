@@ -42,7 +42,8 @@ void Game::add_tool_to_pool(const json &tool_json) {
         }
     } else {
         //  OTHER TOOLS
-        assert(1);
+        //        assert(1);
+        std::cerr << "error in <<add tool to pool>>\n";
     }
     InitialData::tool_count++;
 }
@@ -85,20 +86,18 @@ void Game::connect_players() {
         });
         threads.push_back(std::move(t));
     }
-    for (auto &t : threads) {
-        t.join();
-    }
-    //    std::unique_lock<std::mutex> lock(m);
-    //    if (game_status == GameStatus::PLAYERS_ARE_READY) {
+    std::cout << "I can coonect\n";
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
-    //    }
+    std::cout << "I can add to pool\n";
     assign_tools();
+    std::cout << "i can assign\n";
+
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
+        std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
-
     [[maybe_unused]] int a = pool_connection[0].connection.get_int();
 }
 
@@ -194,8 +193,12 @@ bool Game::task_is_completed(int task_num) const {
 }
 
 void Game::assign_tools() {
-    assert(static_cast<int>(tools_pool.size()) ==
-           players_amount * InitialData::blocks_per_user);
+    //    assert(static_cast<int>(tools_pool.size()) ==
+    //           players_amount * InitialData::blocks_per_user);
+    if (static_cast<int>(tools_pool.size()) !=
+        players_amount * InitialData::blocks_per_user) {
+        std::cerr << "error in assign tools";
+    }
     int player_id = 0;
     for (auto &tool : tools_pool) {
         pool_connection[player_id].add_tool(tool);

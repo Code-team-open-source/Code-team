@@ -120,7 +120,8 @@ std::string ServerConnection::GetString(bool wait) {
          std::cout << ans << "\n";
      }*/
     if (iResult < 0) {
-        throw 1;
+//        throw 1;
+        std::cerr << "No connection\n";
     }
     return ans;
 }
