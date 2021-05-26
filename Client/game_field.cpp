@@ -12,7 +12,7 @@ Game_field::Game_field(QWidget *parent) :
 {
 
     client = new protocol;
-
+    client->SendString("ABOBA");
     ui->setupUi(this);
     ind = new Main_indicators();
     ui->verticalLayout_2->addWidget(ind->box);
@@ -22,7 +22,6 @@ Game_field::Game_field(QWidget *parent) :
     for (int i = 0; i < 10 ; ++i ) {
         printf("got hera %d\n", i);
       task[i] = client->GetTool(i);
-
     }
 
     for (int i = 0; i < 3 ; ++i ) {

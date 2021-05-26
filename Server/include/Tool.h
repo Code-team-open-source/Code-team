@@ -13,8 +13,8 @@ public:
     int id() const ;
     virtual std::string tool_type() const = 0;
     virtual bool operator==(Tool *other) const = 0;
-    virtual void serialize(ServerConnection&);
-    virtual void deserialize(ServerConnection&);
+    virtual void serialize(SOCKET&);
+    virtual void deserialize(SOCKET&);
     virtual ~Tool() = default;
 };
 
@@ -34,8 +34,8 @@ public:
     void change_state();
     bool operator==(Tool *other) const override;
     std::string tool_type() const override;
-    void serialize(ServerConnection&) override;
-    void deserialize(ServerConnection&) override;
+    void serialize(SOCKET&) override;
+    void deserialize(SOCKET&) override;
 };
 
 class Slider : public Tool {
@@ -51,8 +51,8 @@ public:
     void set_new_position(int new_position);
     std::string tool_type() const override;
     bool operator==(Tool *other) const override;
-    void serialize(ServerConnection&) override;
-    void deserialize(ServerConnection&) override;
+    void serialize(SOCKET&) override;
+    void deserialize(SOCKET&) override;
 };
 
 class CMD : public Tool {
@@ -64,8 +64,8 @@ public:
     void set_new_cmd_text(std::string new_text);
     std::string tool_type() const override;
     bool operator==(Tool *other) const override;
-    void serialize(ServerConnection&) override;
-    void deserialize(ServerConnection&) override;
+    void serialize(SOCKET&) override;
+    void deserialize(SOCKET&) override;
 };
 
 class Dial : public Tool {
@@ -79,6 +79,6 @@ public:
     void set_state(int pos);
     std::string tool_type() const override;
     bool operator==(Tool *other) const override;
-    void serialize(ServerConnection&) override;
-    void deserialize(ServerConnection&) override;
+    void serialize(SOCKET&) override;
+    void deserialize(SOCKET&) override;
 };
