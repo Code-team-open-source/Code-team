@@ -59,7 +59,6 @@ GameStatus &Game::get_game_status() {
 void Game::connect_players() {
     std::vector<std::thread> threads;
 
-    //    std::condition_variable cv;
     for (int i = 0; i < 2; ++i) {
         protocol client;
         std::string player_name = client.get_string();
@@ -77,21 +76,7 @@ void Game::connect_players() {
         pool_connection[i].send_tools();
         std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
-    //    for (int i = 0; i < players_amount; ++i) {
-    //        std::thread t([=]() {
-    //            std::unique_lock<std::mutex> lock(m);
-    //            pool_connection[i].send_tools();
-    //        });
-    //        threads.push_back(std::move(t));
-    //    }
-    //    for (auto &t : threads) {
-    //        t.join();
-    //    }
-    //    threads.clear();
     [[maybe_unused]] int a = pool_connection[0].connection.get_int();
-    //    for (auto &t : threads) {
-    //        t.join();
-    //    }
 }
 
 void Game::change_task(int task_owner_id) {
