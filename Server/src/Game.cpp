@@ -42,7 +42,8 @@ void Game::add_tool_to_pool(const json &tool_json) {
         }
     } else {
         //  OTHER TOOLS
-        assert(1);
+        //        assert(1);
+        std::cerr << "error in <<add tool to pool>>\n";
     }
     InitialData::tool_count++;
 }
@@ -63,42 +64,18 @@ void Game::connect_players() {
         protocol client;
         std::string player_name = client.get_string();
         connect_player(client, player_name);
-
-        //        std::thread t([&]() {
-        //            //            cv.wait(lock, [&]() { return players_amount
-        //            == i; }); protocol client; std::unique_lock<std::mutex>
-        //            lock(m);
-        //            //            cv.notify_all();
-        //            std::string player_name = client.get_string();
-        //            connect_player(client, player_name);
-        //            //            int tasks_amount = client.get_int();
-        //            //            Tool *tool = nullptr;
-        //            //            if (tasks_amount != 0) {
-        //            //                tool = client.GetTool();
-        //            //            }
-        //            //            std::vector<Task> tasks_from_player;
-        //            //            for (; tasks_amount > 0; --tasks_amount) {
-        //            //                Tool *position = client.GetTool();
-        //            //                std::string task_text =
-        //            client.get_string();
-        //            //                Task task(task_text, *position);
-        //            //                tasks_from_player.push_back(task);
-        //            //            }
-        //            //            if (tool != nullptr) {
-        //            //                tl.add_tool(*tool, tasks_from_player);
-        //            //            }
-        //        });
-        //        threads.push_back(std::move(t));
     }
-    //    std::unique_lock<std::mutex> lock(m);
-    //    if (game_status == GameStatus::PLAYERS_ARE_READY) {
+    std::cout << "I can coonect\n";
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
-    //    }
+    std::cout << "I can add to pool\n";
     assign_tools();
+    std::cout << "i can assign\n";
+
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
+        std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
     //    for (int i = 0; i < players_amount; ++i) {
     //        std::thread t([=]() {
@@ -111,7 +88,7 @@ void Game::connect_players() {
     //        t.join();
     //    }
     //    threads.clear();
-        [[maybe_unused]] int a = pool_connection[0].connection.get_int();
+    [[maybe_unused]] int a = pool_connection[0].connection.get_int();
     //    for (auto &t : threads) {
     //        t.join();
     //    }
@@ -209,8 +186,12 @@ bool Game::task_is_completed(int task_num) const {
 }
 
 void Game::assign_tools() {
-    assert(static_cast<int>(tools_pool.size()) ==
-           players_amount * InitialData::blocks_per_user);
+    //    assert(static_cast<int>(tools_pool.size()) ==
+    //           players_amount * InitialData::blocks_per_user);
+    if (static_cast<int>(tools_pool.size()) !=
+        players_amount * InitialData::blocks_per_user) {
+        std::cerr << "error in assign tools";
+    }
     int player_id = 0;
     for (auto &tool : tools_pool) {
         pool_connection[player_id].add_tool(tool);
