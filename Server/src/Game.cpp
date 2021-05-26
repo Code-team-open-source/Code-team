@@ -3,13 +3,13 @@
 #include <cassert>
 #include <ctime>
 #include <iostream>  // for tests
-#include <utility>
 #include <thread>
+#include <utility>
+#include <condition_variable>
 
 Game::Game() : tl("C:\\Users\\Oleg\\Code-team\\Server\\tasks.json"){};
 //    now point here your local file
 //    when project is ready we can put here a relative path
-
 
 int Game::get_players_amount() const {
     return players_amount;
@@ -58,15 +58,30 @@ GameStatus &Game::get_game_status() {
 void Game::connect_players() {
     std::vector<std::thread> threads;
 
-    for (int i = 0; i < 2; ++i) {
+    std::condition_variable cv;
+    for (int i = 0; i < 8; ++i) {
         std::thread t([&]() {
-          std::unique_lock<std::mutex> lock(m);
-          protocol client;
-          std::string player_name = client.get_string();
-          connect_player(client, player_name);
-          for (int _ = 0; _ < 6; ++_) {
-              add_tool_to_pool(tl.get_tool());
-          }
+            std::unique_lock<std::mutex> lock(m);
+            cv.wait(lock, [&]() {
+                return players_amount == i;
+            });
+            protocol client;
+            cv.notify_all();
+            std::string player_name = client.get_string();
+            connect_player(client, player_name);
+//            int tasks_amount = client.get_int();
+//            if (tasks_amount != 0) {
+//                Tool *tool = client.GetTool();
+//            }
+//            std::vector<Task> tasks_from_player;
+//            for (; tasks_amount > 0; --tasks_amount) {
+//                Tool *position = client.GetTool();
+//                std::string task_text = client.get_string();
+//
+//            }
+            for (int i = 0; i < 6; ++i) {
+                add_tool_to_pool(tl.get_tool());
+            }
         });
         threads.push_back(std::move(t));
     }
