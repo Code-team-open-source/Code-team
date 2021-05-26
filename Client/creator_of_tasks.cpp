@@ -19,6 +19,11 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->cm2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->ln2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 1px solid grey}");
+    ui->create->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->pushButton->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
 
     n_player = new QMediaPlayer();
     n_playlist = new QMediaPlaylist(n_player);

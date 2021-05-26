@@ -21,7 +21,10 @@ void Task::deserialize(ClientConnection& s) {
     task_text = s.GetString();
     task_id = s.GetInt();
     gr->setTitle(QString::fromStdString(task_text));
+<<<<<<< HEAD
 
+=======
+>>>>>>> eff1af2c1f2210154ed7467e1957e9ab2fe9a3ae
 }
 
 Task::~Task() {
