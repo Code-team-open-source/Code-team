@@ -14,3 +14,9 @@ std::string Player::get_name() const {
 std::vector<std::shared_ptr<Tool>> &Player::get_tools() {
     return tools;
 }
+
+void Player::send_tools() {
+    for (const auto &tool : tools) {
+        connection.SendTool(*tool);
+    }
+}

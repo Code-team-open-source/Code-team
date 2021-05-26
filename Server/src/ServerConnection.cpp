@@ -99,23 +99,26 @@ int ServerConnection::shut_down() {
     return 0;
 }
 
-std::string ServerConnection::GetString() {
+std::string ServerConnection::GetString(bool wait) {
     int size = 0;
     iResult = 0;
-    while (iResult == 0) {
+
+    do {
         Sleep(100);
         iResult = recv(ClientSocket(), reinterpret_cast<char *>(&size),
                        sizeof(int), 0);
-    }
+    } while (iResult == 0 && wait);
     size = ntohs(size);
     std::vector<char> buf;
     buf.resize(size + 1);
-    iResult = recv(ClientSocket(), &(buf[0]), size, 0);
+    if (iResult > 0) {
+        iResult = recv(ClientSocket(), &(buf[0]), size, 0);
+    }
     std::string ans(&buf[0], size);
-   /* if (iResult > 0) {
-        std::cout << "Bytes received: " << iResult << "\n";
-        std::cout << ans << "\n";
-    }*/
+    /* if (iResult > 0) {
+         std::cout << "Bytes received: " << iResult << "\n";
+         std::cout << ans << "\n";
+     }*/
     if (iResult < 0) {
         throw 1;
     }
@@ -141,7 +144,8 @@ int ServerConnection::SendString(const std::string &str) {
     // Send an initial buffer
     int size = str.size();
     size = htons(size);
-    iResult = ::send(ClientSocket(), reinterpret_cast<const char *>(&size), (int) sizeof(int), 0);
+    iResult = ::send(ClientSocket(), reinterpret_cast<const char *>(&size),
+                     (int)sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
     iResult = ::send(ClientSocket(), str.c_str(), str.size(), 0);
@@ -152,8 +156,7 @@ int ServerConnection::SendString(const std::string &str) {
         return 1;
     }
 
-
-    //printf("Bytes Sent: %ld\n", iResult);
+    // printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
 

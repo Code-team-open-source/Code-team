@@ -26,7 +26,7 @@ struct ServerConnection {
         return ClientSocket;
     }
     int connect();
-    std::string GetString();
+    std::string GetString(bool wait = 1);
     int GetInt();
     int SendString(const std::string &str);
     int SendInt(int);

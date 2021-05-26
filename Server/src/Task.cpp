@@ -1,10 +1,21 @@
 #include "Task.h"
 
-Task::Task(std::string text, const Button &tool)
-    : task_text(std::move(text)), tool(std::make_shared<Button>(tool)){};
+namespace {
+std::shared_ptr<Tool> make_shared(const Tool &tool) {
+    if (tool.tool_type() == "Button") {
+        return std::make_shared<Button>(dynamic_cast<const Button &>(tool));
+    }
+    if (tool.tool_type() == "Slider") {
+        return std::make_shared<Slider>(dynamic_cast<const Slider &>(tool));
+    }
 
-Task::Task(std::string text, const Slider &tool)
-    : task_text(std::move(text)), tool(std::make_shared<Slider>(tool)){};
+    return nullptr;
+    // OTHER TOOLS
+}
+}  // namespace
+
+Task::Task(std::string text, const Tool &tool_)
+    : task_text(std::move(text)), tool(make_shared(tool_)){};
 
 int &Task::get_owner() {
     return task_owner_id;
