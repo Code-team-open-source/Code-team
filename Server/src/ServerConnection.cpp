@@ -5,10 +5,10 @@
 #include <cassert>
 #include <vector>
 
-int ServerConnection::connect() {
+int ServerConnection::connect(SOCKET& ListenSocket) {
     WSADATA wsaData;
 
-    auto ListenSocket = INVALID_SOCKET;
+//    auto ListenSocket = INVALID_SOCKET;
 
     struct addrinfo *result = nullptr;
     struct addrinfo hints;
@@ -68,7 +68,7 @@ int ServerConnection::connect() {
     }
 
     // Accept a client socket
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 1; ++i) {
         std::cout << "want to go " << i + 1 << "\n";
         ClientSockets->push_back(accept(ListenSocket, NULL, NULL));
         std::cout << "got one: " << i + 1 << "\n";
