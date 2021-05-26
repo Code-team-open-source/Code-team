@@ -63,9 +63,10 @@ void Game::connect_players() {
     SOCKET ListenSocket;
     protocol client(vec, ListenSocket);
     std::cout << "out \n";
-    for (auto& i : vec) {
+    for (unsigned long long & i : vec)
+    {
         std::string name = ServerConnection::GetString(i);
-        Player p(vec[i], name);
+        Player p(i, name);
         pool_connection.push_back(p);
         std::cout << "passed one time\n";
 

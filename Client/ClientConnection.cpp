@@ -65,6 +65,7 @@ int ClientConnection::Connect() {
 }
 
 int ClientConnection::SendString(const std::string &str) {
+    printf("sending string...\n");
     iResult = 0;
     // Send an initial buffer
     int size = str.size();
@@ -81,12 +82,13 @@ int ClientConnection::SendString(const std::string &str) {
     }
 
 
-    //printf("Bytes Sent: %ld\n", iResult);
+    printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
 
 
 int ClientConnection::SendInt(const int & a) {
+    printf("Sending int %d", a);
     iResult = 0;
     // Send an initial buffer
     int buf = htons(a);
@@ -95,10 +97,12 @@ int ClientConnection::SendInt(const int & a) {
         return 1;
 
     //printf("Bytes Sent: %ld\n", iResult);
+    printf("sent alright\n");
     return iResult;
 }
 
 int ClientConnection::GetInt() {
+    printf("getting int...\n ");
     int a = 0;
     iResult = 0;
 //    assert(ConnectSocket());
@@ -110,11 +114,12 @@ int ClientConnection::GetInt() {
     }
     a = ntohs(a);
     //assert(a != 0);
-
+    printf("Got %d\n", a);
     return a;
 }
 
 std::string ClientConnection::GetString() {
+    printf("Getting string\n");
     int size = 0;
     iResult = 0;
     while (iResult == 0) {
@@ -123,7 +128,12 @@ std::string ClientConnection::GetString() {
                        sizeof(int), 0);
     }
     printf("HEREEEEE\n");
+    if (iResult < 0) {
+//        throw 1;
+        std::cerr << "no connection, im in getstring 1";
+    }
     size = ntohs(size);
+    printf("size:: %d", size);
     std::vector<char> buf;
     buf.resize(size + 1);
     iResult = recv(ConnectSocket(), &(buf[0]), size, 0);
@@ -133,9 +143,10 @@ std::string ClientConnection::GetString() {
         std::cout << ans << "\n";
     }
     if (iResult < 0) {
-        throw 1;
+//        throw 1;
+        std::cerr << "no connection, im in getstring 2";
     }
-    printf("%s\n", ans.c_str());
+    printf("got %s\n", ans.c_str());
     return ans;
 }
 

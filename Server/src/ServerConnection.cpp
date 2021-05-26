@@ -102,6 +102,7 @@ int ServerConnection::shut_down(SOCKET &ClientSocket) {
 }
 
 std::string ServerConnection::GetString(SOCKET &ClientSocket, bool wait) {
+    std::cout << "Getting string \n";
     int size = 0;
     auto iResult = 0;
 
@@ -125,10 +126,12 @@ std::string ServerConnection::GetString(SOCKET &ClientSocket, bool wait) {
         //        throw 1;
         std::cerr << "No connection\n";
     }
+    std::cout << "Got " << ans << "\n";
     return ans;
 }
 
 int ServerConnection::GetInt(SOCKET &ClientSocket) {
+    std::cout << "Getting int\n";
     int num;
     int result = 0;
     while (result == 0) {
@@ -139,10 +142,12 @@ int ServerConnection::GetInt(SOCKET &ClientSocket) {
         std::cout << "end of talking!\n";
     }
     num = ntohs(num);
+    std::cout << "Got " << num << "\n";
     return num;
 }
 
 int ServerConnection::SendString(const std::string &str, SOCKET &CLientSocket) {
+    std::cout << "Sending string: " << str << "\n";
     auto iResult = 0;
     // Send an initial buffer
     int size = str.size();
@@ -158,17 +163,19 @@ int ServerConnection::SendString(const std::string &str, SOCKET &CLientSocket) {
         WSACleanup();
         return 1;
     }
-
+    std::cout << "sent alright\n";
     // printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
 
 int ServerConnection::SendInt(const int number, SOCKET &ClientSocket) {
+    std::cout << "sending int: " << number << "\n";
     int temnumber = number;
     std::cout << " SendInt: " << number << "\n";
     temnumber = htons(temnumber);
     send(ClientSocket, reinterpret_cast<const char *>(&temnumber), sizeof(int),
          0);
+    std::cout << "Sent alright\n";
     return 0;
 }
 ServerConnection::ServerConnection(std::vector<SOCKET> *vec)
