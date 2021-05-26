@@ -58,37 +58,34 @@ GameStatus &Game::get_game_status() {
 void Game::connect_players() {
     std::vector<std::thread> threads;
 
-    //    std::condition_variable cv;
     for (int i = 0; i < 2; ++i) {
-        protocol client;
-        std::string player_name = client.get_string();
-        connect_player(client, player_name);
-
-        //        std::thread t([&]() {
-        //            //            cv.wait(lock, [&]() { return players_amount
-        //            == i; }); protocol client; std::unique_lock<std::mutex>
-        //            lock(m);
-        //            //            cv.notify_all();
-        //            std::string player_name = client.get_string();
-        //            connect_player(client, player_name);
-        //            //            int tasks_amount = client.get_int();
-        //            //            Tool *tool = nullptr;
-        //            //            if (tasks_amount != 0) {
-        //            //                tool = client.GetTool();
-        //            //            }
-        //            //            std::vector<Task> tasks_from_player;
-        //            //            for (; tasks_amount > 0; --tasks_amount) {
-        //            //                Tool *position = client.GetTool();
-        //            //                std::string task_text =
-        //            client.get_string();
-        //            //                Task task(task_text, *position);
-        //            //                tasks_from_player.push_back(task);
-        //            //            }
-        //            //            if (tool != nullptr) {
-        //            //                tl.add_tool(*tool, tasks_from_player);
-        //            //            }
-        //        });
-        //        threads.push_back(std::move(t));
+        std::thread t([&]() {
+            std::unique_lock<std::mutex> lock(m);
+            protocol client;
+            std::cout << "Player " << i << " connected\n";
+            std::string player_name = client.get_string();
+            connect_player(client, player_name);
+            //            int tasks_amount = client.get_int();
+            //            Tool *tool = nullptr;
+            //            if (tasks_amount != 0) {
+            //                tool = client.GetTool();
+            //            }
+            //            std::vector<Task> tasks_from_player;
+            //            for (; tasks_amount > 0; --tasks_amount) {
+            //                Tool *position = client.GetTool();
+            //                std::string task_text =
+            //            client.get_string();
+            //                Task task(task_text, *position);
+            //                tasks_from_player.push_back(task);
+            //            }
+            //            if (tool != nullptr) {
+            //                tl.add_tool(*tool, tasks_from_player);
+            //            }
+        });
+        threads.push_back(std::move(t));
+    }
+    for (auto &t : threads) {
+        t.join();
     }
     //    std::unique_lock<std::mutex> lock(m);
     //    if (game_status == GameStatus::PLAYERS_ARE_READY) {
@@ -100,21 +97,8 @@ void Game::connect_players() {
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
     }
-    //    for (int i = 0; i < players_amount; ++i) {
-    //        std::thread t([=]() {
-    //            std::unique_lock<std::mutex> lock(m);
-    //            pool_connection[i].send_tools();
-    //        });
-    //        threads.push_back(std::move(t));
-    //    }
-    //    for (auto &t : threads) {
-    //        t.join();
-    //    }
-    //    threads.clear();
-        [[maybe_unused]] int a = pool_connection[0].connection.get_int();
-    //    for (auto &t : threads) {
-    //        t.join();
-    //    }
+
+    [[maybe_unused]] int a = pool_connection[0].connection.get_int();
 }
 
 void Game::change_task(int task_owner_id) {
