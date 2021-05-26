@@ -15,10 +15,10 @@ int Game::get_players_amount() const {
     return players_amount;
 }
 
-void Game::connect_player(const protocol &connection, const std::string &name) {
+/*void Game::connect_player(const protocol &connection, const std::string &name) { // not used anymore // bobruwe ydali
     pool_connection.push_back(Player(connection, name));
     ++players_amount;
-}
+}*/
 
 void Game::add_tool_to_pool(const json &tool_json) {
     if (tool_json["tool_type"] == "Button") {
@@ -57,36 +57,21 @@ GameStatus &Game::get_game_status() {
 //}
 
 void Game::connect_players() {
-    std::vector<std::thread> threads;
 
-    for (int i = 0; i < 2; ++i) {
-        int k = i;
-        std::thread t([&]() {
-            std::unique_lock<std::mutex> lock(m);
-            protocol client;
-            std::cout << "Player " << k << " connected\n";
-//            std::string player_name = client.get_string();
-            connect_player(client, "Player" + std::to_string(k));
-            //            int tasks_amount = client.get_int();
-            //            Tool *tool = nullptr;
-            //            if (tasks_amount != 0) {
-            //                tool = client.GetTool();
-            //            }
-            //            std::vector<Task> tasks_from_player;
-            //            for (; tasks_amount > 0; --tasks_amount) {
-            //                Tool *position = client.GetTool();
-            //                std::string task_text =
-            //            client.get_string();
-            //                Task task(task_text, *position);
-            //                tasks_from_player.push_back(task);
-            //            }
-            //            if (tool != nullptr) {
-            //                tl.add_tool(*tool, tasks_from_player);
-            //            }
-        });
-        threads.push_back(std::move(t));
+    std::vector<SOCKET> vec;
+
+    protocol client(vec);
+    std::cout << "out \n";
+    for (auto& i : vec) {
+        std::string name = ServerConnection::GetString(i);
+        Player p(vec[i], name);
+        pool_connection.push_back(p);
+        std::cout << "passed one time\n";
+
     }
-    std::cout << "I can coonect\n";
+    std::cout << "Checkpoint 2\n";
+    players_amount = pool_connection.size();
+    std::cout << "Checkpoint 3\n";
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
@@ -98,7 +83,7 @@ void Game::connect_players() {
         pool_connection[i].send_tools();
         std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
-    [[maybe_unused]] int a = pool_connection[0].connection.get_int();
+    [[maybe_unused]] int a = ServerConnection::GetInt(pool_connection[0].sock);
 }
 
 void Game::change_task(int task_owner_id) {

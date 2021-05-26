@@ -9,8 +9,8 @@ class Player {
     std::vector<std::shared_ptr<Tool>> tools;
 
 public:
-    protocol connection;
-    Player(const protocol &connection, std::string name);
+    SOCKET sock;
+    Player(const SOCKET& connection, std::string name);
     void add_tool(std::shared_ptr<Tool> &tool);
     std::string get_name() const;
     std::vector<std::shared_ptr<Tool>> &get_tools();

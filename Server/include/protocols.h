@@ -10,14 +10,15 @@
 
 struct protocol {
     ServerConnection s;
-    protocol() {
+    protocol(std::vector<SOCKET>& v): s(&v) {
         s.connect();
     }
-    void SendTool(Tool &t) {
-        t.serialize(s);
+    static void SendTool(Tool &t, SOCKET& sock) {
+        t.serialize(sock);
     }
-    Tool *GetTool() {
-        std::string str = s.GetString();
+
+    static Tool *GetTool(SOCKET& Clsock) {
+        std::string str = ServerConnection::GetString(Clsock);
         Tool *t;
         if (str == "Button") {
             t = new Button("");
@@ -34,20 +35,20 @@ struct protocol {
 
         if (!t)
             throw 6;
-        t->deserialize(s);
+        t->deserialize(Clsock);
         return t;
     }
-    void send_string(const std::string &str) {
-        s.SendString(str);
+    static void send_string(const std::string &str, SOCKET& Clsock) {
+        ServerConnection::SendString(str, Clsock);
     }
-    std::string get_string() {
-        return s.GetString();
+    static std::string get_string( SOCKET& Clsock) {
+        return ServerConnection::GetString(Clsock);
     }
-    int get_int() {
-        return s.GetInt();
+    static int get_int( SOCKET& Clsock) {
+        return ServerConnection::GetInt(Clsock);
     }
-    void send_int(int x) {
-        s.SendInt(x);
+    static void send_int(int x,  SOCKET& Clsock) {
+        ServerConnection::SendInt(x, Clsock);
     }
 };
 #endif  // CODE_TEAM_PROTOCOLS_H

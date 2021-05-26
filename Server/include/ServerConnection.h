@@ -7,7 +7,7 @@
 #undef UNICODE
 
 #define WIN32_LEAN_AND_MEAN
-
+#include <vector>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,15 +21,14 @@
 struct ServerConnection {
     int iResult = 0;
     int iSendResult = 0;
-    SOCKET &ClientSocket() {
-        static SOCKET ClientSocket;
-        return ClientSocket;
-    }
+    ServerConnection(std::vector<SOCKET>*);
+    std::vector<SOCKET> *ClientSockets;
+
     int connect();
-    std::string GetString(bool wait = 1);
-    int GetInt();
-    int SendString(const std::string &str);
-    int SendInt(int);
-    int shut_down();
+    static std::string GetString(SOCKET&, bool wait = 1);
+    static int GetInt(SOCKET&);
+    static int SendString(const std::string &str, SOCKET&);
+    static int SendInt(int, SOCKET&);
+    int shut_down(SOCKET&);
 };
 #endif//SERVER_SERVERCONNECTION_H

@@ -9,7 +9,6 @@ int ServerConnection::connect() {
     WSADATA wsaData;
 
     auto ListenSocket = INVALID_SOCKET;
-    ClientSocket() = INVALID_SOCKET;
 
     struct addrinfo *result = nullptr;
     struct addrinfo hints;
@@ -69,50 +68,53 @@ int ServerConnection::connect() {
     }
 
     // Accept a client socket
-    ClientSocket() = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket() == INVALID_SOCKET) {
-        printf("accept failed with error: %d\n", WSAGetLastError());
-        closesocket(ListenSocket);
-        WSACleanup();
-        return 1;
+    for (int i = 0; i < 2; ++i) {
+        std::cout << "want to go " << i + 1 << "\n";
+        ClientSockets->push_back(accept(ListenSocket, NULL, NULL));
+        std::cout << "got one: " << i + 1 << "\n";
     }
 
-    // No longer need server socket
-    closesocket(ListenSocket);
+    //    if (ClientSocket() == INVALID_SOCKET) {
+    //        printf("accept failed with error: %d\n", WSAGetLastError());
+    //        closesocket(ListenSocket);
+    //        WSACleanup();
+    //        return 1;
+    //    }
+
     return 0;
 }
 
-int ServerConnection::shut_down() {
+int ServerConnection::shut_down(SOCKET &ClientSocket) {
     iResult = 0;
     // shutdown the connection since we're done
-    iResult = shutdown(ClientSocket(), SD_SEND);
+    iResult = shutdown(ClientSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {
         printf("shutdown failed with error: %d\n", WSAGetLastError());
-        closesocket(ClientSocket());
+        closesocket(ClientSocket);
         WSACleanup();
         return 1;
     }
 
     // cleanup
-    closesocket(ClientSocket());
+    closesocket(ClientSocket);
     WSACleanup();
     return 0;
 }
 
-std::string ServerConnection::GetString(bool wait) {
+std::string ServerConnection::GetString(SOCKET &ClientSocket, bool wait) {
     int size = 0;
-    iResult = 0;
+    auto iResult = 0;
 
     do {
         Sleep(100);
-        iResult = recv(ClientSocket(), reinterpret_cast<char *>(&size),
-                       sizeof(int), 0);
+        iResult =
+            recv(ClientSocket, reinterpret_cast<char *>(&size), sizeof(int), 0);
     } while (iResult == 0 && wait);
     size = ntohs(size);
     std::vector<char> buf;
     buf.resize(size + 1);
     if (iResult > 0) {
-        iResult = recv(ClientSocket(), &(buf[0]), size, 0);
+        iResult = recv(ClientSocket, &(buf[0]), size, 0);
     }
     std::string ans(&buf[0], size);
     /* if (iResult > 0) {
@@ -120,18 +122,18 @@ std::string ServerConnection::GetString(bool wait) {
          std::cout << ans << "\n";
      }*/
     if (iResult < 0) {
-//        throw 1;
+        //        throw 1;
         std::cerr << "No connection\n";
     }
     return ans;
 }
 
-int ServerConnection::GetInt() {
+int ServerConnection::GetInt(SOCKET &ClientSocket) {
     int num;
     int result = 0;
     while (result == 0) {
-        result = recv(ClientSocket(), reinterpret_cast<char *>(&num),
-                      sizeof(int), 0);
+        result =
+            recv(ClientSocket, reinterpret_cast<char *>(&num), sizeof(int), 0);
     }
     if (result == -1) {
         std::cout << "end of talking!\n";
@@ -140,19 +142,19 @@ int ServerConnection::GetInt() {
     return num;
 }
 
-int ServerConnection::SendString(const std::string &str) {
-    iResult = 0;
+int ServerConnection::SendString(const std::string &str, SOCKET &CLientSocket) {
+    auto iResult = 0;
     // Send an initial buffer
     int size = str.size();
     size = htons(size);
-    iResult = ::send(ClientSocket(), reinterpret_cast<const char *>(&size),
+    iResult = ::send(CLientSocket, reinterpret_cast<const char *>(&size),
                      (int)sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
-    iResult = ::send(ClientSocket(), str.c_str(), str.size(), 0);
+    iResult = ::send(CLientSocket, str.c_str(), str.size(), 0);
     if (iResult == SOCKET_ERROR) {
         printf("send failed with error: %d\n", WSAGetLastError());
-        closesocket(ClientSocket());
+        closesocket(CLientSocket);
         WSACleanup();
         return 1;
     }
@@ -161,12 +163,14 @@ int ServerConnection::SendString(const std::string &str) {
     return 0;
 }
 
-int ServerConnection::SendInt(const int number) {
-    iResult = 0;
+int ServerConnection::SendInt(const int number, SOCKET &ClientSocket) {
     int temnumber = number;
     std::cout << " SendInt: " << number << "\n";
     temnumber = htons(temnumber);
-    send(ClientSocket(), reinterpret_cast<const char *>(&temnumber),
-         sizeof(int), 0);
+    send(ClientSocket, reinterpret_cast<const char *>(&temnumber), sizeof(int),
+         0);
     return 0;
+}
+ServerConnection::ServerConnection(std::vector<SOCKET> *vec)
+    : ClientSockets(vec) {
 }
