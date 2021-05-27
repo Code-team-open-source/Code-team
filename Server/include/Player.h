@@ -22,6 +22,7 @@ public:
     void send_tools();
     void add_to_queue(std::string);
     void clear_data();
+    std::string get_command();
 
     Player(Player &&pl)
         : name(std::move(pl.name)),

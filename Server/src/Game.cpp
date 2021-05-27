@@ -49,6 +49,15 @@ void Game::add_tool_to_pool(const json &tool_json) {
     InitialData::tool_count++;
 }
 
+std::string Game::find_task(int owner) {
+    for (auto &task : tasks_pool) {
+        if (task.get_owner() == owner) {
+            return task.get_text();
+        }
+    }
+    return "Error: player doesn't have a task";
+}
+
 GameStatus &Game::get_game_status() {
     return game_status;
 }
@@ -93,46 +102,69 @@ void Game::round_prep() {
     assign_initial_tasks();
 }
 
-void Game::player_thread(int player) {
-    auto &socket = pool_connection[player].sock;
-    while (game_status != GameStatus::END_OF_GAME &&
-           game_status != GameStatus::END_OF_ROUND) {
-        std::string from_player = ServerConnection::GetString(socket, false);
-        if (!from_player.empty()) {
-            if (from_player == "Tool changed") {
-                std::unique_lock lock(m);
-                commands.push("Tool changed");
-                int id = ServerConnection::GetInt(socket);
-                commands.push(std::to_string(id));
-                if (tools_pool[id]->tool_type() == "cmd") {
-                    std::string new_position =
-                        ServerConnection::GetString(socket);
-                    commands.push(new_position);
-                } else {
-                    int position = ServerConnection::GetInt(socket);
-                    commands.push(std::to_string(position));
+void Game::start_round() {
+    auto player_thread = [&](int player) {
+        auto &socket = pool_connection[player].sock;
+        while (game_status != GameStatus::END_OF_GAME &&
+               game_status != GameStatus::END_OF_ROUND) {
+            std::string from_player =
+                ServerConnection::GetString(socket, false);
+            if (!from_player.empty()) {
+                if (from_player == "Tool changed") {
+                    std::unique_lock lock(m);
+                    commands.push("Tool changed");
+                    int id = ServerConnection::GetInt(socket);
+                    commands.push(std::to_string(id));
+                    if (tools_pool[id]->tool_type() == "cmd") {
+                        std::string new_position =
+                            ServerConnection::GetString(socket);
+                        commands.push(new_position);
+                    } else {
+                        int position = ServerConnection::GetInt(socket);
+                        commands.push(std::to_string(position));
+                    }
+                }
+                if (from_player == "Task expired") {
+                    std::unique_lock lock(m);
+                    commands.push("Task expired");
+                    commands.push(std::to_string(player));
                 }
             }
-            if (from_player == "Task expired") {
-                std::unique_lock lock(m);
-                commands.push("Task expired");
-                commands.push(std::to_string(player));
+            Player &pl = pool_connection[player];
+            std::unique_lock lock(pl.player_mutex);
+            std::string command = pl.get_command();
+            while (command != "None") {
+                if (command == "Send new task") {
+                    ServerConnection::SendString(find_task(player), socket);
+                }
+                if (command == "End of round") {
+                    ServerConnection::SendString("End of round", socket);
+                }
+                if (command == "End of game") {
+                    ServerConnection::SendString("End of game", socket);
+                }
+                command = pl.get_command();
             }
         }
-        
-    }
-}
-
-void Game::start_game() {
-    std::vector<std::thread> threads;
+    };
     for (int player = 0; player < players_amount; ++player) {
-        ServerConnection::SendString("Player " + std::to_string(player + 1),
-                                     pool_connection[player].sock);
+        std::thread t(player_thread, player);
+        t.detach();
     }
-    for (auto &t : threads) {
-        t.join();
+
+    while (game_status != GameStatus::END_OF_GAME &&
+           game_status != GameStatus::END_OF_ROUND) {
+        std::unique_lock lock(m);
+        while (!commands.empty()) {
+            std::string command = commands.front();
+            commands.pop();
+            if (command == "Task expired") {
+
+            }
+        }
     }
-    [[maybe_unused]] int a = ServerConnection::GetInt(pool_connection[0].sock);
+
+    assert(0);
 }
 
 void Game::change_task(int task_owner_id) {
