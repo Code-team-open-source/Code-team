@@ -13,13 +13,13 @@ else ()
 #    add_compile_options(-Wall -Wextra -Werror -O0)
 endif (MSVC)
 
-
 add_executable(code-team src/main.cpp
         src/Game.cpp
         src/Tool.cpp
         src/Player.cpp
         src/Task.cpp
         src/ServerConnection.cpp
+        src/Server.cpp
         src/tasklib.cpp)
 
 #add_executable(add_tool src/add_tool_to_storage.cpp

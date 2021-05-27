@@ -7,7 +7,7 @@
 #include "Task.h"
 #include "nlohmann/json.hpp"
 #include "tasklib.h"
-
+#include "Server.h"
 
 using json = nlohmann::json;
 
@@ -19,7 +19,8 @@ enum GameStatus {
     END_OF_GAME,
 };
 
-class Game {
+class Game : public IListenerSink
+{
     GameStatus game_status = WAITING_IN_LOBBY;
     int round = 1;
     int tasks_left = InitialData::tasks_to_be_done_in_round;
@@ -27,6 +28,7 @@ class Game {
 
 
     int players_amount = 0;
+    std::vector<ServerConnection> players;
     std::vector<Player> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
     std::vector<Task> tasks_pool;
@@ -56,4 +58,6 @@ public:
     void clear_data();
 
     Game();
+
+    void accept(SOCKET s) override;
 };

@@ -18,19 +18,18 @@
 //#pragma comment(lib, "Ws2_32.lib") i dont know why it`s not working with that
 // if one day everything crashed this may be a good thing to look at
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "27015"
-struct ServerConnection {
-    int iResult = 0;
-    int iSendResult = 0;
-    ServerConnection(std::vector<SOCKET>*, SOCKET& listensocket);
-    std::vector<SOCKET> *ClientSockets;
-    static void SendTool(Tool &t, SOCKET& sock);
-    int connect(SOCKET&);
-    static std::string GetString(SOCKET&, bool wait = true);
-    static int GetInt(SOCKET&);
-    static int SendString(const std::string &str, SOCKET&);
-    static int SendInt(int, SOCKET&);
-    int shut_down(SOCKET&);
-    static Tool *GetTool(SOCKET& Clsock);
+
+struct ServerConnection
+{
+    ServerConnection(SOCKET clientSocket);
+
+    int GetInt();
+    int SendInt(int val);
+    std::string GetString(bool wait = true);
+    int SendString(const std::string &str);
+    std::unique_ptr<Tool> GetTool();
+    void SendTool(const Tool &t);
+
+    SOCKET clientSocket_;
 };
 #endif//SERVER_SERVERCONNECTION_H

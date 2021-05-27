@@ -1,16 +1,38 @@
-#include <unistd.h>
 #include <algorithm>
 #include <cassert>
 #include <chrono>  // std::chrono::system_clock
 #include <iostream>
 #include <random>  // std::default_random_engine
 #include <utility>
-#include "Game.h"
 #include "ServerConnection.h"
+#include "Server.h"
+#include "Game.h"
 
 int InitialData::tool_count = 0;
 
-int main() {
-    std::unique_ptr<Game> game = std::make_unique<Game>();
-    game->connect_players();
+int main()
+try
+{
+    CodeTeamServer server;
+    Game game;
+
+    server.setSink(&game);
+    server.listen();
+
+    return 0;
+}
+catch (std::exception &e)
+{
+    std::cout << "Error "  << e.what() << std::endl;
+    return -1000;
+}
+catch (int rc)
+{
+    std::cout << "Error "  << rc << std::endl;
+    return rc;
+}
+catch (...)
+{
+    std::cout << "Unknown error!" << std::endl;
+    return -100;
 }
