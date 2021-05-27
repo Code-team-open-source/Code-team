@@ -86,6 +86,7 @@ void Game::connect_players() {
     }
     players_amount = pool_connection.size();
     game_status = GameStatus::PLAYERS_ARE_READY;
+    round_prep();
 }
 
 void Game::round_prep() {
