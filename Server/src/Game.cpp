@@ -53,36 +53,50 @@ GameStatus &Game::get_game_status() {
     return game_status;
 }
 
-// void Game::send_tools_to_player(int player_num) const {
-// send_tools(pool_connection[player_num]->get_tools());
-//}
+
 
 void Game::connect_players() {
     SOCKET ListenSocket;
     std::vector<SOCKET> vec;
     protocol client(vec, ListenSocket);
-    std::cout << "out \n";
     for (auto &i : vec) {
         std::string name = ServerConnection::GetString(i);
         pool_connection.emplace_back(i, name);
-        std::cout << "passed one time\n";
+        int crafted_tools = ServerConnection::GetInt(i);
+        if (crafted_tools != 0) {
+            Tool *tool = GetTool(i);
+        }
     }
-    std::cout << "Checkpoint 2\n";
     players_amount = pool_connection.size();
-    std::cout << "Checkpoint 3\n";
+    game_status = GameStatus::PLAYERS_ARE_READY;
+}
+
+void Game::round_prep() {
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
-    std::cout << "I can add to pool\n";
     assign_tools();
-    std::cout << "i can assign\n";
 
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
-        std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
 
     assign_initial_tasks();
+}
+
+void Game::player_thread(int player) {
+    auto &socket = pool_connection[player].sock;
+    while (game_status != GameStatus::END_OF_GAME) {
+        std::string from_player =
+            ServerConnection::GetString(socket, false);
+        if (!from_player.empty()) {
+            if (from_player == "Tool changed") {
+                int id = ServerConnection::GetInt(socket);
+                std::string new_position = ServerConnection::GetString(socket);
+            }
+            if (from_player == "")
+        }
+    }
 }
 
 void Game::start_game() {

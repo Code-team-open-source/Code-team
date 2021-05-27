@@ -25,7 +25,7 @@ struct ServerConnection {
     std::vector<SOCKET> *ClientSockets;
 
     int connect(SOCKET&);
-    static std::string GetString(SOCKET&, bool wait = 1);
+    static std::string GetString(SOCKET&, bool wait = true);
     static int GetInt(SOCKET&);
     static int SendString(const std::string &str, SOCKET&);
     static int SendInt(int, SOCKET&);

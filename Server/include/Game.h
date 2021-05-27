@@ -36,8 +36,10 @@ public:
 
     int get_players_amount() const;
 
+    void round_prep();
     void connect_players();
     void start_game();
+    void player_thread(int);
     void assign_tools();
     void add_tool_to_pool(const json &tool);
     GameStatus &get_game_status();
