@@ -18,7 +18,7 @@ Game_field::Game_field(QWidget *parent) :
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
     task.resize(11);
-    for (int i = 0; i < 10 ; ++i ) {
+    for (int i = 0; i < 6 ; ++i ) {
         printf("got hera %d\n", i);
       task[i] = client->GetTool(i);
     }
