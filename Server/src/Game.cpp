@@ -159,7 +159,14 @@ void Game::start_round() {
             std::string command = commands.front();
             commands.pop();
             if (command == "Task expired") {
-
+                int player_id = std::stoi(commands.front());
+                commands.pop();
+                change_task(player_id);
+            }
+            if (command == "Tool changed") {
+                int task_id = std::stoi(commands.front());
+                commands.pop();
+                bool completed = change_completed_task();
             }
         }
     }
@@ -255,10 +262,32 @@ void Game::complete_active_task() {  // for tests
     }
 }
 
+namespace {
+bool tools_identical(Tool *first, Tool *second) {
+    assert(first->tool_type() == second->tool_type());
+    if (first->tool_type() == "Button") {
+        return dynamic_cast<Button &>(*first).get_state() ==
+               dynamic_cast<Button &>(*second).get_state();
+    }
+    if (first->tool_type() == "Slider") {
+        return dynamic_cast<Slider &>(*first).get_state() ==
+               dynamic_cast<Slider &>(*second).get_state();
+    }
+    if (first->tool_type() == "CMD") {
+        return dynamic_cast<CMD &>(*first).get_cmd_text() ==
+               dynamic_cast<CMD &>(*second).get_cmd_text();
+    }
+    if (first->tool_type() == "Dial") {
+        return dynamic_cast<Dial &>(*first).get_state() ==
+               dynamic_cast<Dial &>(*second).get_state();
+    }
+}
+}  // namespace
+
 bool Game::task_is_completed(int task_num) const {
     Tool *correct_tool = tasks_pool[task_num].get_tool().get();
     Tool *actual_tool = tools_pool[correct_tool->id()].get();
-    return correct_tool->operator==(actual_tool);
+    return tools_identical(correct_tool, actual_tool);
 }
 
 void Game::assign_tools() {
@@ -287,15 +316,16 @@ void Game::clear_data() {
     tasks_pool.clear();
 }
 
-void Game::change_completed_tasks() {
+bool Game::change_completed_task() {
     for (unsigned int task_num = 0; task_num < tasks_pool.size(); ++task_num) {
         if (tasks_pool[task_num].active() && task_is_completed(task_num)) {
             tasks_left--;
             if (tasks_left == 0) {
                 game_status = END_OF_ROUND;
-                return;
             }
             change_task(tasks_pool[task_num].get_owner());
+            return true;
         }
     }
+    return false;
 }

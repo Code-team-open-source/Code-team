@@ -32,15 +32,6 @@ std::string Button::tool_type() const {
     return "Button";
 }
 
-bool Button::operator==(Tool *other) const {
-    const auto *button = dynamic_cast<const Button *>(other);
-    //    assert(button);
-    if (!button) {
-        std::cerr << "error in button operator==\n";
-    }
-    return current_state == button->current_state;
-}
-
 Slider::Slider(std::string text) : Tool(std::move(text)){};
 Slider::Slider(std::string text, int pos)
     : Tool(std::move(text)), current_state(pos) {
@@ -63,15 +54,6 @@ void Slider::set_new_position(int new_position) {
 
 std::string Slider::tool_type() const {
     return "Slider";
-}
-
-bool Slider::operator==(Tool *other) const {
-    const auto *slider = dynamic_cast<const Slider *>(other);
-    //    assert(slider);
-    if (!slider) {
-        std::cerr << "error in slider operator==\n";
-    }
-    return current_state == slider->current_state;
 }
 
 // new
@@ -126,14 +108,7 @@ void CMD::set_new_cmd_text(std::string new_text) {
 std::string CMD::tool_type() const {
     return std::string("CMD");
 }
-bool CMD::operator==(Tool *other) const {
-    const auto *cmd = dynamic_cast<const CMD *>(other);
-    //    assert(cmd);
-    if (!cmd) {
-        std::cerr << "error in cmd operator==\n";
-    }
-    return cmd_text == cmd->cmd_text;
-}
+
 void CMD::serialize(SOCKET &s) {
     ServerConnection::SendString("CMD", s);
     Tool::serialize(s);
@@ -155,12 +130,6 @@ void Dial::set_state(int pos) {
 }
 std::string Dial::tool_type() const {
     return std::string("Dial");
-}
-bool Dial::operator==(Tool *other) const {
-    const auto *dial = dynamic_cast<const Dial *>(other);
-    //    assert(dial);
-    std::cerr << "error in dial operator==\n";
-    return current_state == dial->get_state();
 }
 
 void Dial::serialize(SOCKET &s) {

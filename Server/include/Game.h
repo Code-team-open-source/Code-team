@@ -51,7 +51,7 @@ public:
     void assign_initial_tasks();
     bool task_is_completed(int task_num) const;
     void show_active_tasks() const;  // for tests
-    void change_completed_tasks();
+    bool change_completed_task();
     void complete_active_task();  // for tests
     void clear_data();
 
