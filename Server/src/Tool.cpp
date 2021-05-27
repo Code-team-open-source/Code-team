@@ -34,8 +34,10 @@ std::string Button::tool_type() const {
 
 bool Button::operator==(Tool *other) const {
     const auto *button = dynamic_cast<const Button *>(other);
-//    assert(button);
-    std::cerr << "error in button operator==\n";
+    //    assert(button);
+    if (!button) {
+        std::cerr << "error in button operator==\n";
+    }
     return current_state == button->current_state;
 }
 
@@ -68,7 +70,7 @@ bool Slider::operator==(Tool *other) const {
     //    assert(slider);
     if (!slider) {
         std::cerr << "error in slider operator==\n";
-}
+    }
     return current_state == slider->current_state;
 }
 
@@ -81,7 +83,7 @@ void Tool::serialize(SOCKET &s) {
     ServerConnection::SendString(tool_text, s);
     ServerConnection::SendInt(tool_id, s);
 }
-void Tool::deserialize(SOCKET& s) {
+void Tool::deserialize(SOCKET &s) {
     std::string check = ServerConnection::GetString(s);
     //    assert(check == "Tool");
     if (check != "Tool") {
@@ -96,7 +98,7 @@ void Slider::serialize(SOCKET &s) {
     Tool::serialize(s);
 }
 
-void Slider::deserialize(SOCKET& s) {
+void Slider::deserialize(SOCKET &s) {
     Tool::deserialize(s);
     current_state = ServerConnection::GetInt(s);
 }
@@ -126,19 +128,19 @@ std::string CMD::tool_type() const {
 }
 bool CMD::operator==(Tool *other) const {
     const auto *cmd = dynamic_cast<const CMD *>(other);
-//    assert(cmd);
+    //    assert(cmd);
     if (!cmd) {
         std::cerr << "error in cmd operator==\n";
     }
     return cmd_text == cmd->cmd_text;
 }
-void CMD::serialize(SOCKET&s) {
+void CMD::serialize(SOCKET &s) {
     ServerConnection::SendString("CMD", s);
     Tool::serialize(s);
     ServerConnection::SendString(cmd_text, s);
 }
 
-void CMD::deserialize(SOCKET&s) {
+void CMD::deserialize(SOCKET &s) {
     Tool::deserialize(s);
     cmd_text = ServerConnection::GetString(s);
 }
@@ -156,17 +158,17 @@ std::string Dial::tool_type() const {
 }
 bool Dial::operator==(Tool *other) const {
     const auto *dial = dynamic_cast<const Dial *>(other);
-//    assert(dial);
+    //    assert(dial);
     std::cerr << "error in dial operator==\n";
     return current_state == dial->get_state();
 }
 
-void Dial::serialize(SOCKET&s) {
+void Dial::serialize(SOCKET &s) {
     ServerConnection::SendString("Dial", s);
     Tool::serialize(s);
     ServerConnection::SendInt(current_state, s);
 }
-void Dial::deserialize(SOCKET&s) {
+void Dial::deserialize(SOCKET &s) {
     Tool::deserialize(s);
     current_state = ServerConnection::GetInt(s);
 }

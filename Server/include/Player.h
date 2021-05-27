@@ -21,4 +21,6 @@ public:
     std::vector<std::shared_ptr<Tool>> &get_tools();
     void send_tools();
     void add_to_queue(std::string);
+
+    Player(Player &&pl) : name(std::move(pl.name)), tools(std::move(pl.tools)) {};
 };

@@ -22,6 +22,8 @@ Game_field::Game_field(QWidget *parent) :
         printf("got hera %d\n", i);
       task[i] = client->GetTool(i);
     }
+    std::string str = client->GetString();
+    printf("%s\n", str.c_str());
 
     for (int i = 0; i < 3 ; ++i ) {
         h1->addWidget(task[i]->gr);

@@ -57,16 +57,14 @@ GameStatus &Game::get_game_status() {
 //}
 
 void Game::connect_players() {
-
-    std::vector<SOCKET> vec;
     SOCKET ListenSocket;
+    std::vector<SOCKET> vec;
     protocol client(vec, ListenSocket);
     std::cout << "out \n";
     for (auto & i : vec)
     {
         std::string name = ServerConnection::GetString(i);
-        Player p(i, name);
-        pool_connection.push_back(p);
+        pool_connection.emplace_back(i, name);
         std::cout << "passed one time\n";
 
     }
@@ -86,6 +84,19 @@ void Game::connect_players() {
     }
 
     assign_initial_tasks();
+}
+
+void Game::start_game() {
+    std::vector<std::thread> threads;
+    for (int i = 0; i < players_amount; ++i) {
+        std::thread t([&](int player){
+            ServerConnection::SendString("Player " + std::to_string(player + 1), pool_connection[player].sock);
+        }, i);
+        threads.emplace_back(std::move(t));
+    }
+    for (auto &t : threads) {
+        t.join();
+    }
     [[maybe_unused]] int a = ServerConnection::GetInt(pool_connection[0].sock);
 }
 

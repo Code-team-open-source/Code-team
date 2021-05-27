@@ -10,7 +10,7 @@ include_directories(include)
 if (MSVC)
     add_compile_options(/W4 /WX)
 else ()
-    add_compile_options(-Wall -Wextra -Werror -O0)
+#    add_compile_options(-Wall -Wextra -Werror -O0)
 endif (MSVC)
 
 
