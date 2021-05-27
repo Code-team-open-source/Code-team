@@ -1,15 +1,16 @@
 #ifndef SLIDERS_H
 #define SLIDERS_H
-#include "tool.h"
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include "tool.h"
 
 class Sliders : Tool
 {
 public:
+    int task_id;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     QSlider *sl;
@@ -17,9 +18,7 @@ public:
     QLabel *empty = new QLabel("");
     QVBoxLayout *lv;
     Sliders();
-    ~Sliders();
-public slots:
-    void num_change(int value);
+    virtual ~Sliders();
 };
 
 #endif // SLIDERS_H

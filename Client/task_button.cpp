@@ -4,6 +4,7 @@
 Task_button::Task_button(QString s, int id) : Task(s, id)
 {
     bt = new Buttons();
+    bt->task_id = id;
     gr->setLayout(bt->lh);
 }
 

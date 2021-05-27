@@ -9,7 +9,7 @@ class Task_dial : public Task
 public:
     My_dial *d;
     int current_state;
-    Task_dial(QString s = "Task");
+    Task_dial(QString s = "Task", int id = 0);
     void serialize(ClientConnection&) override;
     void deserialize(ClientConnection&) override;
     ~Task_dial() override;

@@ -9,7 +9,7 @@ class Task_git_tool : public Task
 public:
     std::string git_text;
     Git_tool *git;
-    Task_git_tool(QString s = "Task");
+    Task_git_tool(QString s = "Task", int id = 0);
     void serialize(ClientConnection&) override;
     void deserialize(ClientConnection&) override;
     ~Task_git_tool() override;

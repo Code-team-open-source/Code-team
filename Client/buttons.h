@@ -14,6 +14,7 @@ public:
     Buttons();
     ~Buttons();
 public:
+    int task_id;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     bool working = false;

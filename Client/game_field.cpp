@@ -38,6 +38,11 @@ Game_field::Game_field(QWidget *parent) :
     m_playlist->addMedia(QUrl("qrc:/sound/s3.wav"));
     m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     m_player->play();
+
+    timer = new QTimer();
+    timer->setInterval(1);
+    timer->start();
+    connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
 }
 
 Game_field::~Game_field()
@@ -90,4 +95,14 @@ void Game_field::on_pushButton_2_clicked()
     m_player->stop();
     this->hide();
     m->showFullScreen();
+}
+
+
+void Game_field::for_timer() {
+    while (i != vec.size()) {
+        client->SendInt(vec[i].first);
+        client->SendString(vec[i].second);
+        i++;
+    }
+    timer->setInterval(1);
 }

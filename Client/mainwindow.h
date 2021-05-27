@@ -32,17 +32,13 @@ private slots:
 
     void on_settings_clicked();
 
+    void on_start_clicked();
+
 private:
     Ui::MainWindow *ui;
     settings *settting = nullptr;
     Game_field *fWindow = nullptr;
     Creator_of_tasks *creator = nullptr;
-
-    QDialog *wait;
-    QPushButton *start;
-    QLabel *wait_label;
-    QVBoxLayout *wait_lay;
-    bool st = false;
 public:
     QMediaPlayer *m_player;
     QMediaPlaylist *m_playlist;

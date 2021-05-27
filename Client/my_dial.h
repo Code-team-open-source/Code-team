@@ -12,6 +12,7 @@ class My_dial : QWidget
 {
     Q_OBJECT
 public:
+    int task_id;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     QLabel *empty = new QLabel("");

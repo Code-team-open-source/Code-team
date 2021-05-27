@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <ClientConnection.h>
+#include <tool.h>
 
 class Main_indicators: QWidget
 {
