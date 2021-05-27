@@ -12,7 +12,6 @@
 #include "main_indicators.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-#include "protocols.h"
 
 
 namespace Ui {
@@ -42,7 +41,7 @@ private:
     QMediaPlaylist *m_playlist;
 public:
     QMainWindow *m;
-    protocol *client;
+    ClientConnection *client;
 
 };
 

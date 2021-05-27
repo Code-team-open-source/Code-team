@@ -17,7 +17,7 @@ std::vector<std::shared_ptr<Tool>> &Player::get_tools() {
 
 void Player::send_tools() {
     for (const auto &tool : tools) {
-        protocol::SendTool(*tool, sock);
+        ServerConnection::SendTool(*tool, sock);
     }
 }
 

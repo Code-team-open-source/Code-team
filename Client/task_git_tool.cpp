@@ -9,7 +9,7 @@ Task_git_tool::Task_git_tool(QString s) : Task(s)
 void Task_git_tool::serialize(ClientConnection &s) {
     s.SendString("CMD");
     Task::serialize(s);
-    s.SendString(git_text);
+    s.SendString(git->line->text().toStdString());
 }
 
 void Task_git_tool::deserialize(ClientConnection &s) {

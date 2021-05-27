@@ -13,7 +13,7 @@ Task_dial::~Task_dial() {
 void Task_dial::serialize(ClientConnection &s) {
     s.SendString("Dial");
     Task::serialize(s);
-    s.SendInt(current_state);
+    s.SendInt(d->qd->value());
 }
 
 void Task_dial::deserialize(ClientConnection &s) {

@@ -1,7 +1,6 @@
 #include <string>
 #include "game_field.h"
 #include "ui_game_field.h"
-#include "protocols.h"
 #include <thread>
 #include <chrono>
 
@@ -10,7 +9,7 @@ Game_field::Game_field(QWidget *parent) :
     ui(new Ui::Game_field)
 {
 
-    client = new protocol;
+    client = new ClientConnection;
     client->SendString("ABOBA");
     ui->setupUi(this);
     ind = new Main_indicators();
@@ -20,7 +19,7 @@ Game_field::Game_field(QWidget *parent) :
     task.resize(11);
     for (int i = 0; i < 6 ; ++i ) {
         printf("got hera %d\n", i);
-      task[i] = client->GetTool(i);
+      task[i] = client->GetTool();
     }
     std::string str = client->GetString();
     printf("%s\n", str.c_str());

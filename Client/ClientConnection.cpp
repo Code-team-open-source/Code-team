@@ -2,11 +2,20 @@
 // Created by Fedya on 19.04.2021.
 //
 #include "ClientConnection.h"
-
+#include "task.h"
+#include "task_button.h"
+#include "task_sliders.h"
+#include "task_dial.h"
+#include "task_git_tool.h"
+#include "task_buttons_6.h"
+#include "ClientConnection.h"
+#include <cassert>
+#include <QString>
 #include <string>
+
 int ClientConnection::Connect() {
     WSADATA wsaData;
-    ConnectSocket() = INVALID_SOCKET;
+    ConnectSocket = INVALID_SOCKET;
     struct addrinfo *result = nullptr,
             *ptr = nullptr,
             hints;
@@ -36,19 +45,19 @@ int ClientConnection::Connect() {
     for (ptr = result; ptr != nullptr; ptr = ptr->ai_next) {
 
         // Create a SOCKET for connecting to server
-        ConnectSocket() = socket(ptr->ai_family, ptr->ai_socktype,
+        ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
                                  ptr->ai_protocol);
-        if (ConnectSocket() == INVALID_SOCKET) {
+        if (ConnectSocket == INVALID_SOCKET) {
             printf("socket failed with error: %ld\n", WSAGetLastError());
             WSACleanup();
             return 1;
         }
 
         // Connect to server.
-        iResult = connect(ConnectSocket(), ptr->ai_addr, (int) ptr->ai_addrlen);
+        iResult = connect(ConnectSocket, ptr->ai_addr, (int) ptr->ai_addrlen);
         if (iResult == SOCKET_ERROR) {
-            closesocket(ConnectSocket());
-            ConnectSocket() = INVALID_SOCKET;
+            closesocket(ConnectSocket);
+            ConnectSocket = INVALID_SOCKET;
             continue;
         }
         break;
@@ -56,7 +65,7 @@ int ClientConnection::Connect() {
 
     freeaddrinfo(result);
 
-    if (ConnectSocket() == INVALID_SOCKET) {
+    if (ConnectSocket == INVALID_SOCKET) {
         printf("Unable to connect to server!\n");
         WSACleanup();
         return 1;
@@ -70,13 +79,13 @@ int ClientConnection::SendString(const std::string &str) {
     // Send an initial buffer
     int size = str.size();
     size = htons(size);
-    iResult = ::send(ConnectSocket(), reinterpret_cast<const char *>(&size), (int) sizeof(int), 0);
+    iResult = ::send(ConnectSocket, reinterpret_cast<const char *>(&size), (int) sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
-    iResult = ::send(ConnectSocket(), str.c_str(), str.size(), 0);
+    iResult = ::send(ConnectSocket, str.c_str(), str.size(), 0);
     if (iResult == SOCKET_ERROR) {
         printf("send failed with error: %d\n", WSAGetLastError());
-        closesocket(ConnectSocket());
+        closesocket(ConnectSocket);
         WSACleanup();
         return 1;
     }
@@ -92,7 +101,7 @@ int ClientConnection::SendInt(const int & a) {
     iResult = 0;
     // Send an initial buffer
     int buf = htons(a);
-    iResult = ::send(ConnectSocket(), reinterpret_cast<const char *>(&buf), (int) sizeof(int), 0);
+    iResult = ::send(ConnectSocket, reinterpret_cast<const char *>(&buf), (int) sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
 
@@ -105,12 +114,12 @@ int ClientConnection::GetInt() {
     printf("getting int...\n ");
     int a = 0;
     iResult = 0;
-//    assert(ConnectSocket());
+//    assert(ConnectSocket);
     while (iResult == 0)  {
         if (iResult == -1)
             return -1;
         Sleep(100);
-    iResult = recv(ConnectSocket(), reinterpret_cast<char *>(&a), sizeof(int), 0);
+    iResult = recv(ConnectSocket, reinterpret_cast<char *>(&a), sizeof(int), 0);
     }
     a = ntohs(a);
     //assert(a != 0);
@@ -124,7 +133,7 @@ std::string ClientConnection::GetString() {
     iResult = 0;
     while (iResult == 0) {
         Sleep(100);
-        iResult = recv(ConnectSocket(), reinterpret_cast<char *>(&size),
+        iResult = recv(ConnectSocket, reinterpret_cast<char *>(&size),
                        sizeof(int), 0);
     }
     printf("HEREEEEE\n");
@@ -136,7 +145,7 @@ std::string ClientConnection::GetString() {
     printf("size:: %d", size);
     std::vector<char> buf;
     buf.resize(size + 1);
-    iResult = recv(ConnectSocket(), &(buf[0]), size, 0);
+    iResult = recv(ConnectSocket, &(buf[0]), size, 0);
     std::string ans(&buf[0], size);
     if (iResult > 0) {
         std::cout << "Bytes received: " << iResult << "\n";
@@ -152,7 +161,33 @@ std::string ClientConnection::GetString() {
 
 int ClientConnection::CloseSocket() {
     // cleanup
-    closesocket(ConnectSocket());
+    closesocket(ConnectSocket);
     WSACleanup();
     return 0;
+}
+Task* ClientConnection::GetTool(){
+    printf("In GetTool\n");
+    std::string str = GetString();
+    printf("str = %s\n", str.c_str());
+    Task *t;
+    if (str == "Button") {
+        t = new Task_button();
+        printf("button holelua");
+//            system.pause(0);
+    }
+    else if (str == "Slider") {
+        t = new Task_sliders();
+    }
+    else if (str == "Dial") {
+        t = new Task_dial();
+    }
+    else if (str == "CMD") {
+        t = new Task_git_tool();
+    }
+    else {
+        printf("not button :(");
+//            s.m->setText(QString::fromStdString(str + std::to_string(i)));
+    }
+    t->deserialize(*this);
+    return t;
 }

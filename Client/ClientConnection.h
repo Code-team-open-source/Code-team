@@ -12,6 +12,9 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <QLabel>
+
+struct Task;
+
 //#include "mainwindow.h"
 
 //#pragma comment(lib, "Ws2_32.lib") i dont know why it`s not working with that
@@ -20,22 +23,20 @@
 #define DEFAULT_PORT "27015"
 
 struct ClientConnection {
-//    ClientConnection(ClientConnection& other) {
-//        m = other.m;
-//        ConnectSocket() = other.ConnectSocket();
-//        m->show();
-//    }
+
     int iResult = 0;
-    SOCKET &ConnectSocket() {
-        static SOCKET Connect_socket;
-        return Connect_socket;
-    }
+    SOCKET ConnectSocket;
     int Connect();
+    ClientConnection() {
+        Connect();
+    }
     int SendString(const std::string &str);
     std::string GetString();
     int SendInt(const int &a);
     int GetInt();
     int CloseSocket();
+    Task *GetTool();
+
 };
 
 #endif//CLIENT_CLIENTCONNECTION_H
