@@ -1,4 +1,5 @@
 #include "sliders.h"
+#include "tool.h"
 
 Sliders::Sliders()
 {
@@ -26,7 +27,6 @@ Sliders::Sliders()
     //sl->setStyleSheet("QSlider::groove:horizontal { background: blue; position: absolute;left: 1px; right: 1px;}"
     //                  "QSlider::handle:horizontal {width: 40px;background: green; margin: 0 -4px;}");
     l->setStyleSheet("color: black; font: bold 40px;");
-    QObject::connect(sl, SIGNAL(sliderMoved(int)), this, SLOT(num_change(int)));
     lv = new QVBoxLayout();
     lv->addWidget(l);
     lv->addWidget(sl);
@@ -39,11 +39,7 @@ Sliders::Sliders()
     n_player->setPlaylist(n_playlist);
     n_playlist->addMedia(QUrl("qrc:/sound/coin1.wav"));
     n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
-}
-
-void Sliders::num_change(int value) {
-    sl->setValue(value); // костыль для красоты
-    n_player->play();
+    vec.push_back({task_id, std::to_string(sl->value())});
 }
 
 Sliders::~Sliders() {

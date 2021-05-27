@@ -40,9 +40,12 @@ private:
     QMediaPlayer *m_player;
     QMediaPlaylist *m_playlist;
 public:
+    int i = 0;
+    QTimer *timer;
     QMainWindow *m;
     ClientConnection *client;
-
+public slots:
+    void for_timer();
 };
 
 #endif // GAME_FIELD_H

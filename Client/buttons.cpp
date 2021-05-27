@@ -36,6 +36,11 @@ void Buttons::but_clicked() {
             b->setText("OFF");
         }
     }
+    if (b->text().toStdString() == "ON") {
+        vec.push_back({task_id, "pushed"});
+    } else if (b->text().toStdString() == "OFF"){
+        vec.push_back({task_id, "not_pushed"});
+    }
 }
 
 Buttons::~Buttons() {

@@ -13,6 +13,7 @@ class Git_tool : QWidget
 {
     Q_OBJECT
 public:
+    int task_id;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     Git_tool(QWidget *parent = nullptr);

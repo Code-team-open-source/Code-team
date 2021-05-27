@@ -1,6 +1,6 @@
 #include "task_buttons_6.h"
 
-Task_buttons_6::Task_buttons_6(QString s) : Task(s)
+Task_buttons_6::Task_buttons_6(QString s, int id) : Task(s, id)
 {
     bt11 = new Buttons();
     bt12 = new Buttons();
@@ -14,6 +14,12 @@ Task_buttons_6::Task_buttons_6(QString s) : Task(s)
     bt21->b->setText("3");
     bt22->b->setText("4");
     bt23->b->setText("5");
+    bt11->task_id = id;
+    bt12->task_id = id;
+    bt13->task_id = id;
+    bt21->task_id = id;
+    bt22->task_id = id;
+    bt23->task_id = id;
     l = new QVBoxLayout;
     lu = new QHBoxLayout;
     ld = new QHBoxLayout;

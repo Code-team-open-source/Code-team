@@ -1,6 +1,6 @@
 #include "task_dial.h"
 
-Task_dial::Task_dial(QString s) : Task(s)
+Task_dial::Task_dial(QString s, int id) : Task(s, id)
 {
     d = new My_dial();
     gr->setLayout(d->vl);

@@ -1,6 +1,6 @@
 #include "task_sliders.h"
 
-Task_sliders::Task_sliders(QString s) : Task(s)
+Task_sliders::Task_sliders(QString s, int id) : Task(s, id)
 {
     sl = new Sliders();
     gr->setLayout(sl->lv);

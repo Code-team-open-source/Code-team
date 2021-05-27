@@ -23,21 +23,14 @@ MainWindow::MainWindow(QWidget *parent)
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
     ui->quit->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->ready->hide();
+    ui->start->hide();
+    ui->start->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->ready->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
 
-
-
-    wait = new QDialog();
-    start = new QPushButton("Start");
-    start->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
-                         "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
-    QObject::connect(start, SIGNAL(clicked()), this, SLOT(but_clicked()));
-    wait_label = new QLabel("Players count");
-    wait_label->setFont(QFont("Times", 20));
-    wait_lay = new QVBoxLayout();
-    wait_lay->addWidget(wait_label);
-    wait_lay->addWidget(start);
-    wait->setLayout(wait_lay);
-    wait->hide();
+    ui->ready->setEnabled(false);
 
 
     n_player = new QMediaPlayer();
@@ -70,7 +63,9 @@ void MainWindow::on_pushButton_clicked()
         ui->lineEdit->setStyleSheet("QLineEdit{border: 2px solid red;}");
         return;
     }
-    wait->show();
+    ui->pushButton->hide();
+    ui->ready->show();
+    ui->start->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -104,9 +99,12 @@ void MainWindow::on_settings_clicked()
 }
 
 void MainWindow::but_clicked() {
+}
+
+void MainWindow::on_start_clicked()
+{
     n_player->play();
     m_player->stop();
-    wait->hide();
     if (fWindow != nullptr) {
         delete fWindow;
     }

@@ -1,7 +1,10 @@
 #ifndef TOOL_H
 #define TOOL_H
 
+#include <vector>
 #include <QWidget>
+
+extern std::vector<std::pair<int, std::string>> vec;
 
 class Tool : public QWidget
 {

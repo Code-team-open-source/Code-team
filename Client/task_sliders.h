@@ -16,7 +16,7 @@ public:
     }
     void serialize(ClientConnection&) override;
     void deserialize(ClientConnection&) override;
-    Task_sliders(QString s = "Task");
+    Task_sliders(QString s = "Task", int id = 0);
     ~Task_sliders() override;
 };
 
