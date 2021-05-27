@@ -31,3 +31,12 @@ void Player::clear_data() {
     }
     tools.clear();
 }
+
+std::string Player::get_command() {
+    if (queue_to_send.empty()) {
+        return "None";
+    }
+    std::string str = queue_to_send.front();
+    queue_to_send.pop();
+    return str;
+}

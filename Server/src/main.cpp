@@ -13,5 +13,4 @@ int InitialData::tool_count = 0;
 int main() {
     std::unique_ptr<Game> game = std::make_unique<Game>();
     game->connect_players();
-    game->start_game();
 }

@@ -12,7 +12,6 @@ public:
     std::string get_text() const;
     int id() const ;
     virtual std::string tool_type() const = 0;
-    virtual bool operator==(Tool *other) const = 0;
     virtual void serialize(SOCKET&);
     virtual void deserialize(SOCKET&);
     virtual ~Tool() = default;
@@ -32,7 +31,6 @@ public:
     Button(std::string text, ButtonState bs);
     ButtonState get_state() const;
     void change_state();
-    bool operator==(Tool *other) const override;
     std::string tool_type() const override;
     void serialize(SOCKET&) override;
     void deserialize(SOCKET&) override;
@@ -50,7 +48,6 @@ public:
     void set_state(int pos);
     void set_new_position(int new_position);
     std::string tool_type() const override;
-    bool operator==(Tool *other) const override;
     void serialize(SOCKET&) override;
     void deserialize(SOCKET&) override;
 };
@@ -63,7 +60,6 @@ public:
     std::string  get_cmd_text() const;
     void set_new_cmd_text(std::string new_text);
     std::string tool_type() const override;
-    bool operator==(Tool *other) const override;
     void serialize(SOCKET&) override;
     void deserialize(SOCKET&) override;
 };
@@ -78,7 +74,6 @@ public:
     int get_state() const;
     void set_state(int pos);
     std::string tool_type() const override;
-    bool operator==(Tool *other) const override;
     void serialize(SOCKET&) override;
     void deserialize(SOCKET&) override;
 };
