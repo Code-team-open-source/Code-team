@@ -12,6 +12,7 @@
 #include "main_indicators.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <settings.h>
 
 
 namespace Ui {
@@ -43,7 +44,15 @@ public:
     int i = 0;
     QTimer *timer;
     QMainWindow *m;
-    //ClientConnection *client;
+    ClientConnection *client;
+    QGroupBox *dialog;
+    QPushButton *new_level;
+    QPushButton *exit;
+    QLabel *done_task_count;
+    QLabel *count;
+    QHBoxLayout *ll1;
+    QHBoxLayout *ll2;
+    QVBoxLayout  *rr;
 public slots:
     void for_timer();
 };

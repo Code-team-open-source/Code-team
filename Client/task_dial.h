@@ -13,6 +13,7 @@ public:
     void serialize(ClientConnection&) override;
     void deserialize(ClientConnection&) override;
     ~Task_dial() override;
+    virtual void set_volume(int x) override;
 };
 
 #endif // TASK_DIAL_H

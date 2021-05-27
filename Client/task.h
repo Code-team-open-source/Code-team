@@ -20,6 +20,7 @@ public:
 
     virtual void serialize(ClientConnection&);
     virtual void deserialize(ClientConnection&);
+    virtual void set_volume(int x);
 };
 
 #endif // TASK_H

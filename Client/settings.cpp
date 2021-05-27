@@ -1,6 +1,9 @@
 #include "settings.h"
 #include "ui_settings.h"
 
+int sound = 0;
+int music = 0;
+
 settings::settings(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::settings)
@@ -25,8 +28,6 @@ settings::settings(QWidget *parent) :
     n_player->setPlaylist(n_playlist);
     n_playlist->addMedia(QUrl("qrc:/sound/but1.wav"));
     n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
-    music = 100;
-    sound = 100;
 }
 
 settings::~settings()
@@ -36,7 +37,7 @@ settings::~settings()
 
 void settings::on_pushButton_clicked()
 {
-    n_player->play();
+    n1_player->play();
     m->showFullScreen();
     this->hide();
 }
@@ -44,12 +45,11 @@ void settings::on_pushButton_clicked()
 void settings::on_horizontalSlider_valueChanged(int value)
 {
     music = value;
-    emit m1_player->setVolume(value);
-//    assert(m1_player->volume() == value);
+    m1_player->setVolume(value);
 }
 
 void settings::on_horizontalSlider_2_valueChanged(int value)
 {
     sound = value;
-    emit n1_player->setVolume(value);
+    n1_player->setVolume(value);
 }

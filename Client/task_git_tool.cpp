@@ -21,3 +21,8 @@ void Task_git_tool::deserialize(ClientConnection &s) {
 Task_git_tool::~Task_git_tool() {
     delete git;
 }
+
+void Task_git_tool::set_volume(int x) {
+    git->n_player->setVolume(x);
+    return;
+}

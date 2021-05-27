@@ -5,6 +5,8 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
+extern int music;
+extern int sound;
 namespace Ui {
 class settings;
 }
@@ -27,8 +29,6 @@ private slots:
 private:
     Ui::settings *ui;
 public:
-    int music;
-    int sound;
     QMainWindow *m;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;

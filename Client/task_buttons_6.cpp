@@ -45,3 +45,13 @@ Task_buttons_6::~Task_buttons_6() {
     delete lu;
     delete l;
 }
+
+void Task_buttons_6::set_volume(int x) {
+    bt11->n_player->setVolume(x);
+    bt12->n_player->setVolume(x);
+    bt13->n_player->setVolume(x);
+    bt21->n_player->setVolume(x);
+    bt22->n_player->setVolume(x);
+    bt23->n_player->setVolume(x);
+    return;
+}

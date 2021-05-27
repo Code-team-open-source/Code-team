@@ -18,6 +18,7 @@ public:
     void deserialize(ClientConnection&) override;
     Task_sliders(QString s = "Task", int id = 0);
     ~Task_sliders() override;
+    virtual void set_volume(int x) override;
 };
 
 #endif // TASK_SLIDERS_H

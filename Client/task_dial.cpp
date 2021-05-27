@@ -22,3 +22,7 @@ void Task_dial::deserialize(ClientConnection &s) {
     d->qd->setValue(current_state * 10 - 1);
 }
 
+void Task_dial::set_volume(int x) {
+    d->n_player->setVolume(x);
+    return;
+}
