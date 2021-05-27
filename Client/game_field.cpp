@@ -139,8 +139,9 @@ void Game_field::on_pushButton_2_clicked()
 
 void Game_field::for_timer() {
     while (i != vec.size()) {
-        //client->SendInt(vec[i].first);
-        //client->SendString(vec[i].second);
+        client->SendString("Tool changed");
+        client->SendInt(vec[i].first);
+        client->SendString(vec[i].second);
         i++;
     }
     ind->progress->setValue(ind->progress->value() + 1);
