@@ -2,6 +2,7 @@
 #include <memory>
 #include <mutex>
 #include <vector>
+#include <queue>
 #include "InitialData.h"
 #include "Task.h"
 #include "nlohmann/json.hpp"
@@ -30,7 +31,7 @@ class Game {
     std::vector<Task> tasks_pool;
     mutable std::mutex m;
     tasklib tl;
-
+    std::queue<std::string> commands;
 
 public:
 

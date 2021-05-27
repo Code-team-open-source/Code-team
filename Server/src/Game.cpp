@@ -53,8 +53,6 @@ GameStatus &Game::get_game_status() {
     return game_status;
 }
 
-
-
 void Game::connect_players() {
     SOCKET ListenSocket;
     std::vector<SOCKET> vec;
@@ -82,7 +80,7 @@ void Game::connect_players() {
 }
 
 void Game::round_prep() {
-
+    clear_data();
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
@@ -97,16 +95,31 @@ void Game::round_prep() {
 
 void Game::player_thread(int player) {
     auto &socket = pool_connection[player].sock;
-    while (game_status != GameStatus::END_OF_GAME) {
-        std::string from_player =
-            ServerConnection::GetString(socket, false);
+    while (game_status != GameStatus::END_OF_GAME &&
+           game_status != GameStatus::END_OF_ROUND) {
+        std::string from_player = ServerConnection::GetString(socket, false);
         if (!from_player.empty()) {
             if (from_player == "Tool changed") {
+                std::unique_lock lock(m);
+                commands.push("Tool changed");
                 int id = ServerConnection::GetInt(socket);
-                std::string new_position = ServerConnection::GetString(socket);
+                commands.push(std::to_string(id));
+                if (tools_pool[id]->tool_type() == "cmd") {
+                    std::string new_position =
+                        ServerConnection::GetString(socket);
+                    commands.push(new_position);
+                } else {
+                    int position = ServerConnection::GetInt(socket);
+                    commands.push(std::to_string(position));
+                }
             }
-            if (from_player == "")
+            if (from_player == "Task expired") {
+                std::unique_lock lock(m);
+                commands.push("Task expired");
+                commands.push(std::to_string(player));
+            }
         }
+        
     }
 }
 
@@ -239,7 +252,7 @@ void Game::clear_data() {
         pl.clear_data();
     }
     tools_pool.clear();
-    
+    tasks_pool.clear();
 }
 
 void Game::change_completed_tasks() {
