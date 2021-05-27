@@ -15,7 +15,8 @@ int Game::get_players_amount() const {
     return players_amount;
 }
 
-/*void Game::connect_player(const protocol &connection, const std::string &name) { // not used anymore // bobruwe ydali
+/*void Game::connect_player(const protocol &connection, const std::string &name)
+{ // not used anymore // bobruwe ydali
     pool_connection.push_back(Player(connection, name));
     ++players_amount;
 }*/
@@ -61,12 +62,10 @@ void Game::connect_players() {
     std::vector<SOCKET> vec;
     protocol client(vec, ListenSocket);
     std::cout << "out \n";
-    for (auto & i : vec)
-    {
+    for (auto &i : vec) {
         std::string name = ServerConnection::GetString(i);
         pool_connection.emplace_back(i, name);
         std::cout << "passed one time\n";
-
     }
     std::cout << "Checkpoint 2\n";
     players_amount = pool_connection.size();
@@ -88,11 +87,9 @@ void Game::connect_players() {
 
 void Game::start_game() {
     std::vector<std::thread> threads;
-    for (int i = 0; i < players_amount; ++i) {
-        std::thread t([&](int player){
-            ServerConnection::SendString("Player " + std::to_string(player + 1), pool_connection[player].sock);
-        }, i);
-        threads.emplace_back(std::move(t));
+    for (int player = 0; player < players_amount; ++player) {
+        ServerConnection::SendString("Player " + std::to_string(player + 1),
+                                     pool_connection[player].sock);
     }
     for (auto &t : threads) {
         t.join();
