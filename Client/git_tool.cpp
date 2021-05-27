@@ -1,4 +1,5 @@
 #include "git_tool.h"
+#include "tool.h"
 
 namespace  cl{
 int color = 0;
@@ -33,6 +34,12 @@ Git_tool::Git_tool(QWidget * parent) : QWidget(parent)
 
 void Git_tool::but_clicked() {
     n_player->play();
+    std::string a;
+    std::string b = line->text().toStdString();
+    for (int i = 2; i < b.size(); i++) {
+        a += b[i];
+    }
+    vec.push_back({task_id, a});
     line->clear();
     line->setText("$ ");
 }

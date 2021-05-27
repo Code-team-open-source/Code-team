@@ -43,7 +43,7 @@ public:
     int i = 0;
     QTimer *timer;
     QMainWindow *m;
-    ClientConnection *client;
+    //ClientConnection *client;
 public slots:
     void for_timer();
 };
