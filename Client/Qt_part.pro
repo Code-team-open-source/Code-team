@@ -27,8 +27,7 @@ SOURCES += \
     task_dial.cpp \
     task_git_tool.cpp \
     task_sliders.cpp \
-    tool.cpp \
-    protocols.cpp
+    tool.cpp
 
 HEADERS += \
     ClientConnection.h \
@@ -47,8 +46,7 @@ HEADERS += \
     task_dial.h \
     task_git_tool.h \
     task_sliders.h \
-    tool.h \
-    protocols.h
+    tool.h
 
 FORMS += \
     creator_of_tasks.ui \
