@@ -19,3 +19,8 @@ void Task_sliders::deserialize(ClientConnection& s) {
 Task_sliders::~Task_sliders() {
     delete sl;
 }
+
+void Task_sliders::set_volume(int x) {
+    sl->n_player->setVolume(x);
+    return;
+}

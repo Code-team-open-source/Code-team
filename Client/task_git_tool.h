@@ -13,6 +13,7 @@ public:
     void serialize(ClientConnection&) override;
     void deserialize(ClientConnection&) override;
     ~Task_git_tool() override;
+    virtual void set_volume(int x) override;
 };
 
 #endif // TASK_GIT_TOOL_H

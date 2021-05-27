@@ -18,6 +18,7 @@ public:
     Buttons *bt23;
     Task_buttons_6(QString s = "Task_6", int id = 0);
     ~Task_buttons_6() override;
+    virtual void set_volume(int x) override;
 };
 
 #endif // TASK_BUTTONS_6_H

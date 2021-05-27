@@ -28,3 +28,7 @@ void Task::deserialize(ClientConnection& s) {
 Task::~Task() {
     delete gr;
 }
+
+void Task::set_volume(int x) {
+    return;
+}

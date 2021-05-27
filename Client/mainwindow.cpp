@@ -49,6 +49,11 @@ MainWindow::MainWindow(QWidget *parent)
     m_playlist->addMedia(QUrl("qrc:/sound/s2.wav"));
     m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     m_player->play();
+
+    settting = new settings();
+    settting->m = this;
+    settting->m1_player = m_player;
+    settting->n1_player = n_player;
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +80,7 @@ void MainWindow::on_pushButton_2_clicked()
         creator = new Creator_of_tasks();
         creator->m = this;
     }
+    creator->n_player->setVolume(settting->sound);
     creator->showFullScreen();
     this->hide();
 }
@@ -88,12 +94,6 @@ void MainWindow::on_quit_clicked()
 void MainWindow::on_settings_clicked()
 {
     n_player->play();
-    if(settting == nullptr) {
-        settting = new settings();
-        settting->m = this;
-        settting->m1_player = m_player;
-        settting->n1_player = n_player;
-    }
     settting->showFullScreen();
     this->hide();
 }
@@ -110,6 +110,7 @@ void MainWindow::on_start_clicked()
     }
     fWindow = new Game_field();
     fWindow->m = this;
+    fWindow->set = settting;
     fWindow->showFullScreen();
        this->close();
 }

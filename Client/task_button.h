@@ -18,6 +18,7 @@ public:
     void deserialize(ClientConnection&) override;
     Task_button(QString s = "Task", int id = 0);
     ~Task_button() override;
+    virtual void set_volume(int x) override;
 };
 
 #endif // TASK_BUTTON_H

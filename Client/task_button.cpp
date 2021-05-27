@@ -21,3 +21,8 @@ void Task_button::deserialize(ClientConnection& s) {
 Task_button::~Task_button() {
     delete bt;
 }
+
+void Task_button::set_volume(int x) {
+    bt->n_player->setVolume(x);
+    return;
+}
