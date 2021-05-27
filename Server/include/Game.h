@@ -51,6 +51,7 @@ public:
     void show_active_tasks() const;  // for tests
     void change_completed_tasks();
     void complete_active_task();  // for tests
+    void clear_data();
 
     Game();
 };

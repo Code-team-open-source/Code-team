@@ -24,3 +24,10 @@ void Player::send_tools() {
 void Player::add_to_queue(std::string str) {
     queue_to_send.push(std::move(str));
 }
+
+void Player::clear_data() {
+    while(!queue_to_send.empty()) {
+        queue_to_send.pop();
+    }
+    tools.clear();
+}

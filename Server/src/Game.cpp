@@ -59,12 +59,22 @@ void Game::connect_players() {
     SOCKET ListenSocket;
     std::vector<SOCKET> vec;
     ServerConnection client(&vec, ListenSocket);
-    for (auto &i : vec) {
-        std::string name = ServerConnection::GetString(i);
-        pool_connection.emplace_back(i, name);
-        int crafted_tools = ServerConnection::GetInt(i);
+    for (auto &sock : vec) {
+        std::string name = ServerConnection::GetString(sock);
+        pool_connection.emplace_back(sock, name);
+        int crafted_tools = ServerConnection::GetInt(sock);
+        Tool *tool = nullptr;
         if (crafted_tools != 0) {
-            Tool *tool = ServerConnection::GetTool(i);
+            tool = ServerConnection::GetTool(sock);
+        }
+        std::vector<Task> tasks;
+        for (int i = 0; i < crafted_tools; i++) {
+            Tool *tool_pos = ServerConnection::GetTool(sock);
+            std::string task = ServerConnection::GetString(sock);
+            tasks.emplace_back(task, *tool_pos);
+        }
+        if (tool != nullptr) {
+            tl.add_tool(*tool, tasks);
         }
     }
     players_amount = pool_connection.size();
@@ -72,6 +82,7 @@ void Game::connect_players() {
 }
 
 void Game::round_prep() {
+
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
@@ -221,6 +232,14 @@ void Game::assign_initial_tasks() {
     for (int player_id = 0; player_id < players_amount; ++player_id) {
         change_task(player_id);
     }
+}
+
+void Game::clear_data() {
+    for (auto &pl : pool_connection) {
+        pl.clear_data();
+    }
+    tools_pool.clear();
+    
 }
 
 void Game::change_completed_tasks() {
