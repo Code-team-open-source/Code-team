@@ -1,5 +1,7 @@
 #ifndef SLIDERS_H
 #define SLIDERS_H
+
+#include <QWidget>
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -7,8 +9,9 @@
 #include <QMediaPlaylist>
 #include "tool.h"
 
-class Sliders : Tool
+class Sliders : public QWidget
 {
+    Q_OBJECT
 public:
     int task_id;
     QMediaPlayer *n_player;
@@ -17,8 +20,13 @@ public:
     QLabel *l;
     QLabel *empty = new QLabel("");
     QVBoxLayout *lv;
-    Sliders();
     virtual ~Sliders();
+    explicit Sliders(QWidget *parent = nullptr);
+public slots:
+    void but_clicked();
+
+signals:
+
 };
 
 #endif // SLIDERS_H

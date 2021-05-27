@@ -1,4 +1,5 @@
 #include "my_dial.h"
+#include "tool.h"
 
 My_dial::My_dial(QWidget *parent) : QWidget(parent)
 {
@@ -37,6 +38,7 @@ void My_dial::num_change(int value) {
     int v = num->value();
     num->display(value / 10 + 1);
     if (v != num->value()) {
+        vec.push_back({task_id, std::to_string(num->value())});
         n_player->play();
     }
 }
