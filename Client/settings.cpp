@@ -1,6 +1,9 @@
 #include "settings.h"
 #include "ui_settings.h"
 
+int sound = 0;
+int music = 0;
+
 settings::settings(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::settings)
@@ -25,8 +28,6 @@ settings::settings(QWidget *parent) :
     n_player->setPlaylist(n_playlist);
     n_playlist->addMedia(QUrl("qrc:/sound/but1.wav"));
     n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
-    music = 0;
-    sound = 0;
 }
 
 settings::~settings()

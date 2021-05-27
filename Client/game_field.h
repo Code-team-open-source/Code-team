@@ -45,7 +45,14 @@ public:
     QTimer *timer;
     QMainWindow *m;
     ClientConnection *client;
-    settings *set;
+    QGroupBox *dialog;
+    QPushButton *new_level;
+    QPushButton *exit;
+    QLabel *done_task_count;
+    QLabel *count;
+    QHBoxLayout *ll1;
+    QHBoxLayout *ll2;
+    QVBoxLayout  *rr;
 public slots:
     void for_timer();
 };

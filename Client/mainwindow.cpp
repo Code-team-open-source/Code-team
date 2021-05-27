@@ -80,7 +80,7 @@ void MainWindow::on_pushButton_2_clicked()
         creator = new Creator_of_tasks();
         creator->m = this;
     }
-    creator->n_player->setVolume(settting->sound);
+    creator->n_player->setVolume(sound);
     creator->showFullScreen();
     this->hide();
 }
@@ -110,7 +110,6 @@ void MainWindow::on_start_clicked()
     }
     fWindow = new Game_field();
     fWindow->m = this;
-    fWindow->set = settting;
     fWindow->showFullScreen();
        this->close();
 }
