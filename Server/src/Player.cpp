@@ -20,3 +20,7 @@ void Player::send_tools() {
         protocol::SendTool(*tool, sock);
     }
 }
+
+void Player::add_to_queue(std::string str) {
+    queue_to_send.push(std::move(str));
+}

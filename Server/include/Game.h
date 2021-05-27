@@ -31,7 +31,6 @@ class Game {
     mutable std::mutex m;
     tasklib tl;
 
-    void connect_player(const protocol &connection, const std::string &name);
 
 public:
 
@@ -41,7 +40,6 @@ public:
     void assign_tools();
     void add_tool_to_pool(const json &tool);
     GameStatus &get_game_status();
-    void send_tools_to_player(int player_num) const;
     void task_expired(int task_owner_id);
     void change_task(int task_owner_id);
     void info();  // for tests

@@ -84,10 +84,15 @@ void Game::connect_players() {
         pool_connection[i].send_tools();
         std::cout << "I have sent tols to " << i + 1 << " player\n";
     }
+
+    assign_initial_tasks();
     [[maybe_unused]] int a = ServerConnection::GetInt(pool_connection[0].sock);
 }
 
 void Game::change_task(int task_owner_id) {
+    std::unique_lock lock(pool_connection[task_owner_id].player_mutex);
+    pool_connection[task_owner_id].add_to_queue("Send new task");
+    lock.unlock();
     for (auto &task : tasks_pool) {
         if (task.active() && task.get_owner() == task_owner_id) {
             task.change_status();
@@ -179,8 +184,6 @@ bool Game::task_is_completed(int task_num) const {
 }
 
 void Game::assign_tools() {
-    //    assert(static_cast<int>(tools_pool.size()) ==
-    //           players_amount * InitialData::blocks_per_user);
     if (static_cast<int>(tools_pool.size()) !=
         players_amount * InitialData::blocks_per_user) {
         std::cerr << "error in assign tools";

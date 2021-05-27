@@ -68,7 +68,7 @@ int ServerConnection::connect(SOCKET& ListenSocket) {
     }
 
     // Accept a client socket
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 2; ++i) {
         std::cout << "want to go " << i + 1 << "\n";
         ClientSockets->push_back(accept(ListenSocket, NULL, NULL));
         std::cout << "got one: " << i + 1 << "\n";
