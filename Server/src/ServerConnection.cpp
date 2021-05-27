@@ -68,7 +68,7 @@ int ServerConnection::connect(SOCKET& ListenSocket) {
     }
 
     // Accept a client socket
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 1; ++i) {
         std::cout << "want to go " << i + 1 << "\n";
         ClientSockets->push_back(accept(ListenSocket, NULL, NULL));
         std::cout << "got one: " << i + 1 << "\n";
@@ -178,6 +178,32 @@ int ServerConnection::SendInt(const int number, SOCKET &ClientSocket) {
     std::cout << "Sent alright\n";
     return 0;
 }
-ServerConnection::ServerConnection(std::vector<SOCKET> *vec)
+ServerConnection::ServerConnection(std::vector<SOCKET> *vec, SOCKET& listensocket)
     : ClientSockets(vec) {
+    connect(listensocket);
+}
+Tool *ServerConnection::GetTool(SOCKET &Clsock) {
+    std::string str = ServerConnection::GetString(Clsock);
+    Tool *t = nullptr;
+    if (str == "Button") {
+        t = new Button("");
+    }
+    if (str == "Slider") {
+        t = new Slider("");
+    }
+    if (str == "Dial") {
+        t = new Dial("");
+    }
+    if (str == "CMD") {
+        t = new CMD("");
+    }
+
+    if (t == nullptr) {
+        throw 6;
+}
+    t->deserialize(Clsock);
+    return t;
+}
+void ServerConnection::SendTool(Tool &t, SOCKET &sock) {
+        t.serialize(sock);
 }

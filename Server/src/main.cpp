@@ -6,7 +6,7 @@
 #include <random>  // std::default_random_engine
 #include <utility>
 #include "Game.h"
-#include "protocols.h"
+#include "ServerConnection.h"
 
 int InitialData::tool_count = 0;
 

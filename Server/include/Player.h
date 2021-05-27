@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 #include "Tool.h"
-#include "protocols.h"
+#include "ServerConnection.h"
 
 class Player {
     std::string name;

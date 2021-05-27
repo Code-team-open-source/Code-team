@@ -1,7 +1,7 @@
 #pragma once
 #include "InitialData.h"
-#include "ServerConnection.h"
 #include <string>
+#include <winsock2.h>
 
 class Tool {
 private:
