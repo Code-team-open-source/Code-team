@@ -6,14 +6,14 @@
 #include "Tool.h"
 #include "ServerConnection.h"
 
-class Player {
+class Player : public ServerConnection
+{
     std::string name;
     std::vector<std::shared_ptr<Tool>> tools;
     std::queue<std::string> queue_to_send;
 
 public:
     mutable std::mutex player_mutex;
-    SOCKET sock;
 
     Player(const SOCKET &connection, std::string name);
     void add_tool(std::shared_ptr<Tool> &tool);

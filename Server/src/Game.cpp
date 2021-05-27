@@ -11,7 +11,24 @@ Game::Game() : tl("C:\\project\\Code-team\\Server\\tasks.json"){}
 
 void Game::accept(SOCKET s)
 {
-    players.emplace_back( s );
+    pool_connection.emplace_back( s, std::string("yet unknown player"));
+    Player &player = pool_connection.back();
+    player.set_name( player.GetString() );
+    int crafted_tools = player.GetInt();
+    Tool *tool = nullptr;
+    if (crafted_tools != 0)
+        tool = player.GetTool();
+
+    std::vector<Task> tasks;
+    for (int i = 0; i < crafted_tools; i++) {
+        auto tool_pos = player.GetTool();
+        std::string task = player.GetString();
+        tasks.emplace_back(task, *tool_pos);
+    }
+    if (tool != nullptr) {
+        tl.add_tool(*tool, tasks);
+    }
+    ++players_amount;
 }
 
 //    now point here your local file
@@ -66,33 +83,6 @@ std::string Game::find_task(int owner) {
 
 GameStatus &Game::get_game_status() {
     return game_status;
-}
-
-void Game::connect_players() {
-
-    std::vector<SOCKET> vec;
-    ServerConnection client(&vec, ListenSocket);
-    for (auto &sock : vec) {
-        std::string name = ServerConnection::GetString(sock);
-        pool_connection.emplace_back(sock, name);
-        int crafted_tools = ServerConnection::GetInt(sock);
-        Tool *tool = nullptr;
-        if (crafted_tools != 0) {
-            tool = ServerConnection::GetTool(sock);
-        }
-        std::vector<Task> tasks;
-        for (int i = 0; i < crafted_tools; i++) {
-            Tool *tool_pos = ServerConnection::GetTool(sock);
-            std::string task = ServerConnection::GetString(sock);
-            tasks.emplace_back(task, *tool_pos);
-        }
-        if (tool != nullptr) {
-            tl.add_tool(*tool, tasks);
-        }
-    }
-    players_amount = pool_connection.size();
-    game_status = GameStatus::PLAYERS_ARE_READY;
-    round_prep();
 }
 
 void Game::round_prep() {

@@ -5,7 +5,9 @@ void Player::add_tool(std::shared_ptr<Tool> &tool) {
 }
 
 Player::Player(const SOCKET &connection, std::string name)
-    : name(std::move(name)), sock(connection){};
+    : ServerConnection(connection), name(std::move(name))
+{
+}
 
 std::string Player::get_name() const {
     return name;
@@ -17,7 +19,7 @@ std::vector<std::shared_ptr<Tool>> &Player::get_tools() {
 
 void Player::send_tools() {
     for (const auto &tool : tools) {
-        ServerConnection::SendTool(*tool, sock);
+        SendTool(*tool);
     }
 }
 

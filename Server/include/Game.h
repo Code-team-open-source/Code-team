@@ -26,9 +26,7 @@ class Game : public IListenerSink
     int tasks_left = InitialData::tasks_to_be_done_in_round;
     int fails_left = InitialData::amount_of_fails_allowed;
 
-
     int players_amount = 0;
-    std::vector<ServerConnection> players;
     std::vector<Player> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
     std::vector<Task> tasks_pool;
