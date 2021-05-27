@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <thread>
 #include <QMainWindow>
 #include "game_field.h"
 #include "creator_of_tasks.h"
@@ -8,6 +9,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <process.h>
+#include <QDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,10 +37,18 @@ private:
     settings *settting = nullptr;
     Game_field *fWindow = nullptr;
     Creator_of_tasks *creator = nullptr;
+
+    QDialog *wait;
+    QPushButton *start;
+    QLabel *wait_label;
+    QVBoxLayout *wait_lay;
+    bool st = false;
 public:
     QMediaPlayer *m_player;
     QMediaPlaylist *m_playlist;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
+public slots:
+    void but_clicked();
 };
 #endif // MAINWINDOW_H
