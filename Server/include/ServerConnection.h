@@ -14,21 +14,21 @@
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include "Tool.h"
+#include <memory>
 //#pragma comment(lib, "Ws2_32.lib") i dont know why it`s not working with that
 // if one day everything crashed this may be a good thing to look at
 #define DEFAULT_BUFLEN 512
-
+struct Tool;
 struct ServerConnection
 {
     ServerConnection(SOCKET clientSocket);
 
-    int GetInt();
-    int SendInt(int val);
-    std::string GetString(bool wait = true);
-    int SendString(const std::string &str);
-    std::unique_ptr<Tool> GetTool();
-    void SendTool(const Tool &t);
+    int GetInt() const;
+    int SendInt(int val) const;
+    std::string GetString(bool wait = true) const;
+    int SendString(const std::string &str) const;
+    std::unique_ptr<Tool> GetTool() const;
+    void SendTool(const Tool &t) const;
 
     SOCKET clientSocket_;
 };

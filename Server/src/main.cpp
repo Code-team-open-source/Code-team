@@ -17,7 +17,9 @@ try
     Game game;
 
     server.setSink(&game);
-    server.listen();
+    bool t = true;
+    std::mutex m;
+    server.listen(t, m);
 
     return 0;
 }

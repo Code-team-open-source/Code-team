@@ -14,20 +14,6 @@ void Game::accept(SOCKET s)
     pool_connection.emplace_back( s, std::string("yet unknown player"));
     Player &player = pool_connection.back();
     player.set_name( player.GetString() );
-    int crafted_tools = player.GetInt();
-    Tool *tool = nullptr;
-    if (crafted_tools != 0)
-        tool = player.GetTool();
-
-    std::vector<Task> tasks;
-    for (int i = 0; i < crafted_tools; i++) {
-        auto tool_pos = player.GetTool();
-        std::string task = player.GetString();
-        tasks.emplace_back(task, *tool_pos);
-    }
-    if (tool != nullptr) {
-        tl.add_tool(*tool, tasks);
-    }
     ++players_amount;
 }
 
@@ -38,10 +24,29 @@ int Game::get_players_amount() const {
     return players_amount;
 }
 
-/*void Game::connect_player(const protocol &connection, const std::string &name)
-{ // not used anymore // bobruwe ydali
-    pool_connection.push_back(Player(connection, name));
-    ++players_amount;
+/*void Game::download_players_tools() {
+    for (auto& player : pool_connection) {
+        std::string checker = player.GetString();
+        if (checker != "sending my tools") {
+            std::cerr << "error in Game::download_players_tools. Have got: " << checker;
+        }
+        int crafted_tools = player.GetInt();
+*//*
+        Tool *tool = nullptr;
+        if (crafted_tools != 0)
+            tool = player.GetTool(); // i just dont understand
+*//*
+
+        std::vector<Task> tasks;
+        for (int i = 0; i < crafted_tools; i++) {
+            auto tool_pos = player.GetTool();
+            std::string task = player.GetString();
+            tasks.emplace_back(task, *tool_pos);
+        }
+        if (tool != nullptr) {
+            tl.add_tool(*tool, tasks);
+        }
+    }
 }*/
 
 void Game::add_tool_to_pool(const json &tool_json) {
@@ -101,23 +106,22 @@ void Game::round_prep() {
 
 void Game::start_round() {
     auto player_thread = [&](int player) {
-        auto &socket = pool_connection[player].sock;
         while (game_status != GameStatus::END_OF_GAME &&
                game_status != GameStatus::END_OF_ROUND) {
             std::string from_player =
-                ServerConnection::GetString(socket, false);
+                pool_connection[player].GetString(false); //
             if (!from_player.empty()) {
                 if (from_player == "Tool changed") {
                     std::unique_lock lock(m);
                     commands.push("Tool changed");
-                    int id = ServerConnection::GetInt(socket);
+                    int id = pool_connection[player].GetInt();
                     commands.push(std::to_string(id));
                     if (tools_pool[id]->tool_type() == "cmd") {
                         std::string new_position =
-                            ServerConnection::GetString(socket);
+                            pool_connection[player].GetString(socket);
                         commands.push(new_position);
                     } else {
-                        int position = ServerConnection::GetInt(socket);
+                        int position = pool_connection[player].GetInt();
                         commands.push(std::to_string(position));
                     }
                 }
@@ -132,13 +136,13 @@ void Game::start_round() {
             std::string command = pl.get_command();
             while (command != "None") {
                 if (command == "Send new task") {
-                    ServerConnection::SendString(find_task(player), socket);
+                    pool_connection[player].SendString(find_task(player));
                 }
                 if (command == "End of round") {
-                    ServerConnection::SendString("End of round", socket);
+                    pool_connection[player].SendString("End of round");
                 }
                 if (command == "End of game") {
-                    ServerConnection::SendString("End of game", socket);
+                    pool_connection[player].SendString("End of game");
                 }
                 command = pl.get_command();
             }
@@ -168,7 +172,7 @@ void Game::start_round() {
         }
     }
 
-    assert(0);
+    assert(0); // nahua?
 }
 
 void Game::change_task(int task_owner_id) {
@@ -278,6 +282,7 @@ bool tools_identical(Tool *first, Tool *second) {
         return dynamic_cast<Dial &>(*first).get_state() ==
                dynamic_cast<Dial &>(*second).get_state();
     }
+    return 0; // TODO i dont if it should be here, fix pls (c) Fedya
 }
 }  // namespace
 

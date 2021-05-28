@@ -2,6 +2,7 @@
 #include "InitialData.h"
 #include <string>
 #include <winsock2.h>
+#include <ServerConnection.h>
 
 class Tool {
 private:
@@ -12,8 +13,8 @@ public:
     std::string get_text() const;
     int id() const ;
     virtual std::string tool_type() const = 0;
-    virtual void serialize(SOCKET&);
-    virtual void deserialize(SOCKET&);
+    virtual void serialize(const ServerConnection &) const;
+    virtual void deserialize(const ServerConnection &);
     virtual ~Tool() = default;
 };
 
@@ -32,8 +33,8 @@ public:
     ButtonState get_state() const;
     void change_state();
     std::string tool_type() const override;
-    void serialize(SOCKET&) override;
-    void deserialize(SOCKET&) override;
+    void serialize(const ServerConnection &) const override;
+    void deserialize(const ServerConnection &)  override;
 };
 
 class Slider : public Tool {
@@ -48,8 +49,8 @@ public:
     void set_state(int pos);
     void set_new_position(int new_position);
     std::string tool_type() const override;
-    void serialize(SOCKET&) override;
-    void deserialize(SOCKET&) override;
+    void serialize(const ServerConnection &) const override;
+    void deserialize(const ServerConnection &)  override;
 };
 
 class CMD : public Tool {
@@ -60,8 +61,8 @@ public:
     std::string  get_cmd_text() const;
     void set_new_cmd_text(std::string new_text);
     std::string tool_type() const override;
-    void serialize(SOCKET&) override;
-    void deserialize(SOCKET&) override;
+    void serialize(const ServerConnection &) const override;
+    void deserialize(const ServerConnection &)  override;
 };
 
 class Dial : public Tool {
@@ -74,6 +75,6 @@ public:
     int get_state() const;
     void set_state(int pos);
     std::string tool_type() const override;
-    void serialize(SOCKET&) override;
-    void deserialize(SOCKET&) override;
+    void serialize(const ServerConnection &) const override;
+    void deserialize(const ServerConnection &)  override;
 };

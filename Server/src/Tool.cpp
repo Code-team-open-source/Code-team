@@ -60,39 +60,39 @@ std::string Slider::tool_type() const {
 // may be should be moved
 // Oleg
 // TODO
-void Tool::serialize(SOCKET &s) {
-    ServerConnection::SendString("Tool", s);
-    ServerConnection::SendString(tool_text, s);
-    ServerConnection::SendInt(tool_id, s);
+void Tool::serialize(const ServerConnection &s) const {
+    s.SendString("Tool");
+    s.SendString(tool_text);
+    s.SendInt(tool_id);
 }
-void Tool::deserialize(SOCKET &s) {
-    std::string check = ServerConnection::GetString(s);
+void Tool::deserialize(const ServerConnection &s) {
+    std::string check = s.GetString();
     //    assert(check == "Tool");
     if (check != "Tool") {
         std::cerr << "i have desirealised not tool\n";
     }
-    tool_text = ServerConnection::GetString(s);
-    tool_id = ServerConnection::GetInt(s);
+    tool_text = s.GetString();
+    tool_id = s.GetInt();
 }
 
-void Slider::serialize(SOCKET &s) {
-    ServerConnection::SendString("Slider", s);
+void Slider::serialize(const ServerConnection &s) const {
+    s.SendString("Slider");
     Tool::serialize(s);
 }
 
-void Slider::deserialize(SOCKET &s) {
+void Slider::deserialize(const ServerConnection &s)  {
     Tool::deserialize(s);
-    current_state = ServerConnection::GetInt(s);
+    current_state = s.GetInt();
 }
 
-void Button::serialize(SOCKET &s) {
-    ServerConnection::SendString("Button", s);
+void Button::serialize(const ServerConnection &s)  const {
+    s.SendString("Button");
     Tool::serialize(s);
 }
 
-void Button::deserialize(SOCKET &s) {
+void Button::deserialize(const ServerConnection &s)  {
     Tool::deserialize(s);
-    current_state = static_cast<ButtonState>(ServerConnection::GetInt(s));
+    current_state = static_cast<ButtonState>(s.GetInt());
 }
 
 CMD::CMD(std::string text, std::string cmd_text_)
@@ -109,15 +109,15 @@ std::string CMD::tool_type() const {
     return std::string("CMD");
 }
 
-void CMD::serialize(SOCKET &s) {
-    ServerConnection::SendString("CMD", s);
+void CMD::serialize(const ServerConnection &s)  const {
+    s.SendString("CMD");
     Tool::serialize(s);
-    ServerConnection::SendString(cmd_text, s);
+    s.SendString(cmd_text);
 }
 
-void CMD::deserialize(SOCKET &s) {
+void CMD::deserialize(const ServerConnection &s)  {
     Tool::deserialize(s);
-    cmd_text = ServerConnection::GetString(s);
+    cmd_text = s.GetString();
 }
 Dial::Dial(std::string text, int pos)
     : Tool(std::move(text)), current_state(pos) {
@@ -132,12 +132,12 @@ std::string Dial::tool_type() const {
     return std::string("Dial");
 }
 
-void Dial::serialize(SOCKET &s) {
-    ServerConnection::SendString("Dial", s);
+void Dial::serialize(const ServerConnection& s) const {
+    s.SendString("Dial");
     Tool::serialize(s);
-    ServerConnection::SendInt(current_state, s);
+    s.SendInt(current_state);
 }
-void Dial::deserialize(SOCKET &s) {
+void Dial::deserialize(const ServerConnection &s)  {
     Tool::deserialize(s);
-    current_state = ServerConnection::GetInt(s);
+    current_state = s.GetInt();
 }

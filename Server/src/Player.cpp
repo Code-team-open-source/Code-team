@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <utility>
+
 void Player::add_tool(std::shared_ptr<Tool> &tool) {
     tools.push_back(tool);
 }
@@ -42,3 +44,7 @@ std::string Player::get_command() {
     queue_to_send.pop();
     return str;
 }
+void Player::set_name(std::string str) {
+    name = std::move(str);
+}
+

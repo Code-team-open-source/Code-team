@@ -40,7 +40,7 @@ public:
     int get_players_amount() const;
 
     void round_prep();
-    void connect_players();
+    void download_players_tools();
     void start_round();
     void assign_tools();
     void add_tool_to_pool(const json &tool);

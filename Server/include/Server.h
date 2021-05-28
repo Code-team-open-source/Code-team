@@ -10,6 +10,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
+#include <mutex>
 
 struct IListenerSink
 {
@@ -21,7 +22,7 @@ class CodeTeamServer
 public:
     CodeTeamServer();
     void setSink( IListenerSink *sink );
-    void listen();
+    void listen(bool&, std::mutex&);
     ~CodeTeamServer();
 
 private:

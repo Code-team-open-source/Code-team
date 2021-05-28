@@ -3,16 +3,18 @@
 //
 #include "ServerConnection.h"
 #include <cassert>
+#include <memory>
 #include <vector>
+#include <memory>
+#include "Tool.h"
 
-std::string ServerConnection::GetString(bool wait) {
-    SOCKET &ClientSocket = clientSocket_;
+std::string ServerConnection::GetString(bool wait) const {
+    SOCKET ClientSocket = clientSocket_;
     std::cout << "Getting string \n";
     int size = 0;
     auto iResult = 0;
 
     do {
-        Sleep(100);
         iResult =
             recv(ClientSocket, reinterpret_cast<char *>(&size), sizeof(int), 0);
     } while (iResult == 0 && wait);
@@ -35,8 +37,8 @@ std::string ServerConnection::GetString(bool wait) {
     return ans;
 }
 
-int ServerConnection::GetInt() {
-    SOCKET &ClientSocket = clientSocket_;
+int ServerConnection::GetInt() const{
+    SOCKET ClientSocket = clientSocket_;
     std::cout << "Getting int\n";
     int num;
     int result = 0;
@@ -52,14 +54,14 @@ int ServerConnection::GetInt() {
     return num;
 }
 
-int ServerConnection::SendString(const std::string &str) {
-    SOCKET &ClientSocket = clientSocket_;
+int ServerConnection::SendString(const std::string &str) const {
+    SOCKET ClientSocket = clientSocket_;
     std::cout << "Sending string: " << str << "\n";
     auto iResult = 0;
     // Send an initial buffer
     int size = str.size();
     size = htons(size);
-    iResult = ::send(CLientSocket, reinterpret_cast<const char *>(&size),
+    iResult = ::send(ClientSocket, reinterpret_cast<const char *>(&size),
                      (int)sizeof(int), 0);
     if (iResult == SOCKET_ERROR)
         return 1;
@@ -73,8 +75,8 @@ int ServerConnection::SendString(const std::string &str) {
     return 0;
 }
 
-int ServerConnection::SendInt(const int number) {
-    SOCKET &ClientSocket = clientSocket_;
+int ServerConnection::SendInt(const int number) const {
+    SOCKET ClientSocket = clientSocket_;
 
     std::cout << "sending int: " << number << "\n";
     int temnumber = number;
@@ -89,34 +91,35 @@ ServerConnection::ServerConnection(SOCKET clientSocket) : clientSocket_(clientSo
 {
 }
 
-std::unique_ptr<Tool> ServerConnection::GetTool()
+std::unique_ptr<Tool> ServerConnection::GetTool() const
 {
-    SOCKET &Clsock = clientSocket_;
+    SOCKET Clsock = clientSocket_;
     std::string str = ServerConnection::GetString(Clsock);
 
     std::unique_ptr<Tool> t;
 
     if (str == "Button") {
-        t.reset( new Button("") );
+        t = std::make_unique<Button>( "" );
     }
     if (str == "Slider") {
-        t.reset( new Slider("") );
+        t = std::make_unique<Slider>( "" );
     }
     if (str == "Dial") {
-        t.reset( new Dial("") );
+        t = std::make_unique<Dial>( "" );
     }
     if (str == "CMD") {
-        t.reset( new CMD("") );
+        t = std::make_unique<CMD>( "" );
     }
 
     if (t == nullptr) {
         throw 6;
     }
-    t->deserialize(Clsock);
+    ServerConnection temp = *this;
+    t->deserialize(temp);
     return t;
 }
 
-void ServerConnection::SendTool(const Tool &t)
+void ServerConnection::SendTool(const Tool &t) const
 {
-        t.serialize(clientSocket_);
+    t.serialize(*this);
 }
