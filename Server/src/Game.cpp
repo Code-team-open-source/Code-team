@@ -39,8 +39,7 @@ void Game::accept(SOCKET s) {
             }
         }
         */
-    game_status = GameStatus::PLAYERS_ARE_READY;
-    round_prep();
+
 }
 
 //    now point here your local file
@@ -191,7 +190,12 @@ void Game::start_round() {
             if (command == "Tool changed") {
                 int task_id = std::stoi(commands.front());
                 commands.pop();
-                bool completed = change_completed_task();
+                std::string pos = commands.front();
+                commands.pop();
+                std::cout << "TOOL CHANGED" << std::endl;
+                std::cout << "ID = " << task_id << std::endl;
+                std::cout << "POSITION = " << pos << std::endl;
+//                bool completed = change_completed_task();
             }
         }
     }

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cassert>
 #include <mutex>
+#include "InitialData.h"
 
 static const char *DEFAULT_PORT = "27015";
 
@@ -77,7 +78,7 @@ void CodeTeamServer::listen(bool &continue_, std::mutex& m) {
             auto client = accept(listeningSocket_, NULL, NULL);
             sink_->accept(client);
             count++;
-            if (count == 2) {
+            if (count == InitialData::players_amount) {
                 break;
             }
         }
