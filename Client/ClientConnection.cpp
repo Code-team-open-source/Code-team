@@ -12,6 +12,7 @@
 #include <cassert>
 #include <QString>
 #include <string>
+#include <chrono>
 
 int ClientConnection::Connect() {
     WSADATA wsaData;
@@ -70,6 +71,7 @@ int ClientConnection::Connect() {
         WSACleanup();
         return 1;
     }
+    printf("connected!");
     return 0;
 }
 
@@ -127,19 +129,16 @@ int ClientConnection::GetInt() {
     return a;
 }
 
-std::string ClientConnection::GetString() {
+std::string ClientConnection::GetString(bool flag) {
     printf("Getting string\n");
     int size = 0;
-    iResult = 0;
-    while (iResult == 0) {
-        Sleep(100);
+    do {
         iResult = recv(ConnectSocket, reinterpret_cast<char *>(&size),
                        sizeof(int), 0);
-    }
-    printf("HEREEEEE\n");
+    } while (iResult == 0 && flag);
+
     if (iResult < 0) {
-//        throw 1;
-        std::cerr << "no connection, im in getstring 1";
+        std::cerr << "no connection, im in getstring 1\n";
     }
     size = ntohs(size);
     printf("size:: %d", size);
@@ -147,13 +146,13 @@ std::string ClientConnection::GetString() {
     buf.resize(size + 1);
     iResult = recv(ConnectSocket, &(buf[0]), size, 0);
     std::string ans(&buf[0], size);
-    if (iResult > 0) {
-        std::cout << "Bytes received: " << iResult << "\n";
-        std::cout << ans << "\n";
-    }
+//    if (iResult > 0) {
+//        std::cout << "Bytes received: " << iResult << "\n";
+//        std::cout << ans << "\n";
+//    }
     if (iResult < 0) {
 //        throw 1;
-        std::cerr << "no connection, im in getstring 2";
+        std::cerr << "no connection, im in getstring 2\n";
     }
     printf("got %s\n", ans.c_str());
     return ans;
@@ -165,6 +164,7 @@ int ClientConnection::CloseSocket() {
     WSACleanup();
     return 0;
 }
+
 Task* ClientConnection::GetTool(){
     printf("In GetTool\n");
     std::string str = GetString();
