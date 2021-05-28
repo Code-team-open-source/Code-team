@@ -142,6 +142,11 @@ void Game::start_round() {
                     commands.push(std::to_string(id));
                     std::string position = pool_connection[player].GetString();
                     commands.push(position);
+                    std::cout << "======= IN THREAD =======" << std::endl;
+                    std::cout << "TOOL CHANGED" << std::endl;
+                    std::cout << "ID = " << id << std::endl;
+                    std::cout << "POSITION = " << position << std::endl;
+                    std::cout << "=========================" << std::endl;
                 }
                 if (from_player == "Task expired") {
                     std::unique_lock lock(m);
@@ -180,12 +185,12 @@ void Game::start_round() {
             if (command == "Task expired") {
                 int player_id = std::stoi(commands.front());
                 commands.pop();
-                std::cout << "CHANGING TASK" << std::endl;
-                std::cout << "PREVIOUS TASK: " << find_task(player_id)
-                          << std::endl;
-                change_task(player_id);
-                std::cout << "CURRENT TASK: " << find_task(player_id)
-                          << std::endl;
+//                std::cout << "CHANGING TASK" << std::endl;
+//                std::cout << "PREVIOUS TASK: " << find_task(player_id)
+//                          << std::endl;
+//                change_task(player_id);
+//                std::cout << "CURRENT TASK: " << find_task(player_id)
+//                          << std::endl;
             }
             if (command == "Tool changed") {
                 int task_id = std::stoi(commands.front());
