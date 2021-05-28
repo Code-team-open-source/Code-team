@@ -22,8 +22,8 @@ Game_field::Game_field(QWidget *parent) :
         printf("got hera %d\n", i);
       task[i] = client->GetTool();
     }
-    std::string str = client->GetString();
-    printf("%s\n", str.c_str());
+//    std::string str = client->GetString();
+//    printf("%s\n", str.c_str());
 
     for (int i = 0; i < 3 ; ++i ) {
         h1->addWidget(task[i]->gr);
@@ -139,18 +139,11 @@ void Game_field::on_pushButton_2_clicked()
 
 void Game_field::for_timer() {
     while (i != vec.size()) {
-        //client->SendInt(vec[i].first);
-        //client->SendString(vec[i].second);
+        client->SendString("Tool changed");
+        client->SendInt(vec[i].first);
+        client->SendString(vec[i].second);
         i++;
     }
     ind->progress->setValue(ind->progress->value() + 1);
-    if(ind->bar->value() > 98) {
-        dialog->show();
-        ui->pushButton->hide();
-        ui->pushButton_2->hide();
-        for (int j = 0; j < 6; j++) {
-            task[i]->gr->hide();
-        }
-    }
     timer->setInterval(1);
 }

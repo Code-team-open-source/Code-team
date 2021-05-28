@@ -2,3 +2,15 @@
 /build-Server-Desktop_Qt_5_12_6_MSVC2017_64bit-Debug/.cmake/api/v1/query
 /build-Server-Desktop_Qt_5_12_6_MSVC2017_64bit-Debug
 /Server/CMakeLists.txt.user
+/.clang-format
+connection_test*
+.idea
+JsonParser
+*.exe
+/Server/CMakeCache.txt
+/Server/cmake_install.cmake
+/Server/Makefile
+*.cbp
+*CMakeFiles*
+build*
+.gitignore

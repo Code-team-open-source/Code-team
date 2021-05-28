@@ -9,16 +9,15 @@
 
 Game::Game(unsigned short num_of_players)
     : players_amount(num_of_players),
-    tl("C:\\project\\Code-team\\Server\\tasks.json")
-{
-
+      tl("tasks.json") {
 }
 
-void Game::accept(SOCKET s)
-{
-    pool_connection.emplace_back( s, std::string("yet unknown player"));
+void Game::accept(SOCKET s) {
+    pool_connection.emplace_back(s, std::string("yet unknown player"));
     Player &player = pool_connection.back();
-    player.set_name( player.GetString() );
+    player.set_name(player.GetString());
+
+    /*
     if( pool_connection.size() == players_amount )
     {
         // starting the game
@@ -40,10 +39,11 @@ void Game::accept(SOCKET s)
                 tl.add_tool(*tool, tasks);
             }
         }
-        game_status = GameStatus::PLAYERS_ARE_READY;
-        round_prep();
-    }
+        */
+    game_status = GameStatus::PLAYERS_ARE_READY;
+    round_prep();
 }
+
 
 //    now point here your local file
 //    when project is ready we can put here a relative path
@@ -52,7 +52,8 @@ void Game::accept(SOCKET s)
     for (auto& player : pool_connection) {
         std::string checker = player.GetString();
         if (checker != "sending my tools") {
-            std::cerr << "error in Game::download_players_tools. Have got: " << checker;
+            std::cerr << "error in Game::download_players_tools. Have got: " <<
+   checker;
         }
         int crafted_tools = player.GetInt();
 *//*
@@ -126,7 +127,7 @@ void Game::round_prep() {
     }
 
     assign_initial_tasks();
-    int a = pool_connection[0].GetInt();
+//    [[maybe_unused]] int a = pool_connection[0].GetInt();
 }
 
 void Game::start_round() {
@@ -134,20 +135,23 @@ void Game::start_round() {
         while (game_status != GameStatus::END_OF_GAME &&
                game_status != GameStatus::END_OF_ROUND) {
             std::string from_player =
-                pool_connection[player].GetString(false); //
+                pool_connection[player].GetString(false);
             if (!from_player.empty()) {
                 if (from_player == "Tool changed") {
                     std::unique_lock lock(m);
                     commands.push("Tool changed");
                     int id = pool_connection[player].GetInt();
                     commands.push(std::to_string(id));
-                    if (tools_pool[id]->tool_type() == "cmd") {
+                    std::cout << "Tool changed" << id << ' ';
+
+                    if (tools_pool[id]->tool_type() == "CMD") {
                         std::string new_position =
                             pool_connection[player].GetString(socket);
                         commands.push(new_position);
                     } else {
                         int position = pool_connection[player].GetInt();
                         commands.push(std::to_string(position));
+                        std::cout << position << std::endl;
                     }
                 }
                 if (from_player == "Task expired") {
@@ -197,7 +201,7 @@ void Game::start_round() {
         }
     }
 
-    assert(0); // nahua?
+    assert(0);  // nahua?
 }
 
 void Game::change_task(int task_owner_id) {
@@ -307,7 +311,7 @@ bool tools_identical(Tool *first, Tool *second) {
         return dynamic_cast<Dial &>(*first).get_state() ==
                dynamic_cast<Dial &>(*second).get_state();
     }
-    return 0; // TODO i dont know if it should be here, fix pls (c) Fedya
+    return 0;  // TODO i dont know if it should be here, fix pls (c) Fedya
 }
 }  // namespace
 
