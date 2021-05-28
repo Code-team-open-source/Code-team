@@ -108,7 +108,6 @@ void Game_field::for_timer() {
         ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
         ind->timer->setInterval(100);
     }
-    ind->progress->setValue(ind->progress->value() + 1);
     timer->setInterval(1);
 }
 
@@ -145,6 +144,9 @@ void Game_field::for_timer_get_task() {
         str = client->GetString();
 
         ind->tx->setText(QString::fromStdString(str));
+        ind->bar->setValue(100);
+        ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
+        ind->timer->setInterval(100);
     }
     timer_task->setInterval(100);
 }

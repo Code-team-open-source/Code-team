@@ -109,6 +109,9 @@ void MainWindow::but_clicked() {
 
 void MainWindow::on_start_clicked()
 {
+    ui->start->hide();
+    ui->pushButton->show();
+    ui->ready->hide();
     n_player->play();
     m_player->stop();
     fWindow->claim_task();
