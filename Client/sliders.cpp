@@ -39,7 +39,7 @@ Sliders::Sliders(QWidget *parent) : QWidget(parent)
         n_playlist->addMedia(QUrl("qrc:/sound/coin1.wav"));
         n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 
-        QObject::connect(sl, SIGNAL(sliderMoved(int)), this, SLOT(but_clicked()));
+        QObject::connect(sl, SIGNAL(sliderMoved(int)), this, SLOT(but_clicked(int)));
 }
 
 Sliders::~Sliders() {
@@ -50,7 +50,7 @@ Sliders::~Sliders() {
     delete lv;
 }
 
-void Sliders::but_clicked() {
+void Sliders::but_clicked(int value) {
     n_player->play();
-    vec.push_back({task_id, std::to_string(sl->value())});
+    vec.push_back({task_id, std::to_string(value + 1)});
 }

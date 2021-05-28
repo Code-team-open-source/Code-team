@@ -76,5 +76,5 @@ void Creator_of_tasks::on_comboBox_activated(const QString &arg1)
 void Creator_of_tasks::on_create_clicked()
 {
     n_player->play();
-
+    //cr_ts.push_back({ui->comboBox->currentText()})
 }
