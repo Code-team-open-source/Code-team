@@ -19,6 +19,7 @@ Game_field::Game_field(QWidget *parent) :
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
     task.resize(6);
+    ui->pushButton->hide();
     ui->v4->addLayout(h1);
     ui->v4->addLayout(h2);
 
