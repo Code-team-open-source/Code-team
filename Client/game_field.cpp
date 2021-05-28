@@ -19,6 +19,7 @@ Game_field::Game_field(QWidget *parent) :
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
     task.resize(6);
+    ui->pushButton->hide();
     ui->v4->addLayout(h1);
     ui->v4->addLayout(h2);
 
@@ -174,4 +175,11 @@ void Game_field::for_timer_get_task() {
         ind->timer->stop();
     }
     timer_task->setInterval(100);
+}
+
+void Game_field::send(std::string str) {
+    client->SendString(str);
+}
+std::string Game_field::get() {
+    return client->GetString();
 }
