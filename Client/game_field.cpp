@@ -133,16 +133,16 @@ void Game_field::claim_task() {
     for (int i = 0; i < 6; i++) {
         task[i]->set_volume(sound);
     }
+    ind->interval = 10 * client->GetInt();
 //    assert("" == client->GetString(false));
     timer = new QTimer();
     timer->setInterval(1);
     timer->start();
     connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
     timer_task = new QTimer();
-    timer_task->setInterval(2000);
+    timer_task->setInterval(100);
     timer_task->start();
     connect(timer_task, SIGNAL(timeout()), SLOT(for_timer_get_task()));
-    ind->interval = 10 * client->GetInt();
 }
 
 void Game_field::for_timer_get_task() {

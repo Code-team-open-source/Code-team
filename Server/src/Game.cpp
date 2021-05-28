@@ -127,18 +127,17 @@ void Game::round_prep() {
     }
     assign_tools();
 
+
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
         pool_connection[i].SendInt(sec_for_task);
     }
-    std::cout << "BEFORE INITIAL TASKS" << std::endl;
     assign_initial_tasks();
 }
 
 void Game::start_round() {
     while(game_status != END_OF_GAME) {
         round_prep();
-        std::cout << "PLAYERS AMOUNT = " << players_amount << std::endl;
         std::vector<std::thread> threads;
         auto player_thread = [&](int player) {
             while (game_status != GameStatus::END_OF_GAME &&
@@ -286,7 +285,6 @@ void Game::change_task(int task_owner_id) {
     }
     tasks_pool[task_num].change_status();
     tasks_pool[task_num].get_owner() = task_owner_id;
-    //    send_task(task_owner_id);
 }
 
 void Game::task_expired(int task_owner_id) {
@@ -360,6 +358,7 @@ void Game::complete_active_task() {  // for tests
 namespace {
 bool tools_identical(Tool *first, Tool *second) {
     assert(first && second);
+
     if (first->tool_type() == "Button") {
         return dynamic_cast<Button &>(*first).get_state() ==
                dynamic_cast<Button &>(*second).get_state();
@@ -410,6 +409,9 @@ void Game::clear_data() {
     }
     tools_pool.clear();
     tasks_pool.clear();
+    InitialData::tool_count = 0;
+    tasks_left = InitialData::tasks_to_be_done_in_round;
+    fails_left = InitialData::amount_of_fails_allowed;
 }
 
 int Game::change_completed_task() {
