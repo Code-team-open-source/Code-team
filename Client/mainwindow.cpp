@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ready->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
     ui->ready->setEnabled(false);
-
+    ui->start->setEnabled(false);
     ui->label_2->setFont(QFont("Times", 20));
     ui->lineEdit_2->setFont(QFont("Times", 20));
     ui->verticalGroupBox->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 2px solid grey}");
@@ -80,6 +80,21 @@ void MainWindow::on_pushButton_clicked()
     ui->pushButton->hide();
     ui->ready->show();
     ui->start->show();
+    std::string str = fWindow->get();
+    if (str == "1") {
+        ui->start->setEnabled(true);
+    } else {
+        std::string s = fWindow->get();
+        ui->start->hide();
+        ui->start->setEnabled(false);
+        ui->pushButton->show();
+        ui->ready->hide();
+        n_player->play();
+        m_player->stop();
+        fWindow->claim_task();
+        fWindow->show();
+           this->close();
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -112,7 +127,10 @@ void MainWindow::but_clicked() {
 
 void MainWindow::on_start_clicked()
 {
+    fWindow->send("Game started");
+    std::string s = fWindow->get();
     ui->start->hide();
+    ui->start->setEnabled(false);
     ui->pushButton->show();
     ui->ready->hide();
     n_player->play();

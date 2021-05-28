@@ -3,6 +3,7 @@
 #include <mutex>
 #include <vector>
 #include <queue>
+#include <condition_variable>
 #include "InitialData.h"
 #include "Task.h"
 #include "nlohmann/json.hpp"
@@ -26,6 +27,7 @@ class Game : public IListenerSink
     int tasks_left = InitialData::tasks_to_be_done_in_round;
     int fails_left = InitialData::amount_of_fails_allowed;
     int sec_for_task = InitialData::time_for_one_task;
+    std::condition_variable cv;
 
     const unsigned short players_amount;
     std::vector<Player> pool_connection;

@@ -175,3 +175,10 @@ void Game_field::for_timer_get_task() {
     }
     timer_task->setInterval(100);
 }
+
+void Game_field::send(std::string str) {
+    client->SendString(str);
+}
+std::string Game_field::get() {
+    return client->GetString();
+}

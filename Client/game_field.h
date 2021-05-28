@@ -50,6 +50,8 @@ public slots:
     void for_timer_get_task();
     void for_timer();
     void claim_task();
+    void send(std::string str);
+    std::string get();
 };
 
 #endif // GAME_FIELD_H

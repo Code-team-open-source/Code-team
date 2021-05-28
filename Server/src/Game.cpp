@@ -9,14 +9,29 @@
 #include <unistd.h>
 
 Game::Game(unsigned short num_of_players)
-    : players_amount(num_of_players), tl("C:\\Users\\Mi\\For_project\\Code-team\\Server\\tasks.json") {
+    : players_amount(num_of_players), tl("tasks.json") {
 }
 
 void Game::accept(SOCKET s) {
     pool_connection.emplace_back(s, std::string("yet unknown player"));
     Player &player = pool_connection.back();
     player.set_name(player.GetString());
-
+    player.SendString(std::to_string(pool_connection.size()));
+    if (pool_connection.size() == 1) {
+        std::thread t([&](){
+            std::string str = pool_connection.back().GetString();
+            if (str == "Game started") {
+                game_status = PLAYERS_ARE_READY;
+                cv.notify_all();
+            }
+        });
+        t.detach();
+    }
+    std::unique_lock lock(m);
+    cv.wait(lock, [&](){
+        return game_status == PLAYERS_ARE_READY;
+    });
+    player.SendString("Game started");
     /*
     if( pool_connection.size() == players_amount )
     {
@@ -262,6 +277,7 @@ void Game::start_round() {
         pl.SendString("End of game");
     }
     std::cout << "End of game \n";
+    sleep(10);
 
 }
 
