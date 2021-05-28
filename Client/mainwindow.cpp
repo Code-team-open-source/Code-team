@@ -92,7 +92,7 @@ void MainWindow::on_pushButton_clicked()
         n_player->play();
         m_player->stop();
         fWindow->claim_task();
-        fWindow->show();
+        fWindow->showFullScreen();
            this->close();
     }
 }
@@ -136,6 +136,6 @@ void MainWindow::on_start_clicked()
     n_player->play();
     m_player->stop();
     fWindow->claim_task();
-    fWindow->show();
+    fWindow->showFullScreen();
        this->close();
 }
