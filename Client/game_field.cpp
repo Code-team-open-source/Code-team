@@ -129,4 +129,14 @@ void Game_field::claim_task() {
     timer->setInterval(1);
     timer->start();
     connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
+    timer_task = new QTimer();
+    timer_task->setInterval(2000);
+    timer_task->start();
+    connect(timer_task, SIGNAL(timeout()), SLOT(for_timer_get_task()));
+}
+
+void Game_field::for_timer_get_task() {
+    std::string str;
+    //str = client->GetString();
+    timer_task->setInterval(2000);
 }

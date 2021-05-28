@@ -71,9 +71,9 @@ void MainWindow::on_pushButton_clicked()
     if (fWindow != nullptr) {
         delete fWindow;
     }
+    name = ui->lineEdit->text().toStdString();
     fWindow = new Game_field();
     fWindow->m = this;
-    name = ui->lineEdit->text().toStdString();
     ui->pushButton->hide();
     ui->ready->show();
     ui->start->show();
