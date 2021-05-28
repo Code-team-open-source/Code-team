@@ -199,9 +199,9 @@ void Game::start_round() {
                 auto &tool = tools_pool[tool_id];
                 if (tool->tool_type() == "Button") {
                     ButtonState st;
-                    if (pos == "0") {
+                    if (pos == "not_pushed") {
                         st = ButtonState::NOT_PUSHED;
-                    } else if (pos == "1") {
+                    } else if (pos == "pushed") {
                         st = ButtonState::PUSHED;
                     } else {
                         std::cerr << "Invalid button state";
