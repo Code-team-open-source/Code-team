@@ -15,7 +15,6 @@ try
 {
     CodeTeamServer server;
     Game game; // game for 2 players
-
     server.setSink(&game);
     server.listen(game.accept_players, game.m);
     std::cout << "starting game\n";

@@ -15,7 +15,8 @@
 struct IListenerSink
 {
     virtual void accept(SOCKET s) = 0;
-    [[maybe_unused]] auto accept_players = true;
+    int players_amount = 0;
+     bool accept_players = true;
     mutable std::mutex m;
 };
 

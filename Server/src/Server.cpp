@@ -6,6 +6,7 @@
 #include <cassert>
 #include <mutex>
 #include "InitialData.h"
+#include <iostream>
 
 static const char *DEFAULT_PORT = "27015";
 
@@ -65,18 +66,23 @@ void CodeTeamServer::listen(bool &continue_, std::mutex& m) {
     }
 
     // Accept a client socket
-    fd_set s_set = {1, {listeningSocket_}};
-    timeval timeout = {0, 0};
     int count = 0;
+//    select(0, &s_set, 0, 0, &timeout);
     for (;;) {
-        _sleep(300);
-        std::unique_lock<std::mutex> lock(m);
-        if (!continue_) {
-            InitialData::players_amount = count;
+        _sleep(500);
+        fd_set s_set = {1, {listeningSocket_}};
+        timeval timeout = {0, 0};
+//        _sleep(1000);
+        if (!sink_->accept_players) {
+            sink_->players_amount = count;
             break;
         }
-        if (select(0, &s_set, 0, 0, &timeout) != 0) {
+        auto flag_ = select(0, &s_set, 0, 0, &timeout);
+//        std::cout << "yyy" << sink_->accept_players << "\n" << flag_ << "\n";
+        if (flag_ > 0) {
+            std::cerr << "gotcha\n";
             auto client = accept(listeningSocket_, NULL, NULL);
+            std::cerr << "accepted\n";
             sink_->accept(client);
             count++;
         }

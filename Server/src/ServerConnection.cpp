@@ -5,26 +5,29 @@
 #include <cassert>
 #include <memory>
 #include <vector>
-#include <memory>
 #include "Tool.h"
 
 std::string ServerConnection::GetString(bool wait) const {
+    std::cerr << "get str\n";
     int size = 0;
     auto iResult = 0;
     fd_set s_set = {1, {clientSocket_}};
     timeval timeout = {0, 0};
     if (!wait) {
         bool aaaaaaaaaaaa = select(0, &s_set, 0, 0, &timeout);
-        if (aaaaaaaaaaaa)
+        if (aaaaaaaaaaaa) {
             iResult = recv(clientSocket_, reinterpret_cast<char *>(&size),
                            sizeof(int), 0);
-        else
+        } else {
             return "";
-    }
-    else {
+        }
+    } else {
         iResult = recv(clientSocket_, reinterpret_cast<char *>(&size),
                        sizeof(int), 0);
     }
+    if (iResult < 0)
+        std::cerr << "No connection after gettig int\n";
+
     size = ntohs(size);
     std::vector<char> buf;
     buf.resize(size + 1);
@@ -40,13 +43,14 @@ std::string ServerConnection::GetString(bool wait) const {
         //        throw 1;
         std::cerr << "No connection\n";
     }
-//    std::cout << "Got " << ans << "\n";
+    //    std::cout << "Got " << ans << "\n";
     return ans;
 }
 
-int ServerConnection::GetInt() const{
+int ServerConnection::GetInt() const {
+    std::cerr << "get int\n";
     SOCKET ClientSocket = clientSocket_;
-//    std::cout << "Getting int\n";
+    //    std::cout << "Getting int\n";
     int num;
     int result = 0;
     while (result == 0) {
@@ -57,13 +61,14 @@ int ServerConnection::GetInt() const{
         std::cout << "end of talking!\n";
     }
     num = ntohs(num);
-//    std::cout << "Got " << num << "\n";
+    //    std::cout << "Got " << num << "\n";
     return num;
 }
 
 int ServerConnection::SendString(const std::string &str) const {
+    std::cerr << "send str\n";
     SOCKET ClientSocket = clientSocket_;
-//    std::cout << "Sending string: " << str << "\n";
+    //    std::cout << "Sending string: " << str << "\n";
     auto iResult = 0;
     // Send an initial buffer
     int size = str.size();
@@ -77,45 +82,46 @@ int ServerConnection::SendString(const std::string &str) const {
         printf("send failed with error: %d\n", WSAGetLastError());
         return 1;
     }
-//    std::cout << "sent alright\n";
+    //    std::cout << "sent alright\n";
     // printf("Bytes Sent: %ld\n", iResult);
     return 0;
 }
 
 int ServerConnection::SendInt(const int number) const {
+    std::cerr << "send int\n";
     SOCKET ClientSocket = clientSocket_;
 
-//    std::cout << "sending int: " << number << "\n";
+    //    std::cout << "sending int: " << number << "\n";
     int temnumber = number;
-//    std::cout << " SendInt: " << number << "\n";
+    //    std::cout << " SendInt: " << number << "\n";
     temnumber = htons(temnumber);
     send(ClientSocket, reinterpret_cast<const char *>(&temnumber), sizeof(int),
          0);
-//    std::cout << "Sent alright\n";
+    //    std::cout << "Sent alright\n";
     return 0;
 }
-ServerConnection::ServerConnection(SOCKET clientSocket) : clientSocket_(clientSocket)
-{
+ServerConnection::ServerConnection(SOCKET clientSocket)
+    : clientSocket_(clientSocket) {
 }
 
-std::unique_ptr<Tool> ServerConnection::GetTool() const
-{
+std::unique_ptr<Tool> ServerConnection::GetTool() const {
+    std::cerr << "get tool\n";
     SOCKET Clsock = clientSocket_;
     std::string str = ServerConnection::GetString(Clsock);
 
     std::unique_ptr<Tool> t;
 
     if (str == "Button") {
-        t = std::make_unique<Button>( "" );
+        t = std::make_unique<Button>("");
     }
     if (str == "Slider") {
-        t = std::make_unique<Slider>( "" );
+        t = std::make_unique<Slider>("");
     }
     if (str == "Dial") {
-        t = std::make_unique<Dial>( "" );
+        t = std::make_unique<Dial>("");
     }
     if (str == "CMD") {
-        t = std::make_unique<CMD>( "" );
+        t = std::make_unique<CMD>("");
     }
 
     if (t == nullptr) {
@@ -126,7 +132,6 @@ std::unique_ptr<Tool> ServerConnection::GetTool() const
     return t;
 }
 
-void ServerConnection::SendTool(const Tool &t) const
-{
+void ServerConnection::SendTool(const Tool &t) const {
     t.serialize(*this);
 }
