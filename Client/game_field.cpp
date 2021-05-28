@@ -11,7 +11,7 @@ Game_field::Game_field(QWidget *parent) :
 {
 
     client = new ClientConnection;
-    client->SendString("Aboba");
+    client->SendString(name);
     ui->setupUi(this);
     ind = new Main_indicators();
     ui->verticalLayout_2->addWidget(ind->box);
