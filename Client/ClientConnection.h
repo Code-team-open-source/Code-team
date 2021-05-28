@@ -23,11 +23,11 @@ struct Task;
 #define DEFAULT_PORT "27015"
 
 struct ClientConnection {
-
+    std::string ip;
     int iResult = 0;
     SOCKET ConnectSocket;
     int Connect();
-    ClientConnection() {
+    ClientConnection(std::string ip_ = "localhost") : ip(ip_) {
         Connect();
     }
     int SendString(const std::string &str);

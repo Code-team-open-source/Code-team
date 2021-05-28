@@ -34,7 +34,7 @@ int ClientConnection::Connect() {
     hints.ai_protocol = IPPROTO_TCP;
 
     // Resolve the server address and port
-    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo(ip.c_str(), DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
         printf("getaddrinfo failed with error: %d\n", iResult);
         WSACleanup();
