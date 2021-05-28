@@ -6,6 +6,7 @@ Main_indicators::Main_indicators(QString s)
     lh = new QVBoxLayout;
     bar = new QProgressBar;
     progress = new QProgressBar;
+    progress->hide();
     box = new QGroupBox(s);
     tx = new QTextBrowser;
     tx->setFont(QFont("Times", 20));
