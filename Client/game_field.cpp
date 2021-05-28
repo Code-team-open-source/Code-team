@@ -31,6 +31,10 @@ Game_field::Game_field(QWidget *parent) :
     m_player->setVolume(music);
     ind->n_player->setVolume(sound);
 
+    ui->label_2->hide();
+    ui->label->setFont(QFont("Times", 20));
+    ui->label_2->setFont(QFont("Times", 20));
+
     ui->pushButton_2->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
     ui->pushButton->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
@@ -133,6 +137,7 @@ void Game_field::claim_task() {
     timer_task->setInterval(2000);
     timer_task->start();
     connect(timer_task, SIGNAL(timeout()), SLOT(for_timer_get_task()));
+    ind->interval = 10 * client->GetInt();
 }
 
 void Game_field::for_timer_get_task() {
@@ -142,11 +147,26 @@ void Game_field::for_timer_get_task() {
     printf("%s\n", str.c_str());
     if (str == "New task") {
         str = client->GetString();
-
+        ui->lcdNumber->display(ui->lcdNumber->value() + 1);
         ind->tx->setText(QString::fromStdString(str));
-        ind->bar->setValue(100);
+        ind->bar->setValue(ind->interval);
         ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
-        ind->timer->setInterval(100);
+        ind->timer->setInterval(ind->interval);
+    } else if (str == "New round") {
+        for (int i = 0; i < 6 ; ++i) {
+            delete task[i];
+        }
+        delete timer_task;
+        claim_task();
+        ind->bar->setValue(ind->interval);
+        ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
+        ind->timer->setInterval(ind->interval);
+        return;
+    } else if(str == "End of game") {
+        ui->label_2->show();
+        timer->stop();
+        timer_task->stop();
+        ind->timer->stop();
     }
     timer_task->setInterval(100);
 }

@@ -22,7 +22,7 @@ Main_indicators::Main_indicators(QString s)
     bar->setFormat("");
     progress->setFormat("");
     bar->setValue(100);
-    timer->setInterval(100);
+    timer->setInterval(interval);
     timer->start();
     connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
 
