@@ -23,7 +23,7 @@ public:
     virtual ~Sliders();
     explicit Sliders(QWidget *parent = nullptr);
 public slots:
-    void but_clicked();
+    void but_clicked(int value);
 
 signals:
 

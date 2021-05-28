@@ -31,10 +31,10 @@ Game_field::Game_field(QWidget *parent) :
     m_player->setVolume(music);
     ind->n_player->setVolume(sound);
 
-    ui->pushButton_2->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"
-                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
-    ui->pushButton->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"
-                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
+    ui->pushButton_2->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
+    ui->pushButton->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
 }
 
 Game_field::~Game_field()
@@ -43,7 +43,7 @@ Game_field::~Game_field()
     for (int i = 0; i < 10 ; ++i) {
         delete task[i];
     }
-    delete ind;
+    //delete ind;
     delete h1;
     delete h2;
     delete m_playlist;
