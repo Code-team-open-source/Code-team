@@ -18,6 +18,7 @@ public:
     Q_OBJECT
 
 public:
+    int interval = 100;
     int run = 1;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
