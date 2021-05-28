@@ -29,11 +29,9 @@ class Game : public IListenerSink
     int sec_for_task = InitialData::time_for_one_task;
     std::condition_variable cv;
 
-    const unsigned short players_amount;
     std::vector<Player> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
     std::vector<Task> tasks_pool;
-    mutable std::mutex m;
     tasklib tl;
     std::queue<std::string> commands;
 
@@ -55,7 +53,7 @@ public:
     void complete_active_task();  // for tests
     void clear_data();
 
-    Game( unsigned short num_of_players);
+    Game();
 
     void accept(SOCKET s) override;
 };

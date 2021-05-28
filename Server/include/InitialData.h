@@ -1,7 +1,7 @@
 #pragma once
 
 struct InitialData {
-    static const int players_amount = 2;
+    static int players_amount;
     static const int time_for_one_task = 10; // in seconds
     static const int slider_positions = 4;
     static const int tasks_to_be_done_in_round = 6;

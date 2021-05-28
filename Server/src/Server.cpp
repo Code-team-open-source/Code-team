@@ -69,20 +69,19 @@ void CodeTeamServer::listen(bool &continue_, std::mutex& m) {
     timeval timeout = {0, 0};
     int count = 0;
     for (;;) {
-        m.lock();
+        _sleep(300);
+        std::unique_lock<std::mutex> lock(m);
         if (!continue_) {
+            InitialData::players_amount = count;
             break;
         }
-        m.unlock();
         if (select(0, &s_set, 0, 0, &timeout) != 0) {
             auto client = accept(listeningSocket_, NULL, NULL);
             sink_->accept(client);
             count++;
-            if (count == InitialData::players_amount) {
-                break;
-            }
         }
         //        sink_->accept(client);
+
     }
 }
 

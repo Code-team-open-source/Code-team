@@ -14,13 +14,11 @@ int main()
 try
 {
     CodeTeamServer server;
-    Game game(InitialData::players_amount); // game for 2 players
+    Game game; // game for 2 players
 
     server.setSink(&game);
-    bool t = true;
-    std::mutex m;
-    server.listen(t, m);
-
+    server.listen(game.accept_players, game.m);
+    std::cout << "starting game\n";
     game.start_round();
     return 0;
 }

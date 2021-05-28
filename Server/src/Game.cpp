@@ -8,8 +8,8 @@
 #include <utility>
 #include <unistd.h>
 
-Game::Game(unsigned short num_of_players)
-    : players_amount(num_of_players), tl("tasks.json") {
+Game::Game()
+    : tl("tasks.json") {
 }
 
 void Game::accept(SOCKET s) {
@@ -21,19 +21,14 @@ void Game::accept(SOCKET s) {
         std::thread t([&](){
             std::string str = pool_connection.back().GetString();
             if (str == "Game started") {
+                std::unique_lock<std::mutex> lock(m);
                 game_status = PLAYERS_ARE_READY;
-                cv.notify_all();
             }
         });
         t.detach();
     }
-    std::unique_lock lock(m);
-    cv.wait(lock, [&](){
-        return game_status == PLAYERS_ARE_READY;
-    });
-    player.SendString("Game started");
     /*
-    if( pool_connection.size() == players_amount )
+    if( pool_connection.size() == InitialData::players_amount )
     {
         // starting the game
 
@@ -137,13 +132,18 @@ void Game::round_prep() {
         }
         sec_for_task--;
     }
-    for (int i = 0; i < 6 * players_amount; ++i) {
+    else {
+        for (auto &pl : pool_connection) {
+            pl.SendString("Game started");
+        }
+    }
+    for (int i = 0; i < 6 * InitialData::players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
     assign_tools();
 
 
-    for (int i = 0; i < players_amount; ++i) {
+    for (int i = 0; i < InitialData::players_amount; ++i) {
         pool_connection[i].send_tools();
         pool_connection[i].SendInt(sec_for_task);
     }
@@ -193,7 +193,7 @@ void Game::start_round() {
                 }
             }
         };
-        for (int player = 0; player < players_amount; ++player) {
+        for (int player = 0; player < InitialData::players_amount; ++player) {
             std::thread t(player_thread, player);
             threads.push_back(std::move(t));
         }
@@ -403,18 +403,18 @@ bool Game::task_is_completed(int task_num) const {
 
 void Game::assign_tools() {
     if (static_cast<int>(tools_pool.size()) !=
-        players_amount * InitialData::blocks_per_user) {
+        InitialData::players_amount * InitialData::blocks_per_user) {
         std::cerr << "error in assign tools";
     }
     int player_id = 0;
     for (auto &tool : tools_pool) {
         pool_connection[player_id].add_tool(tool);
-        player_id = (player_id + 1) % players_amount;
+        player_id = (player_id + 1) % InitialData::players_amount;
     }
 }
 
 void Game::assign_initial_tasks() {
-    for (int player_id = 0; player_id < players_amount; ++player_id) {
+    for (int player_id = 0; player_id < InitialData::players_amount; ++player_id) {
         change_task(player_id);
     }
 }
