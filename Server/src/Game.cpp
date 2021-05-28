@@ -115,6 +115,7 @@ GameStatus &Game::get_game_status() {
 
 void Game::round_prep() {
     clear_data();
+    game_status = PLAYING;
     if (round++ != 1) {
         for (auto &pl : pool_connection) {
             pl.SendString("New round");
@@ -130,14 +131,15 @@ void Game::round_prep() {
         pool_connection[i].send_tools();
         pool_connection[i].SendInt(sec_for_task);
     }
-
+    std::cout << "BEFORE INITIAL TASKS" << std::endl;
     assign_initial_tasks();
-    //    [[maybe_unused]] int a = pool_connection[0].GetInt();
 }
 
 void Game::start_round() {
     while(game_status != END_OF_GAME) {
         round_prep();
+        std::cout << "PLAYERS AMOUNT = " << players_amount << std::endl;
+        std::vector<std::thread> threads;
         auto player_thread = [&](int player) {
             while (game_status != GameStatus::END_OF_GAME &&
                    game_status != GameStatus::END_OF_ROUND) {
@@ -179,7 +181,7 @@ void Game::start_round() {
         };
         for (int player = 0; player < players_amount; ++player) {
             std::thread t(player_thread, player);
-            t.detach();
+            threads.push_back(std::move(t));
         }
 
         while (game_status != GameStatus::END_OF_GAME &&
@@ -240,7 +242,6 @@ void Game::start_round() {
                         pool_connection[owner].add_to_queue("Send new task");
                         tasks_left--;
                         if (tasks_left == 0) {
-                            std::cout << "WIN" << std::endl;
                             game_status = END_OF_ROUND;
                         }
                     }
@@ -248,9 +249,13 @@ void Game::start_round() {
             }
         }
         if (game_status == END_OF_ROUND) {
-            std::cout << "End of round";
+            std::cout << "End of round\n";
         }
-        sleep(1);
+        for (auto &t : threads) {
+            if (t.joinable()) {
+                t.join();
+            }
+        }
 
     }
 
@@ -354,7 +359,7 @@ void Game::complete_active_task() {  // for tests
 
 namespace {
 bool tools_identical(Tool *first, Tool *second) {
-    assert(first->tool_type() == second->tool_type());
+    assert(first && second);
     if (first->tool_type() == "Button") {
         return dynamic_cast<Button &>(*first).get_state() ==
                dynamic_cast<Button &>(*second).get_state();
