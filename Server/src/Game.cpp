@@ -127,6 +127,8 @@ void Game::round_prep() {
     }
 
     assign_initial_tasks();
+    start_round();
+
 //    [[maybe_unused]] int a = pool_connection[0].GetInt();
 }
 

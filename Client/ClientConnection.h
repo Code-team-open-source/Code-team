@@ -31,7 +31,7 @@ struct ClientConnection {
         Connect();
     }
     int SendString(const std::string &str);
-    std::string GetString();
+    std::string GetString(bool flag = true);
     int SendInt(const int &a);
     int GetInt();
     int CloseSocket();
