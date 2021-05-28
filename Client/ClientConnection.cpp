@@ -181,8 +181,7 @@ Task* ClientConnection::GetTool(){
     Task *t;
     if (str == "Button") {
         t = new Task_button();
-        printf("button holelua");
-//            system.pause(0);
+        printf("\n button \n");
     }
     else if (str == "Slider") {
         t = new Task_sliders();

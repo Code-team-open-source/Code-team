@@ -8,7 +8,6 @@
 class Task_button: public Task
 {
 public:
-    int task_id = 0;
     int current_state = 0;
     std::string GetName() override {
         return "Button";

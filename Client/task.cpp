@@ -22,6 +22,7 @@ void Task::deserialize(ClientConnection& s) {
         std::cerr << "Tool is not tool, task deserialise error\n";
     task_text = s.GetString();
     task_id = s.GetInt();
+    printf("task id is = %d", task_id);
     gr->setTitle(QString::fromStdString(task_text));
 }
 
