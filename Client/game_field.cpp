@@ -14,6 +14,7 @@ Game_field::Game_field(QWidget *parent) :
     client->SendString(name);
     ui->setupUi(this);
     ind = new Main_indicators();
+    ind->box->setTitle(QString::fromStdString(name));
     ui->verticalLayout_2->addWidget(ind->box);
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
@@ -47,11 +48,14 @@ Game_field::~Game_field()
     for (int i = 0; i < 10 ; ++i) {
         delete task[i];
     }
-    //delete ind;
+    delete ind;
     delete h1;
     delete h2;
     delete m_playlist;
     delete m_player;
+    delete timer;
+    delete timer_task;
+    delete client;
 }
 
 void Game_field::on_pushButton_clicked()
@@ -94,6 +98,7 @@ void Game_field::on_pushButton_2_clicked()
 {
     m_player->stop();
     this->hide();
+    m_player->stop();
     m->showFullScreen();
 }
 
