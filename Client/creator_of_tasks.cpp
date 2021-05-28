@@ -20,6 +20,9 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->cm2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->ln2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->label->setFont(QFont("Times", 20));
+    ui->label_2->setFont(QFont("Times", 20));
+    ui->label_3->setFont(QFont("Times", 20));
     ui->box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 1px solid grey}");
     ui->create->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
@@ -76,5 +79,15 @@ void Creator_of_tasks::on_comboBox_activated(const QString &arg1)
 void Creator_of_tasks::on_create_clicked()
 {
     n_player->play();
+    if (ui->comboBox->currentText() != "6 buttons") {
+        if (ui->ln2->text() != "") {
+            cr_ts.push_back({{ui->comboBox->currentText().toStdString(), ui->lineEdit->text().toStdString()}, {ui->task_text->text().toStdString(), ui->ln2->text().toStdString()}});
+        } else {
+            cr_ts.push_back({{ui->comboBox->currentText().toStdString(), ui->lineEdit->text().toStdString()}, {ui->task_text->text().toStdString(), ui->cm2->currentText().toStdString()}});
+        }
+    }
+    ui->ln2->clear();
+    ui->lineEdit->clear();
+    ui->task_text->clear();
     //cr_ts.push_back({ui->comboBox->currentText()})
 }
