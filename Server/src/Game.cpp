@@ -8,8 +8,7 @@
 #include <utility>
 
 Game::Game(unsigned short num_of_players)
-    : players_amount(num_of_players),
-      tl("tasks.json") {
+    : players_amount(num_of_players), tl("tasks.json") {
 }
 
 void Game::accept(SOCKET s) {
@@ -43,7 +42,6 @@ void Game::accept(SOCKET s) {
     game_status = GameStatus::PLAYERS_ARE_READY;
     round_prep();
 }
-
 
 //    now point here your local file
 //    when project is ready we can put here a relative path
@@ -104,7 +102,7 @@ void Game::add_tool_to_pool(const json &tool_json) {
 
 std::string Game::find_task(int owner) {
     for (auto &task : tasks_pool) {
-        if (task.get_owner() == owner) {
+        if (task.get_owner() == owner && task.active()) {
             return task.get_text();
         }
     }
@@ -129,32 +127,22 @@ void Game::round_prep() {
     assign_initial_tasks();
     start_round();
 
-//    [[maybe_unused]] int a = pool_connection[0].GetInt();
+    //    [[maybe_unused]] int a = pool_connection[0].GetInt();
 }
 
 void Game::start_round() {
     auto player_thread = [&](int player) {
         while (game_status != GameStatus::END_OF_GAME &&
                game_status != GameStatus::END_OF_ROUND) {
-            std::string from_player =
-                pool_connection[player].GetString(false);
+            std::string from_player = pool_connection[player].GetString(false);
             if (!from_player.empty()) {
                 if (from_player == "Tool changed") {
                     std::unique_lock lock(m);
                     commands.push("Tool changed");
                     int id = pool_connection[player].GetInt();
                     commands.push(std::to_string(id));
-                    std::cout << "Tool changed" << id << ' ';
-
-                    if (tools_pool[id]->tool_type() == "CMD") {
-                        std::string new_position =
-                            pool_connection[player].GetString(socket);
-                        commands.push(new_position);
-                    } else {
-                        int position = pool_connection[player].GetInt();
-                        commands.push(std::to_string(position));
-                        std::cout << position << std::endl;
-                    }
+                    std::string position = pool_connection[player].GetString();
+                    commands.push(position);
                 }
                 if (from_player == "Task expired") {
                     std::unique_lock lock(m);
@@ -193,7 +181,12 @@ void Game::start_round() {
             if (command == "Task expired") {
                 int player_id = std::stoi(commands.front());
                 commands.pop();
+                std::cout << "CHANGING TASK" << std::endl;
+                std::cout << "PREVIOUS TASK: " << find_task(player_id)
+                          << std::endl;
                 change_task(player_id);
+                std::cout << "CURRENT TASK: " << find_task(player_id)
+                          << std::endl;
             }
             if (command == "Tool changed") {
                 int task_id = std::stoi(commands.front());
@@ -203,22 +196,25 @@ void Game::start_round() {
         }
     }
 
-    assert(0);  // nahua?
+    assert(0);
 }
 
 void Game::change_task(int task_owner_id) {
     std::unique_lock lock(pool_connection[task_owner_id].player_mutex);
     pool_connection[task_owner_id].add_to_queue("Send new task");
     lock.unlock();
+    int prev_task = 0;
     for (auto &task : tasks_pool) {
         if (task.active() && task.get_owner() == task_owner_id) {
             task.change_status();
             break;
         }
+        prev_task++;
     }
     std::srand(std::time(nullptr));
     int task_num = rand() % (tasks_pool.size());
-    while (tasks_pool[task_num].active() || task_is_completed(task_num)) {
+    while (tasks_pool[task_num].active() || task_is_completed(task_num) ||
+           task_num == prev_task) {
         task_num = rand() % (tasks_pool.size());
     }
     tasks_pool[task_num].change_status();
