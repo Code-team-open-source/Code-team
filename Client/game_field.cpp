@@ -11,12 +11,13 @@ Game_field::Game_field(QWidget *parent) :
 {
 
     client = new ClientConnection;
-    client->SendString("ABOBA");
+    client->SendString(name);
     ui->setupUi(this);
     ind = new Main_indicators();
     ui->verticalLayout_2->addWidget(ind->box);
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
+<<<<<<< HEAD
     task.resize(11);
     for (int i = 0; i < 6 ; ++i ) {
         printf("got hera %d\n", i);
@@ -29,6 +30,9 @@ Game_field::Game_field(QWidget *parent) :
         h1->addWidget(task[i]->gr);
         h2->addWidget(task[i + 3]->gr);
     }
+=======
+    task.resize(6);
+>>>>>>> origin/main
     ui->v4->addLayout(h1);
     ui->v4->addLayout(h2);
 
@@ -41,43 +45,12 @@ Game_field::Game_field(QWidget *parent) :
     m_player->play();
     m_player->setVolume(music);
     ind->n_player->setVolume(sound);
-    for (int i = 0; i < 6; i++) {
-        task[i]->set_volume(sound);
-    }
 
-    timer = new QTimer();
-    timer->setInterval(1);
-    timer->start();
-    connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
-
-    dialog = new QGroupBox("");
-    ll1 = new QHBoxLayout();
-    ll2 = new QHBoxLayout();
-    rr = new QVBoxLayout();
-    done_task_count = new QLabel("Tasks done");
-    count = new QLabel("18");
-    new_level = new QPushButton("New level");
-    exit = new QPushButton("to main menu");
-    exit->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
-                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
-    new_level->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
-                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
-    new_level->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    exit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    done_task_count->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    count->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    ll1->addWidget(new_level);
-    ll1->addWidget(exit);
-    ll2->addWidget(done_task_count);
-    ll2->addWidget(count);
-    rr->addLayout(ll2);
-    rr->addLayout(ll1);
-    dialog->setLayout(rr);
-    dialog->hide();
-    ui->verticalLayout_4->addWidget(dialog);
-    dialog->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 2px solid grey}");
-    done_task_count->setFont(QFont("Times", 40));
-    count->setFont(QFont("Times", 40));
+    ui->pushButton_2->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
+    ui->pushButton->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"
+                     "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
+    claim_task();
 }
 
 Game_field::~Game_field()
@@ -139,11 +112,46 @@ void Game_field::on_pushButton_2_clicked()
 
 void Game_field::for_timer() {
     while (i != vec.size()) {
+<<<<<<< HEAD
         client->SendString("Tool changed");
+=======
+        client->SendString("Changes task");
+>>>>>>> origin/main
         client->SendInt(vec[i].first);
         client->SendString(vec[i].second);
         i++;
     }
+    if (ind->run == 0) {
+        ind->run = 1;
+        client->SendString("Task expired");
+        ind->bar->setValue(100);
+        ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
+        ind->timer->setInterval(100);
+    }
     ind->progress->setValue(ind->progress->value() + 1);
+<<<<<<< HEAD
+=======
+    if(ind->bar->value() > 98) {
+    }
+>>>>>>> origin/main
     timer->setInterval(1);
+}
+
+void Game_field::claim_task() {
+    for (int i = 0; i < 6 ; ++i ) {
+        printf("got hera %d\n", i);
+      task[i] = client->GetTool();
+    }
+
+    for (int i = 0; i < 3 ; ++i ) {
+        h1->addWidget(task[i]->gr);
+        h2->addWidget(task[i + 3]->gr);
+    }
+    for (int i = 0; i < 6; i++) {
+        task[i]->set_volume(sound);
+    }
+    timer = new QTimer();
+    timer->setInterval(1);
+    timer->start();
+    connect(timer, SIGNAL(timeout()), SLOT(for_timer()));
 }

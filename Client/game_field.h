@@ -45,16 +45,9 @@ public:
     QTimer *timer;
     QMainWindow *m;
     ClientConnection *client;
-    QGroupBox *dialog;
-    QPushButton *new_level;
-    QPushButton *exit;
-    QLabel *done_task_count;
-    QLabel *count;
-    QHBoxLayout *ll1;
-    QHBoxLayout *ll2;
-    QVBoxLayout  *rr;
 public slots:
     void for_timer();
+    void claim_task();
 };
 
 #endif // GAME_FIELD_H

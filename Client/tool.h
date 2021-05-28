@@ -5,6 +5,7 @@
 #include <QWidget>
 
 extern std::vector<std::pair<int, std::string>> vec;
+extern std::string name;
 
 class Tool : public QWidget
 {
