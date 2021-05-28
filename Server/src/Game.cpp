@@ -7,22 +7,46 @@
 #include <thread>
 #include <utility>
 
-Game::Game() : tl("C:\\project\\Code-team\\Server\\tasks.json"){}
+Game::Game(unsigned short num_of_players)
+    : players_amount(num_of_players),
+    tl("C:\\project\\Code-team\\Server\\tasks.json")
+{
+
+}
 
 void Game::accept(SOCKET s)
 {
     pool_connection.emplace_back( s, std::string("yet unknown player"));
     Player &player = pool_connection.back();
     player.set_name( player.GetString() );
-    ++players_amount;
+    if( pool_connection.size() == players_amount )
+    {
+        // starting the game
+
+        for (auto &player : pool_connection)
+        {
+            // УТОЧНИТЬ ТУТ ЛОГИКУ!
+            int crafted_tools = player.GetInt();
+            auto tool = player.GetTool();
+
+            std::vector<Task> tasks;
+            for (int i = 0; i < crafted_tools; i++)
+            {
+                auto tool_pos = player.GetTool();
+                std::string task = player.GetString();
+                tasks.emplace_back(task, tool_pos.release());
+            }
+            if (tool) {
+                tl.add_tool(*tool, tasks);
+            }
+        }
+        game_status = GameStatus::PLAYERS_ARE_READY;
+        round_prep();
+    }
 }
 
 //    now point here your local file
 //    when project is ready we can put here a relative path
-
-int Game::get_players_amount() const {
-    return players_amount;
-}
 
 /*void Game::download_players_tools() {
     for (auto& player : pool_connection) {

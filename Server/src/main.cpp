@@ -14,7 +14,7 @@ int main()
 try
 {
     CodeTeamServer server;
-    Game game;
+    Game game(2); // game for 2 players
 
     server.setSink(&game);
     bool t = true;

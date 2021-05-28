@@ -18,7 +18,7 @@
 //#pragma comment(lib, "Ws2_32.lib") i dont know why it`s not working with that
 // if one day everything crashed this may be a good thing to look at
 #define DEFAULT_BUFLEN 512
-struct Tool;
+class Tool;
 struct ServerConnection
 {
     ServerConnection(SOCKET clientSocket);

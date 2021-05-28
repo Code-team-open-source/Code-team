@@ -26,7 +26,7 @@ class Game : public IListenerSink
     int tasks_left = InitialData::tasks_to_be_done_in_round;
     int fails_left = InitialData::amount_of_fails_allowed;
 
-    int players_amount = 0;
+    const unsigned short players_amount;
     std::vector<Player> pool_connection;
     std::vector<std::shared_ptr<Tool>> tools_pool;
     std::vector<Task> tasks_pool;
@@ -36,8 +36,6 @@ class Game : public IListenerSink
 
     std::string find_task(int);
 public:
-
-    int get_players_amount() const;
 
     void round_prep();
     void download_players_tools();
@@ -55,7 +53,7 @@ public:
     void complete_active_task();  // for tests
     void clear_data();
 
-    Game();
+    Game( unsigned short num_of_players);
 
     void accept(SOCKET s) override;
 };
