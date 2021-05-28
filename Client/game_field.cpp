@@ -11,28 +11,13 @@ Game_field::Game_field(QWidget *parent) :
 {
 
     client = new ClientConnection;
-    client->SendString(name);
+    client->SendString("Aboba");
     ui->setupUi(this);
     ind = new Main_indicators();
     ui->verticalLayout_2->addWidget(ind->box);
     h1 = new QHBoxLayout;
     h2 = new QHBoxLayout;
-<<<<<<< HEAD
-    task.resize(11);
-    for (int i = 0; i < 6 ; ++i ) {
-        printf("got hera %d\n", i);
-      task[i] = client->GetTool();
-    }
-//    std::string str = client->GetString();
-//    printf("%s\n", str.c_str());
-
-    for (int i = 0; i < 3 ; ++i ) {
-        h1->addWidget(task[i]->gr);
-        h2->addWidget(task[i + 3]->gr);
-    }
-=======
     task.resize(6);
->>>>>>> origin/main
     ui->v4->addLayout(h1);
     ui->v4->addLayout(h2);
 
@@ -50,7 +35,6 @@ Game_field::Game_field(QWidget *parent) :
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
     ui->pushButton->setStyleSheet("QPushButton{background: red; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 red, stop:0.5 orange, stop:1 red); border:1px solid black;}");
-    claim_task();
 }
 
 Game_field::~Game_field()
@@ -68,10 +52,10 @@ Game_field::~Game_field()
 
 void Game_field::on_pushButton_clicked()
 {
-    for (int i = 0; i < 10 ; ++i) {
+    for (int i = 0; i < 6 ; ++i) {
         delete task[i];
     }
-    for (int i = 0; i < 10 ; ++i ) {
+    for (int i = 0; i < 6 ; ++i ) {
         int k = rand() % 5;
         if (k == 0) {
             task[i] = new Task_sliders();
@@ -112,11 +96,7 @@ void Game_field::on_pushButton_2_clicked()
 
 void Game_field::for_timer() {
     while (i != vec.size()) {
-<<<<<<< HEAD
         client->SendString("Tool changed");
-=======
-        client->SendString("Changes task");
->>>>>>> origin/main
         client->SendInt(vec[i].first);
         client->SendString(vec[i].second);
         i++;
@@ -129,11 +109,6 @@ void Game_field::for_timer() {
         ind->timer->setInterval(100);
     }
     ind->progress->setValue(ind->progress->value() + 1);
-<<<<<<< HEAD
-=======
-    if(ind->bar->value() > 98) {
-    }
->>>>>>> origin/main
     timer->setInterval(1);
 }
 

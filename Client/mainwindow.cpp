@@ -111,6 +111,7 @@ void MainWindow::on_start_clicked()
 {
     n_player->play();
     m_player->stop();
+    fWindow->claim_task();
     fWindow->showFullScreen();
        this->close();
 }
