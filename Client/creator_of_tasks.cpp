@@ -1,5 +1,6 @@
 #include "creator_of_tasks.h"
 #include "ui_creator_of_tasks.h"
+#include "tool.h"
 
 Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     QMainWindow(parent),
@@ -75,4 +76,5 @@ void Creator_of_tasks::on_comboBox_activated(const QString &arg1)
 void Creator_of_tasks::on_create_clicked()
 {
     n_player->play();
+
 }
