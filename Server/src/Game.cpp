@@ -142,11 +142,6 @@ void Game::start_round() {
                     commands.push(std::to_string(id));
                     std::string position = pool_connection[player].GetString();
                     commands.push(position);
-                    std::cout << "======= IN THREAD =======" << std::endl;
-                    std::cout << "TOOL CHANGED" << std::endl;
-                    std::cout << "ID = " << id << std::endl;
-                    std::cout << "POSITION = " << position << std::endl;
-                    std::cout << "=========================" << std::endl;
                 }
                 if (from_player == "Task expired") {
                     std::unique_lock lock(m);
@@ -159,6 +154,7 @@ void Game::start_round() {
             std::string command = pl.get_command();
             while (command != "None") {
                 if (command == "Send new task") {
+                    pool_connection[player].SendString("New task");
                     pool_connection[player].SendString(find_task(player));
                 }
                 if (command == "End of round") {
@@ -185,22 +181,49 @@ void Game::start_round() {
             if (command == "Task expired") {
                 int player_id = std::stoi(commands.front());
                 commands.pop();
-//                std::cout << "CHANGING TASK" << std::endl;
-//                std::cout << "PREVIOUS TASK: " << find_task(player_id)
-//                          << std::endl;
-//                change_task(player_id);
-//                std::cout << "CURRENT TASK: " << find_task(player_id)
-//                          << std::endl;
+                std::cout << "CHANGING TASK" << std::endl;
+                std::cout << "PREVIOUS TASK: " << find_task(player_id)
+                          << std::endl;
+                change_task(player_id);
+                std::cout << "CURRENT TASK: " << find_task(player_id)
+                          << std::endl;
             }
             if (command == "Tool changed") {
-                int task_id = std::stoi(commands.front());
+                int tool_id = std::stoi(commands.front());
                 commands.pop();
                 std::string pos = commands.front();
                 commands.pop();
                 std::cout << "TOOL CHANGED" << std::endl;
-                std::cout << "ID = " << task_id << std::endl;
+                std::cout << "ID = " << tool_id << std::endl;
                 std::cout << "POSITION = " << pos << std::endl;
-//                bool completed = change_completed_task();
+                auto &tool = tools_pool[tool_id];
+                if (tool->tool_type() == "Button") {
+                    ButtonState st;
+                    if (pos == "0") {
+                        st = ButtonState::NOT_PUSHED;
+                    } else if (pos == "1") {
+                        st = ButtonState::PUSHED;
+                    } else {
+                        std::cerr << "Invalid button state";
+                        assert(0);
+                    }
+                    auto &button = dynamic_cast<Button &>(*tool);
+                    if (st != button.get_state()) {
+                        button.change_state();
+                    }
+                } else if (tool->tool_type() == "Slider") {
+                    int state = std::stoi(pos);
+                    dynamic_cast<Slider &>(*tool).set_state(state);
+                }
+                int completed = change_completed_task();
+                std::cout << "COMPLETED TASK = " << completed << std::endl;
+                if (completed == -1) {
+
+                } else {
+                    int owner = tasks_pool[completed].get_owner();
+                    std::unique_lock lock_player(pool_connection[owner].player_mutex);
+                    pool_connection[owner].add_to_queue("Send new task");
+                }
             }
         }
     }
@@ -354,7 +377,7 @@ void Game::clear_data() {
     tasks_pool.clear();
 }
 
-bool Game::change_completed_task() {
+int Game::change_completed_task() {
     for (unsigned int task_num = 0; task_num < tasks_pool.size(); ++task_num) {
         if (tasks_pool[task_num].active() && task_is_completed(task_num)) {
             tasks_left--;
@@ -362,8 +385,8 @@ bool Game::change_completed_task() {
                 game_status = END_OF_ROUND;
             }
             change_task(tasks_pool[task_num].get_owner());
-            return true;
+            return task_num;
         }
     }
-    return false;
+    return -1;
 }

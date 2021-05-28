@@ -9,20 +9,27 @@
 #include "Tool.h"
 
 std::string ServerConnection::GetString(bool wait) const {
-    SOCKET ClientSocket = clientSocket_;
-//    std::cout << "Getting string \n";
     int size = 0;
     auto iResult = 0;
-
-    do {
-        iResult =
-            recv(ClientSocket, reinterpret_cast<char *>(&size), sizeof(int), 0);
-    } while (iResult == 0 && wait);
+    fd_set s_set = {1, {clientSocket_}};
+    timeval timeout = {0, 0};
+    if (!wait) {
+        bool aaaaaaaaaaaa = select(0, &s_set, 0, 0, &timeout);
+        if (aaaaaaaaaaaa)
+            iResult = recv(clientSocket_, reinterpret_cast<char *>(&size),
+                           sizeof(int), 0);
+        else
+            return "";
+    }
+    else {
+        iResult = recv(clientSocket_, reinterpret_cast<char *>(&size),
+                       sizeof(int), 0);
+    }
     size = ntohs(size);
     std::vector<char> buf;
     buf.resize(size + 1);
     if (iResult > 0) {
-        iResult = recv(ClientSocket, &(buf[0]), size, 0);
+        iResult = recv(clientSocket_, &(buf[0]), size, 0);
     }
     std::string ans(&buf[0], size);
     /* if (iResult > 0) {

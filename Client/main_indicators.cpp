@@ -10,7 +10,7 @@ Main_indicators::Main_indicators(QString s)
     tx = new QTextBrowser;
     tx->setFont(QFont("Times", 20));
     box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; }");
-    tx->setText("Проверить утечки памяти");
+    tx->setText("");
     lh->addWidget(bar);
     lh->addWidget(progress);
     lh->addWidget(tx);

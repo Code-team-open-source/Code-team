@@ -125,6 +125,7 @@ void Game_field::claim_task() {
     for (int i = 0; i < 6; i++) {
         task[i]->set_volume(sound);
     }
+//    assert("" == client->GetString(false));
     timer = new QTimer();
     timer->setInterval(1);
     timer->start();
@@ -137,6 +138,13 @@ void Game_field::claim_task() {
 
 void Game_field::for_timer_get_task() {
     std::string str;
-    //str = client->GetString();
-    timer_task->setInterval(2000);
+    str = client->GetString(false);
+    printf("/n task is %s /n", str.c_str());
+    printf("%s\n", str.c_str());
+    if (str == "New task") {
+        str = client->GetString();
+
+        ind->tx->setText(QString::fromStdString(str));
+    }
+    timer_task->setInterval(1000);
 }

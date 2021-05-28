@@ -12,7 +12,6 @@
 #include <cassert>
 #include <QString>
 #include <string>
-#include <chrono>
 
 int ClientConnection::Connect() {
     WSADATA wsaData;
@@ -71,7 +70,6 @@ int ClientConnection::Connect() {
         WSACleanup();
         return 1;
     }
-    printf("connected!");
     return 0;
 }
 
@@ -129,16 +127,28 @@ int ClientConnection::GetInt() {
     return a;
 }
 
-std::string ClientConnection::GetString(bool flag) {
+std::string ClientConnection::GetString(bool wait) {
     printf("Getting string\n");
     int size = 0;
-    do {
+    iResult = 0;
+    fd_set s_set = {1, {ConnectSocket}};
+    timeval timeout = {0, 0};
+    if (!wait) {
+     bool aaaaaaaaaaaa = select(0, &s_set, 0, 0, &timeout);
+     std::cerr << aaaaaaaaaaaa << "\n";
+     if (aaaaaaaaaaaa)
+         iResult = recv(ConnectSocket, reinterpret_cast<char *>(&size),
+                        sizeof(int), 0);
+     else
+         return "";
+    }
+    else {
         iResult = recv(ConnectSocket, reinterpret_cast<char *>(&size),
                        sizeof(int), 0);
-    } while (iResult == 0 && flag);
-
+    }
     if (iResult < 0) {
-        std::cerr << "no connection, im in getstring 1\n";
+//        throw 1;
+        std::cerr << "no connection, im in getstring 1";
     }
     size = ntohs(size);
     printf("size:: %d", size);
@@ -146,13 +156,13 @@ std::string ClientConnection::GetString(bool flag) {
     buf.resize(size + 1);
     iResult = recv(ConnectSocket, &(buf[0]), size, 0);
     std::string ans(&buf[0], size);
-//    if (iResult > 0) {
-//        std::cout << "Bytes received: " << iResult << "\n";
-//        std::cout << ans << "\n";
-//    }
+    if (iResult > 0) {
+        std::cout << "Bytes received: " << iResult << "\n";
+        std::cout << ans << "\n";
+    }
     if (iResult < 0) {
 //        throw 1;
-        std::cerr << "no connection, im in getstring 2\n";
+        std::cerr << "no connection, im in getstring 2";
     }
     printf("got %s\n", ans.c_str());
     return ans;
@@ -164,7 +174,6 @@ int ClientConnection::CloseSocket() {
     WSACleanup();
     return 0;
 }
-
 Task* ClientConnection::GetTool(){
     printf("In GetTool\n");
     std::string str = GetString();
