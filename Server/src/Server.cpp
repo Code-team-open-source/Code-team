@@ -95,6 +95,7 @@ CodeTeamServer::~CodeTeamServer() {
     closesocket(listeningSocket_);
     WSACleanup();
 }
+
 void CodeTeamServer::setSink(IListenerSink *sink) {
     sink_ = sink;
 }

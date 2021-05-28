@@ -102,6 +102,7 @@ void Game::round_prep() {
     }
 
     assign_initial_tasks();
+    int a = pool_connection[0].GetInt();
 }
 
 void Game::start_round() {
@@ -282,7 +283,7 @@ bool tools_identical(Tool *first, Tool *second) {
         return dynamic_cast<Dial &>(*first).get_state() ==
                dynamic_cast<Dial &>(*second).get_state();
     }
-    return 0; // TODO i dont if it should be here, fix pls (c) Fedya
+    return 0; // TODO i dont know if it should be here, fix pls (c) Fedya
 }
 }  // namespace
 

@@ -20,7 +20,8 @@ try
     bool t = true;
     std::mutex m;
     server.listen(t, m);
-
+    game.round_prep();
+    //game.start_round();
     return 0;
 }
 catch (std::exception &e)
