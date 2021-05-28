@@ -3,6 +3,7 @@
 Task_sliders::Task_sliders(QString s, int id) : Task(s, id)
 {
     sl = new Sliders();
+    sl->task_id = id;
     gr->setLayout(sl->lv);
 }
 
@@ -14,6 +15,7 @@ void Task_sliders::serialize(ClientConnection& s) {
 
 void Task_sliders::deserialize(ClientConnection& s) {
     Task::deserialize(s);
+    sl->task_id = task_id;
 }
 
 Task_sliders::~Task_sliders() {

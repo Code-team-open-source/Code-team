@@ -3,6 +3,7 @@
 Task_git_tool::Task_git_tool(QString s, int id) : Task(s, id)
 {
     git = new Git_tool();
+    git->task_id = id;
     gr->setLayout(git->vl);
 }
 
@@ -16,6 +17,7 @@ void Task_git_tool::deserialize(ClientConnection &s) {
     Task::deserialize(s);
     git_text = s.GetString();
     git->line->setText(QString::fromStdString(git_text));
+    git->task_id = task_id;
 }
 
 Task_git_tool::~Task_git_tool() {
