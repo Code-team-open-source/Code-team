@@ -147,7 +147,7 @@ void Game_field::for_timer_get_task() {
     printf("%s\n", str.c_str());
     if (str == "New task") {
         str = client->GetString();
-
+        ui->lcdNumber->display(ui->lcdNumber->value() + 1);
         ind->tx->setText(QString::fromStdString(str));
         ind->bar->setValue(ind->interval);
         ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
@@ -162,6 +162,11 @@ void Game_field::for_timer_get_task() {
         ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
         ind->timer->setInterval(ind->interval);
         return;
+    } else if(str == "End of game") {
+        ui->label_2->show();
+        timer->stop();
+        timer_task->stop();
+        ind->timer->stop();
     }
     timer_task->setInterval(100);
 }
