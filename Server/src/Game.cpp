@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 Game::Game(unsigned short num_of_players)
-    : players_amount(num_of_players), tl("tasks.json") {
+    : players_amount(num_of_players), tl("C:\\Users\\Mi\\For_project\\Code-team\\Server\\tasks.json") {
 }
 
 void Game::accept(SOCKET s) {

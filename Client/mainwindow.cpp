@@ -29,9 +29,11 @@ MainWindow::MainWindow(QWidget *parent)
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
     ui->ready->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
-
     ui->ready->setEnabled(false);
 
+    ui->label_2->setFont(QFont("Times", 20));
+    ui->lineEdit_2->setFont(QFont("Times", 20));
+    ui->verticalGroupBox->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 2px solid grey}");
 
     n_player = new QMediaPlayer();
     n_playlist = new QMediaPlaylist(n_player);
@@ -68,8 +70,9 @@ void MainWindow::on_pushButton_clicked()
         ui->lineEdit->setStyleSheet("QLineEdit{border: 2px solid red;}");
         return;
     }
+    ip = ui->lineEdit_2->text().toStdString();
     if (fWindow != nullptr) {
-        delete fWindow;
+        //delete fWindow;
     }
     name = ui->lineEdit->text().toStdString();
     fWindow = new Game_field();

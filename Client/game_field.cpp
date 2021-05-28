@@ -10,7 +10,7 @@ Game_field::Game_field(QWidget *parent) :
     ui(new Ui::Game_field)
 {
 
-    client = new ClientConnection;
+    client = new ClientConnection(ip);
     client->SendString(name);
     ui->setupUi(this);
     ind = new Main_indicators();
