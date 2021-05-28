@@ -25,6 +25,7 @@ class Game : public IListenerSink
     int round = 1;
     int tasks_left = InitialData::tasks_to_be_done_in_round;
     int fails_left = InitialData::amount_of_fails_allowed;
+    int sec_for_task = InitialData::time_for_one_task;
 
     const unsigned short players_amount;
     std::vector<Player> pool_connection;
@@ -38,7 +39,6 @@ class Game : public IListenerSink
 public:
 
     void round_prep();
-    void download_players_tools();
     void start_round();
     void assign_tools();
     void add_tool_to_pool(const json &tool);

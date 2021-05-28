@@ -6,6 +6,7 @@
 #include <iostream>  // for tests
 #include <thread>
 #include <utility>
+#include <unistd.h>
 
 Game::Game(unsigned short num_of_players)
     : players_amount(num_of_players), tl("tasks.json") {
@@ -114,6 +115,12 @@ GameStatus &Game::get_game_status() {
 
 void Game::round_prep() {
     clear_data();
+    if (round++ != 1) {
+        for (auto &pl : pool_connection) {
+            pl.SendString("New round");
+        }
+        sec_for_task--;
+    }
     for (int i = 0; i < 6 * players_amount; ++i) {
         add_tool_to_pool(tl.get_tool());
     }
@@ -121,114 +128,137 @@ void Game::round_prep() {
 
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
+        pool_connection[i].SendInt(sec_for_task);
     }
 
     assign_initial_tasks();
-    start_round();
-
     //    [[maybe_unused]] int a = pool_connection[0].GetInt();
 }
 
 void Game::start_round() {
-    auto player_thread = [&](int player) {
+    while(game_status != END_OF_GAME) {
+        round_prep();
+        auto player_thread = [&](int player) {
+            while (game_status != GameStatus::END_OF_GAME &&
+                   game_status != GameStatus::END_OF_ROUND) {
+                std::string from_player =
+                    pool_connection[player].GetString(false);
+                if (!from_player.empty()) {
+                    if (from_player == "Tool changed") {
+                        std::unique_lock lock(m);
+                        commands.push("Tool changed");
+                        int id = pool_connection[player].GetInt();
+                        commands.push(std::to_string(id));
+                        std::string position =
+                            pool_connection[player].GetString();
+                        commands.push(position);
+                    }
+                    if (from_player == "Task expired") {
+                        std::unique_lock lock(m);
+                        commands.push("Task expired");
+                        commands.push(std::to_string(player));
+                    }
+                }
+                Player &pl = pool_connection[player];
+                std::unique_lock lock(pl.player_mutex);
+                std::string command = pl.get_command();
+                while (command != "None") {
+                    if (command == "Send new task") {
+                        pool_connection[player].SendString("New task");
+                        pool_connection[player].SendString(find_task(player));
+                    }
+                    if (command == "End of round") {
+                        pool_connection[player].SendString("End of round");
+                    }
+                    if (command == "End of game") {
+                        pool_connection[player].SendString("End of game");
+                    }
+                    command = pl.get_command();
+                }
+            }
+        };
+        for (int player = 0; player < players_amount; ++player) {
+            std::thread t(player_thread, player);
+            t.detach();
+        }
+
         while (game_status != GameStatus::END_OF_GAME &&
                game_status != GameStatus::END_OF_ROUND) {
-            std::string from_player = pool_connection[player].GetString(false);
-            if (!from_player.empty()) {
-                if (from_player == "Tool changed") {
-                    std::unique_lock lock(m);
-                    commands.push("Tool changed");
-                    int id = pool_connection[player].GetInt();
-                    commands.push(std::to_string(id));
-                    std::string position = pool_connection[player].GetString();
-                    commands.push(position);
-                }
-                if (from_player == "Task expired") {
-                    std::unique_lock lock(m);
-                    commands.push("Task expired");
-                    commands.push(std::to_string(player));
-                }
-            }
-            Player &pl = pool_connection[player];
-            std::unique_lock lock(pl.player_mutex);
-            std::string command = pl.get_command();
-            while (command != "None") {
-                if (command == "Send new task") {
-                    pool_connection[player].SendString("New task");
-                    pool_connection[player].SendString(find_task(player));
-                }
-                if (command == "End of round") {
-                    pool_connection[player].SendString("End of round");
-                }
-                if (command == "End of game") {
-                    pool_connection[player].SendString("End of game");
-                }
-                command = pl.get_command();
-            }
-        }
-    };
-    for (int player = 0; player < players_amount; ++player) {
-        std::thread t(player_thread, player);
-        t.detach();
-    }
-
-    while (game_status != GameStatus::END_OF_GAME &&
-           game_status != GameStatus::END_OF_ROUND) {
-        std::unique_lock lock(m);
-        while (!commands.empty()) {
-            std::string command = commands.front();
-            commands.pop();
-            if (command == "Task expired") {
-                int player_id = std::stoi(commands.front());
+            std::unique_lock lock(m);
+            while (!commands.empty()) {
+                std::string command = commands.front();
                 commands.pop();
-                std::cout << "CHANGING TASK" << std::endl;
-                std::cout << "PREVIOUS TASK: " << find_task(player_id)
-                          << std::endl;
-                change_task(player_id);
-                std::cout << "CURRENT TASK: " << find_task(player_id)
-                          << std::endl;
-            }
-            if (command == "Tool changed") {
-                int tool_id = std::stoi(commands.front());
-                commands.pop();
-                std::string pos = commands.front();
-                commands.pop();
-                std::cout << "TOOL CHANGED" << std::endl;
-                std::cout << "ID = " << tool_id << std::endl;
-                std::cout << "POSITION = " << pos << std::endl;
-                auto &tool = tools_pool[tool_id];
-                if (tool->tool_type() == "Button") {
-                    ButtonState st;
-                    if (pos == "not_pushed") {
-                        st = ButtonState::NOT_PUSHED;
-                    } else if (pos == "pushed") {
-                        st = ButtonState::PUSHED;
+                if (command == "Task expired") {
+                    int player_id = std::stoi(commands.front());
+                    commands.pop();
+                    std::cout << "CHANGING TASK" << std::endl;
+                    std::cout << "PREVIOUS TASK: " << find_task(player_id)
+                              << std::endl;
+                    task_expired(player_id);
+                    std::cout << "CURRENT TASK: " << find_task(player_id)
+                              << std::endl;
+                }
+                if (command == "Tool changed") {
+                    int tool_id = std::stoi(commands.front());
+                    commands.pop();
+                    std::string pos = commands.front();
+                    commands.pop();
+                    std::cout << "TOOL CHANGED" << std::endl;
+                    std::cout << "ID = " << tool_id << std::endl;
+                    std::cout << "POSITION = " << pos << std::endl;
+                    auto &tool = tools_pool[tool_id];
+                    if (tool->tool_type() == "Button") {
+                        ButtonState st;
+                        if (pos == "not_pushed") {
+                            st = ButtonState::NOT_PUSHED;
+                        } else if (pos == "pushed") {
+                            st = ButtonState::PUSHED;
+                        } else {
+                            std::cerr << "Invalid button state";
+                            assert(0);
+                        }
+                        auto &button = dynamic_cast<Button &>(*tool);
+                        if (st != button.get_state()) {
+                            button.change_state();
+                        }
+                    } else if (tool->tool_type() == "Slider") {
+                        int state = std::stoi(pos);
+                        dynamic_cast<Slider &>(*tool).set_state(state);
+                    }
+                    int completed = change_completed_task();
+                    std::cout << "COMPLETED TASK = " << completed << std::endl;
+                    if (completed == -1) {
+                        fails_left--;
+                        if (fails_left == 0) {
+                            game_status = END_OF_GAME;
+                        }
                     } else {
-                        std::cerr << "Invalid button state";
-                        assert(0);
+                        std::cout << "TASKS LEFT = " << tasks_left << std::endl;
+                        int owner = tasks_pool[completed].get_owner();
+                        std::unique_lock lock_player(
+                            pool_connection[owner].player_mutex);
+                        pool_connection[owner].add_to_queue("Send new task");
+                        tasks_left--;
+                        if (tasks_left == 0) {
+                            std::cout << "WIN" << std::endl;
+                            game_status = END_OF_ROUND;
+                        }
                     }
-                    auto &button = dynamic_cast<Button &>(*tool);
-                    if (st != button.get_state()) {
-                        button.change_state();
-                    }
-                } else if (tool->tool_type() == "Slider") {
-                    int state = std::stoi(pos);
-                    dynamic_cast<Slider &>(*tool).set_state(state);
-                }
-                int completed = change_completed_task();
-                std::cout << "COMPLETED TASK = " << completed << std::endl;
-                if (completed == -1) {
-
-                } else {
-                    int owner = tasks_pool[completed].get_owner();
-                    std::unique_lock lock_player(pool_connection[owner].player_mutex);
-                    pool_connection[owner].add_to_queue("Send new task");
                 }
             }
         }
+        if (game_status == END_OF_ROUND) {
+            std::cout << "End of round";
+        }
+        sleep(1);
+
     }
 
-    assert(0);
+    for (auto &pl : pool_connection) {
+        pl.SendString("End of game");
+    }
+    std::cout << "End of game \n";
+
 }
 
 void Game::change_task(int task_owner_id) {
