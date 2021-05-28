@@ -43,9 +43,10 @@ void Main_indicators::for_timer() {
     }
     if (bar->value() == 0) {
         n_player->play();
-        bar->setValue(100);
-        bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
-        timer->setInterval(100);
+//        bar->setValue(100);
+//        bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
+//        timer->setInterval(100);
+        run = 0;
     }
 }
 

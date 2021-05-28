@@ -18,6 +18,7 @@ public:
     Q_OBJECT
 
 public:
+    int run = 1;
     QMediaPlayer *n_player;
     QMediaPlaylist *n_playlist;
     QTimer *timer;

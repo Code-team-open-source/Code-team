@@ -68,6 +68,12 @@ void MainWindow::on_pushButton_clicked()
         ui->lineEdit->setStyleSheet("QLineEdit{border: 2px solid red;}");
         return;
     }
+    if (fWindow != nullptr) {
+        delete fWindow;
+    }
+    fWindow = new Game_field();
+    fWindow->m = this;
+    name = ui->lineEdit->text().toStdString();
     ui->pushButton->hide();
     ui->ready->show();
     ui->start->show();
@@ -105,11 +111,6 @@ void MainWindow::on_start_clicked()
 {
     n_player->play();
     m_player->stop();
-    if (fWindow != nullptr) {
-        delete fWindow;
-    }
-    fWindow = new Game_field();
-    fWindow->m = this;
     fWindow->showFullScreen();
        this->close();
 }
