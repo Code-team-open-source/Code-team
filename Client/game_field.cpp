@@ -146,5 +146,5 @@ void Game_field::for_timer_get_task() {
 
         ind->tx->setText(QString::fromStdString(str));
     }
-    timer_task->setInterval(1000);
+    timer_task->setInterval(100);
 }
