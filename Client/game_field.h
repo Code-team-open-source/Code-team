@@ -43,9 +43,11 @@ private:
 public:
     int i = 0;
     QTimer *timer;
+    QTimer *timer_task;
     QMainWindow *m;
     ClientConnection *client;
 public slots:
+    void for_timer_get_task();
     void for_timer();
     void claim_task();
 };
