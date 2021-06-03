@@ -452,6 +452,12 @@ void Game::clear_data() {
 int Game::change_completed_task() {
     for (unsigned int task_num = 0; task_num < tasks_pool.size(); ++task_num) {
         if (tasks_pool[task_num].active() && task_is_completed(task_num)) {
+            if (tasks_pool[task_num].get_tool()->tool_type() == "CMD") {
+                std::cout << "IN IF (CMD)" << std::endl;
+                dynamic_cast<CMD &>(
+                    *tools_pool[tasks_pool[task_num].get_tool()->id()])
+                    .set_new_cmd_text("");
+            }
             tasks_left--;
             if (tasks_left == 0) {
                 game_status = END_OF_ROUND;

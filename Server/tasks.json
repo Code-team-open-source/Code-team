@@ -20,68 +20,30 @@
     {
         "tasks" : [
             {
+                "task_text": "Make directory \"hse-unix\"",
+                "tool_position": "mkdir hse-unix"
+            },
+            {
+                "task_text": "Rename \"aa.txt\" to \"a.txt\"",
+                "tool_position": "mv aa.txt a.txt"
+            },
+            {
+                "task_text": "Give all permissions to file hw.txt",
+                "tool_position": "chmod 777 hw.txt"
+            }
+        ],
+        "tool_text": "bash",
+        "tool_type": "CMD"
+    },
+    {
+        "tasks" : [
+            {
                 "task_text": "Update local repo",
                 "tool_position": "git pull"
             },
             {
                 "task_text": "Commit changes",
                 "tool_position": "git commit"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
-            },
-            {
-                "task_text": "Push local changes",
-                "tool_position": "git push"
             },
             {
                 "task_text": "Push local changes",
@@ -180,7 +142,7 @@
                 "tool_position": 3
             },
             {
-                "task_text": " Assign fout coders for project",
+                "task_text": " Assign four coders for project",
                 "tool_position": 4
             }
         ],
