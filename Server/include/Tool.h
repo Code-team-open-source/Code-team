@@ -1,17 +1,18 @@
 #pragma once
-#include "InitialData.h"
-#include <string>
-#include <winsock2.h>
 #include <ServerConnection.h>
+#include <winsock2.h>
+#include <string>
+#include "InitialData.h"
 
 class Tool {
 private:
     std::string tool_text;
     int tool_id;
+
 public:
     Tool(std::string text);
     std::string get_text() const;
-    int id() const ;
+    int id() const;
     virtual std::string tool_type() const = 0;
     virtual void serialize(const ServerConnection &) const;
     virtual void deserialize(const ServerConnection &);
@@ -34,7 +35,7 @@ public:
     void change_state();
     std::string tool_type() const override;
     void serialize(const ServerConnection &) const override;
-    void deserialize(const ServerConnection &)  override;
+    void deserialize(const ServerConnection &) override;
 };
 
 class Slider : public Tool {
@@ -50,19 +51,20 @@ public:
     void set_new_position(int new_position);
     std::string tool_type() const override;
     void serialize(const ServerConnection &) const override;
-    void deserialize(const ServerConnection &)  override;
+    void deserialize(const ServerConnection &) override;
 };
 
 class CMD : public Tool {
 private:
     std::string cmd_text;
+
 public:
-    CMD (std::string text, std::string cmd_text_ = "");
-    std::string  get_cmd_text() const;
+    CMD(std::string text, std::string cmd_text_ = "");
+    std::string get_cmd_text() const;
     void set_new_cmd_text(std::string new_text);
     std::string tool_type() const override;
     void serialize(const ServerConnection &) const override;
-    void deserialize(const ServerConnection &)  override;
+    void deserialize(const ServerConnection &) override;
 };
 
 class Dial : public Tool {
@@ -76,5 +78,5 @@ public:
     void set_state(int pos);
     std::string tool_type() const override;
     void serialize(const ServerConnection &) const override;
-    void deserialize(const ServerConnection &)  override;
+    void deserialize(const ServerConnection &) override;
 };

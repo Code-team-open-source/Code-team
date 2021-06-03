@@ -8,6 +8,9 @@ std::shared_ptr<Tool> make_shared(const Tool &tool) {
     if (tool.tool_type() == "Slider") {
         return std::make_shared<Slider>(dynamic_cast<const Slider &>(tool));
     }
+    if (tool.tool_type() == "CMD") {
+        return std::make_shared<CMD>(dynamic_cast<const CMD &>(tool));
+    }
 
     return nullptr;
     // OTHER TOOLS

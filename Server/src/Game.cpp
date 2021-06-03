@@ -1,12 +1,13 @@
 #include "Game.h"
+#include <unistd.h>
 #include <algorithm>
 #include <cassert>
 #include <condition_variable>
 #include <ctime>
 #include <iostream>  // for tests
+#include <sstream>
 #include <thread>
 #include <utility>
-#include <unistd.h>
 
 Game::Game(unsigned short num_of_players)
     : players_amount(num_of_players), tl("tasks.json") {
@@ -18,7 +19,7 @@ void Game::accept(SOCKET s) {
     player.set_name(player.GetString());
     player.SendString(std::to_string(pool_connection.size()));
     if (pool_connection.size() == 1) {
-        std::thread t([&](){
+        std::thread t([&]() {
             std::string str = pool_connection.back().GetString();
             if (str == "Game started") {
                 game_status = PLAYERS_ARE_READY;
@@ -28,9 +29,7 @@ void Game::accept(SOCKET s) {
         t.detach();
     }
     std::unique_lock lock(m);
-    cv.wait(lock, [&](){
-        return game_status == PLAYERS_ARE_READY;
-    });
+    cv.wait(lock, [&]() { return game_status == PLAYERS_ARE_READY; });
     player.SendString("Game started");
     /*
     if( pool_connection.size() == players_amount )
@@ -55,7 +54,6 @@ void Game::accept(SOCKET s) {
             }
         }
         */
-
 }
 
 //    now point here your local file
@@ -107,6 +105,15 @@ void Game::add_tool_to_pool(const json &tool_json) {
             std::string task_text = task["task_text"];
             tasks_pool.push_back(Task(task_text, Slider(tool_text, pos)));
         }
+    } else if (tool_json["tool_type"] == "CMD") {
+        std::string tool_text = tool_json["tool_text"];
+        std::shared_ptr<CMD> cmd_ptr = std::make_shared<CMD>(tool_text);
+        tools_pool.push_back(cmd_ptr);
+        for (const json &task : tool_json["tasks"]) {
+            std::string pos = task["tool_position"];
+            std::string task_text = task["task_text"];
+            tasks_pool.push_back(Task(task_text, CMD(tool_text, pos)));
+        }
     } else {
         //  OTHER TOOLS
         //        assert(1);
@@ -142,7 +149,6 @@ void Game::round_prep() {
     }
     assign_tools();
 
-
     for (int i = 0; i < players_amount; ++i) {
         pool_connection[i].send_tools();
         pool_connection[i].SendInt(sec_for_task);
@@ -151,7 +157,7 @@ void Game::round_prep() {
 }
 
 void Game::start_round() {
-    while(game_status != END_OF_GAME) {
+    while (game_status != END_OF_GAME) {
         round_prep();
         std::vector<std::thread> threads;
         auto player_thread = [&](int player) {
@@ -240,6 +246,8 @@ void Game::start_round() {
                     } else if (tool->tool_type() == "Slider") {
                         int state = std::stoi(pos);
                         dynamic_cast<Slider &>(*tool).set_state(state);
+                    } else if (tool->tool_type() == "CMD") {
+                        dynamic_cast<CMD &>(*tool).set_new_cmd_text(pos);
                     }
                     int completed = change_completed_task();
                     std::cout << "COMPLETED TASK = " << completed << std::endl;
@@ -270,7 +278,6 @@ void Game::start_round() {
                 t.join();
             }
         }
-
     }
 
     for (auto &pl : pool_connection) {
@@ -278,7 +285,6 @@ void Game::start_round() {
     }
     std::cout << "End of game \n";
     sleep(10);
-
 }
 
 void Game::change_task(int task_owner_id) {
@@ -372,6 +378,19 @@ void Game::complete_active_task() {  // for tests
 }
 
 namespace {
+/*bool compare_strings(const std::string &a, const std::string &b) {
+    std::cout << "COMPARING STRINGS : " << a << "   " << b << std::endl;
+    std::stringstream ss1, ss2;
+    while (!a.empty() || !b.empty()) {
+        ss1 << a;
+        ss2 << b;
+        if (ss1.str() != ss2.str()) {
+            return false;
+        }
+    }
+    return true;
+}*/
+
 bool tools_identical(Tool *first, Tool *second) {
     assert(first && second);
 

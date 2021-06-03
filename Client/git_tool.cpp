@@ -21,7 +21,6 @@ Git_tool::Git_tool(QWidget * parent) : QWidget(parent)
     vl->addWidget(line);
     line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     vl->addWidget(push);
-    line->setText("$ ");
     QObject::connect(push, SIGNAL(clicked()), this, SLOT(but_clicked()));
 
     n_player = new QMediaPlayer();
@@ -30,6 +29,7 @@ Git_tool::Git_tool(QWidget * parent) : QWidget(parent)
     n_player->setPlaylist(n_playlist);
     n_playlist->addMedia(QUrl("qrc:/sound/but2.wav"));
     n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
+    line->setText("$ ");
 }
 
 void Git_tool::but_clicked() {

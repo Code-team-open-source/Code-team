@@ -18,6 +18,80 @@
         "tool_type": "Slider"
     },
     {
+        "tasks" : [
+            {
+                "task_text": "Update local repo",
+                "tool_position": "git pull"
+            },
+            {
+                "task_text": "Commit changes",
+                "tool_position": "git commit"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            },
+            {
+                "task_text": "Push local changes",
+                "tool_position": "git push"
+            }
+        ],
+        "tool_text": "git CMD",
+        "tool_type": "CMD"
+    },
+    {
         "tasks": [
             {
                 "task_text": "Turn off valgrind",

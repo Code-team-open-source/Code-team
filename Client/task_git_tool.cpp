@@ -11,12 +11,12 @@ void Task_git_tool::serialize(ClientConnection &s) {
     s.SendString("CMD");
     Task::serialize(s);
     s.SendString(git->line->text().toStdString());
+    git->line->setText("$ ");
 }
 
 void Task_git_tool::deserialize(ClientConnection &s) {
     Task::deserialize(s);
     git_text = s.GetString();
-    git->line->setText(QString::fromStdString(git_text));
     git->task_id = task_id;
 }
 
