@@ -24,6 +24,8 @@ private slots:
 
     void on_create_clicked();
 
+    void on_cm2_activated(const QString &arg1);
+
 private:
     Ui::Creator_of_tasks *ui;
 public:
