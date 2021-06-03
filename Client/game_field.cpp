@@ -48,6 +48,7 @@ Game_field::Game_field(QWidget *parent) :
     ui->label_2->setFont(QFont("Times", 20));
     ui->label->hide();
     ui->lcdNumber->hide();
+    ui->label_2->setFont(QFont("Times", 40));
 
     ui->pushButton_2->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
