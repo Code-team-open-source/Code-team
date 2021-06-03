@@ -2,6 +2,34 @@
     {
         "tasks": [
             {
+                "task_text": "Supervisor didn't help at all",
+                "tool_position": 1
+            },
+            {
+                "task_text": "Supervisor was very helpful",
+                "tool_position": 4
+            }
+        ],
+        "tool_text": "Rate your supervisor",
+        "tool_type": "Slider"
+    },
+    {
+        "tasks": [
+            {
+                "task_text": "Delete project",
+                "tool_position": 1
+            },
+            {
+                "task_text": "Restore project",
+                "tool_position": 0
+            }
+        ],
+        "tool_text": "Delete project",
+        "tool_type": "Button"
+    },
+    {
+        "tasks": [
+            {
                 "task_text": " Set volume to 2",
                 "tool_position": 2
             },
@@ -18,7 +46,7 @@
         "tool_type": "Slider"
     },
     {
-        "tasks" : [
+        "tasks": [
             {
                 "task_text": "Make directory \"hse-unix\"",
                 "tool_position": "mkdir hse-unix"
@@ -36,7 +64,7 @@
         "tool_type": "CMD"
     },
     {
-        "tasks" : [
+        "tasks": [
             {
                 "task_text": "Update local repo",
                 "tool_position": "git pull"

@@ -25,7 +25,7 @@ void Game::download_tasks(Player &player) {
             std::string task = player.GetString();
             if (tool_type == "Button") {
                 ButtonState bs;
-                if (std::stoi(position) == 1) {
+                if (position == "ON") {
                     bs = PUSHED;
                 } else {
                     bs = NOT_PUSHED;
