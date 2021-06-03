@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     n_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 
 
-
     m_player = new QMediaPlayer();
     m_playlist = new QMediaPlaylist(m_player);
 

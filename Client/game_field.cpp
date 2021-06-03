@@ -9,7 +9,8 @@ Game_field::Game_field(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game_field)
 {
-
+    ui->label->hide();
+    ui->lcdNumber->hide();
     client = new ClientConnection(ip);
     client->SendString(name);
     client->SendInt(cr_ts.size());
