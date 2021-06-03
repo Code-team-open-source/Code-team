@@ -12,6 +12,17 @@ Game_field::Game_field(QWidget *parent) :
 
     client = new ClientConnection(ip);
     client->SendString(name);
+    client->SendInt(cr_ts.size());
+    for (int i = 0; i < cr_ts.size(); ++i) {
+        client->SendString(cr_ts[i].first.first);
+        client->SendString((cr_ts[i].first.second));
+        int k = cr_ts[i].second.size();
+        client->SendInt(k);
+        for (int j = 0; j < k; ++j) {
+            client->SendString(cr_ts[i].second[j].first);
+            client->SendString(cr_ts[i].second[j].second);
+        }
+    }
     ui->setupUi(this);
     ind = new Main_indicators();
     ind->box->setTitle(QString::fromStdString(name));
