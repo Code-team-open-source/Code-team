@@ -45,6 +45,7 @@ public:
     void assign_tools();
     void add_tool_to_pool(const json &tool);
     GameStatus &get_game_status();
+    void download_tasks(Player &);
     void task_expired(int task_owner_id);
     void change_task(int task_owner_id);
     void info();  // for tests

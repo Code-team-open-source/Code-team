@@ -13,10 +13,56 @@ Game::Game(unsigned short num_of_players)
     : players_amount(num_of_players), tl("tasks.json") {
 }
 
+void Game::download_tasks(Player &player) {
+    int crafted_amount = player.GetInt();
+    for (int i = 0; i < crafted_amount; ++i) {
+        std::string tool_type = player.GetString();
+        std::string tool_text = player.GetString();
+        int positions_amount = player.GetInt();
+        std::vector<Task> tasks;
+        for (int j = 0; j < positions_amount; ++j) {
+            std::string position = player.GetString();
+            std::string task = player.GetString();
+            if (tool_type == "Button") {
+                ButtonState bs;
+                if (std::stoi(position) == 1) {
+                    bs = PUSHED;
+                } else {
+                    bs = NOT_PUSHED;
+                }
+                std::unique_ptr<Button> tool =
+                    std::make_unique<Button>(tool_text, bs);
+                tasks.emplace_back(task, *tool);
+            } else if (tool_type == "Slider") {
+                std::unique_ptr<Slider> tool =
+                    std::make_unique<Slider>(tool_text, std::stoi(position));
+                tasks.emplace_back(task, *tool);
+            } else if(tool_type == "CMD") {
+                std::unique_ptr<CMD> tool = std::make_unique<CMD>(tool_text, position);
+                tasks.emplace_back(task, *tool);
+            } else {
+                assert(0);
+            }
+        }
+        if (tool_type == "Button") {
+            std::unique_ptr<Button> tool = std::make_unique<Button>(tool_text);
+            tl.add_tool(*tool, tasks);
+        } else if (tool_type == "Slider") {
+            std::unique_ptr<Slider> tool = std::make_unique<Slider>(tool_text);
+            tl.add_tool(*tool, tasks);
+        } else if (tool_type == "CMD") {
+            std::unique_ptr<CMD> tool = std::make_unique<CMD>(tool_text);
+            tl.add_tool(*tool, tasks);
+        }
+    }
+}
+
 void Game::accept(SOCKET s) {
     pool_connection.emplace_back(s, std::string("yet unknown player"));
     Player &player = pool_connection.back();
     player.set_name(player.GetString());
+    download_tasks(player);
+
     player.SendString(std::to_string(pool_connection.size()));
     if (pool_connection.size() == 1) {
         std::thread t([&]() {
