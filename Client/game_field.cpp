@@ -167,7 +167,7 @@ void Game_field::for_timer_get_task() {
         str = client->GetString();
         ui->lcdNumber->display(ui->lcdNumber->value() + 1);
         ind->tx->setText(QString::fromStdString(str));
-        ind->bar->setValue(ind->interval);
+        ind->bar->setValue(100);
         ind->bar->setStyleSheet("QProgressBar::chunk {background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 green, stop:1 lime); margin: 0.5px;}");
         ind->timer->setInterval(ind->interval);
     } else if (str == "New round") {
