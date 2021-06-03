@@ -9,7 +9,7 @@ Main_indicators::Main_indicators(QString s)
     progress->hide();
     box = new QGroupBox(s);
     tx = new QTextBrowser;
-    tx->setFont(QFont("Times", 20));
+    tx->setFont(QFont("Times", 60));
     box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; }");
     tx->setText("");
     lh->addWidget(bar);

@@ -17,7 +17,17 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->bt1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->bt2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->cmd->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+    ui->sl1->setFont(QFont("Times", 40));
+    ui->sl2->setFont(QFont("Times", 40));
+    ui->sl3->setFont(QFont("Times", 40));
+    ui->sl4->setFont(QFont("Times", 40));
+    ui->bt1->setFont(QFont("Times", 40));
+    ui->bt2->setFont(QFont("Times", 40));
+    ui->cmd->setFont(QFont("Times", 40));
+    ui->ln2->setFont(QFont("Times", 40));
+    ui->lineEdit->setFont(QFont("Times", 40));
+    ui->comboBox->setFont(QFont("Times", 40));
+    ui->cm2->setFont(QFont("Times", 40));
 
 
 
@@ -31,9 +41,9 @@ Creator_of_tasks::Creator_of_tasks(QWidget *parent) :
     ui->lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->cm2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->ln2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    ui->label->setFont(QFont("Times", 20));
-    ui->label_2->setFont(QFont("Times", 20));
-    ui->label_3->setFont(QFont("Times", 20));
+    ui->label->setFont(QFont("Times", 40));
+    ui->label_2->setFont(QFont("Times", 40));
+    ui->label_3->setFont(QFont("Times", 40));
     ui->box->setStyleSheet("QGroupBox { font-size: 20px; font-weight: bold; border: 1px solid grey}");
     ui->create->setStyleSheet("QPushButton{background: grey; border: 2px solid black; font: bold 40px;}"
                      "QPushButton:hover{background:  qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 white, stop:0.5 grey, stop:1 white); border:1px solid black;}");
